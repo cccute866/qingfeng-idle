@@ -3011,7 +3011,7 @@ const TB = {
     p.hp -= dmg; p.flash = 0.15; if (src && src !== this.g) p.inv = 0.12; this.shake = Math.max(this.shake, 3);
     this.fx.add({ k: 'text', x: p.x, y: p.h + 10, s: '-' + fmt(dmg), c: '#ff6b5b', size: 15, vx: -30, vy: 70, life: 0.7 });
     if (p.reflect > 0 && src && src !== this.g) { src.hp -= dmg * p.reflect / 5; if (src.hp <= 0) this.kill(src); }
-    else if (p.reflect > 0 && src === this.g) this.hit(this.g, dmg * p.reflect / 10, false);
+    else if (p.reflect > 0 && src && src === this.g) this.hit(this.g, dmg * p.reflect / 10, false);
   },
   /** 世界座標 → 畫面座標（給魂能飛 HUD 用） */
   scr(x, y) { return [(x - this.camX) * this.s, this.GY - y * this.s]; },
@@ -8485,6 +8485,503 @@ Object.assign(ASSETS, {"icon_g_equip": "data:image/webp;base64,UklGRlIOAABXRUJQV
 .fc36.pd{background:linear-gradient(180deg,rgba(255,226,140,.45),rgba(240,180,60,.25));border:1px solid rgba(200,150,40,.5)}.fc36.lock{filter:saturate(.6);opacity:.85}
 .fc36 .rewards{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;zoom:.78}.fc36 .btn.sm{min-width:64px}`;
   document.head.appendChild(css);
+})();
+
+/* =====================================================================
+ * v3.7 戰鬥手感（俠客居掛機舞台）
+ * - 傷害數字重做：一般＝白色粗斜體＋黑描邊；暴擊＝2 倍大、黃→橘紅漸層＋黑描邊＋左側爆裂圖示（不再疊「暴擊」字）
+ * - 招式名：毛筆大字、白字＋依流派／品質發光描邊；經驗＝綠字白邊；數字隨機向外飄散 0.6~0.9 秒
+ * - 數字物件池：同時最多 25 個、極短時間同目標的小傷害合併；文字預先算成點陣圖（每幀只貼圖）
+ * - 妖物連續湧入：依章節維持場上 3~5 隻，不再「清空才刷下一波」；死亡改為煙霧散去
+ * - 畫面震動可在設定關閉；×3 倍速解鎖改為「江湖 Lv10 或 VIP1 或任一月卡」
+ * 純表現層：掛機收益仍依時間計算
+ * ===================================================================== */
+CFG.c37 = {   // 【建議調整】v3.7 戰鬥節奏
+  alive: [3, 4, 5],          // 場上維持妖物數（第一章／第二章／第三章起）：連續湧入、不中斷
+  refill: 0.45,              // 補怪最短間隔（秒）
+  mobHp: 0.85,               // 小怪血量 ×0.85（3 → 2.55 單位）：普攻 3 下、暴擊 2 下、技能 1 下
+  maxNums: 25,               // 同時存在的傷害數字上限
+  mergeT: 0.12,              // 同一目標 0.12 秒內的小傷害合併成一個數字
+  x3: { lv: 10, vip: 1 },    // ×3 倍速：江湖 Lv10、VIP1 或任一月卡（原：VIP1 或第二章）
+};
+
+const NUM37 = {
+  a: [], cache: new Map(),
+  font(t, fs) {
+    if (t === 'call') return `900 ${fs}px "QFBrush","Noto Serif TC","Songti TC",serif`;
+    return `italic 900 ${fs}px "Arial Black","Helvetica Neue","Segoe UI",Arial,sans-serif`;
+  },
+  burst(c, cx, cy, r) {   // 原創爆裂圖示：鋸齒星形＋白黃橘紅放射漸層
+    const n = 11; c.save(); c.translate(cx, cy); c.rotate(-0.2); c.beginPath();
+    for (let i = 0; i < n * 2; i++) { const a = i / (n * 2) * Math.PI * 2, rr = i % 2 ? r * (0.48 + (i % 3) * 0.06) : r * (0.9 + ((i * 7) % 5) * 0.03); c.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); }
+    c.closePath(); c.lineJoin = 'miter'; c.lineWidth = r * 0.2; c.strokeStyle = '#120400'; c.stroke();
+    const g = c.createRadialGradient(0, 0, 0, 0, 0, r); g.addColorStop(0, '#ffffff'); g.addColorStop(0.28, '#fff27a'); g.addColorStop(0.6, '#ffa21a'); g.addColorStop(1, '#e8320c');
+    c.fillStyle = g; c.fill(); c.restore();
+  },
+  /** 產生（或取用快取）文字點陣圖；回傳 { cv, w, h } （CSS px） */
+  sprite(t, s, txt, col) {
+    const dpr = HS.dpr || 1, key = t + '|' + txt + '|' + (col || '') + '|' + Math.round(s * 100) + '|' + dpr;
+    let o = this.cache.get(key); if (o) return o;
+    const fs = t === 'crit' ? 40 * s : t === 'exp' ? 15 * s : t === 'call' ? (col && col.big ? 34 : 26) * s : t === 'miss' ? 16 * s : 21 * s;
+    const pad = fs * 0.5, icon = t === 'crit' ? fs * 0.95 : 0;
+    const m = document.createElement('canvas').getContext('2d'); m.font = this.font(t, fs);
+    const tw = m.measureText(txt).width, w = Math.ceil(tw + pad * 2 + icon + (t === 'call' ? fs * 0.6 : 0)), h = Math.ceil(fs * 1.7 + (t === 'call' ? fs * 0.5 : 0));
+    const cv = document.createElement('canvas'); cv.width = Math.ceil(w * dpr); cv.height = Math.ceil(h * dpr);
+    const c = cv.getContext('2d'); c.scale(dpr, dpr); c.font = this.font(t, fs); c.textBaseline = 'middle'; c.textAlign = 'left'; c.lineJoin = 'round';
+    const x0 = (w - tw - icon) / 2 + icon, y0 = h / 2 + fs * 0.04;
+    if (t === 'crit') {
+      this.burst(c, x0 - icon * 0.5 + fs * 0.06, y0 - fs * 0.02, icon * 0.52);
+      c.lineWidth = fs * 0.26; c.strokeStyle = '#0c0200'; c.strokeText(txt, x0, y0);
+      const g = c.createLinearGradient(0, y0 - fs * 0.5, 0, y0 + fs * 0.45);
+      g.addColorStop(0, '#fffbe2'); g.addColorStop(0.3, '#ffe53a'); g.addColorStop(0.62, '#ffa014'); g.addColorStop(0.88, '#ff4a12'); g.addColorStop(1, '#c41c08');
+      c.fillStyle = g; c.fillText(txt, x0, y0);
+    } else if (t === 'exp') {
+      c.lineWidth = fs * 0.34; c.strokeStyle = '#0d2a10'; c.strokeText(txt, x0, y0);
+      c.lineWidth = fs * 0.18; c.strokeStyle = '#ffffff'; c.strokeText(txt, x0, y0);
+      c.fillStyle = '#2fd44a'; c.fillText(txt, x0, y0);
+    } else if (t === 'call') {
+      const gc = (col && col.c) || '#22d6a6';
+      c.shadowColor = gc; c.shadowBlur = fs * 0.45; c.lineWidth = fs * 0.24; c.strokeStyle = gc; c.strokeText(txt, x0, y0); c.strokeText(txt, x0, y0);
+      c.shadowBlur = 0; c.lineWidth = fs * 0.14; c.strokeStyle = gc; c.strokeText(txt, x0, y0);
+      c.lineWidth = fs * 0.05; c.strokeStyle = 'rgba(0,0,0,.55)'; c.strokeText(txt, x0, y0);
+      c.fillStyle = '#ffffff'; c.fillText(txt, x0, y0);
+    } else {   // 一般／閃避：白字黑邊
+      c.lineWidth = fs * 0.24; c.strokeStyle = '#000000'; c.strokeText(txt, x0, y0);
+      c.fillStyle = t === 'miss' ? '#e8f4ff' : '#ffffff'; c.fillText(txt, x0, y0);
+    }
+    o = { cv, w, h }; this.cache.set(key, o);
+    if (this.cache.size > 260) this.cache.delete(this.cache.keys().next().value);
+    return o;
+  },
+  /** 新增數字（世界座標） */
+  add(t, x, y, v, extra) {
+    const now = HS.T || 0;
+    if (t === 'n') {   // 合併：同目標極短時間內的一般傷害
+      const m = this.a.find(n => n.t === 'n' && n.life > 0 && Math.abs(n.x0 - x) < 8 && now - n.born < CFG.c37.mergeT);
+      if (m) { m.v += v; m.txt = fmtK(m.v); m.pop = 0.05; return m; }
+    }
+    let n;
+    if (this.a.length >= CFG.c37.maxNums) {   // 物件池滿：回收「最舊的一般數字」，暴擊與招式優先保留
+      let best = null; for (const q of this.a) if (q.t !== 'call' && (!best || (q.t === 'n') > (best.t === 'n') || ((q.t === 'n') === (best.t === 'n') && q.born < best.born))) best = q;
+      n = best || this.a[0];
+    } else { n = {}; this.a.push(n); }
+    const crit = t === 'crit', call = t === 'call';
+    const dir = Math.random() < 0.5 ? -1 : 1;
+    Object.assign(n, { t, x0: x, x: x + rnd(-14, 14), y: y, v, txt: extra && extra.txt ? extra.txt : (t === 'exp' ? '經驗 +' + fmtK(v) : t === 'miss' ? '閃避' : fmtK(v)), col: extra && extra.col,
+      vx: call ? 0 : dir * rnd(crit ? 30 : 40, crit ? 80 : 110), vy: call ? 18 : t === 'exp' ? 70 : rnd(crit ? 120 : 110, crit ? 170 : 165), g: call ? 0 : t === 'exp' ? 40 : 300,
+      life: call ? ((extra && extra.life) || 0.9) : crit ? 0.9 : t === 'exp' ? 0.85 : rnd(0.6, 0.75), born: now, pop: 0 });
+    n.max = n.life; return n;
+  },
+  update(dt) {
+    for (const n of this.a) { if (n.life <= 0) continue; n.life -= dt; n.pop += dt; n.vy -= n.g * dt; n.x += n.vx * dt; n.y += n.vy * dt; n.vx *= 1 - 1.6 * dt; }
+    if (this.a.length && this.a.every(n => n.life <= 0)) this.a.length = 0;
+  },
+  draw(c, X, Y, s) {
+    for (const n of this.a) {
+      if (n.life <= 0) continue;
+      const k = n.life / n.max, p = n.pop, sp = this.sprite(n.t === 'n' ? 'n' : n.t, s, n.txt, n.t === 'call' ? n.col : null);
+      let sc;
+      if (n.t === 'crit') sc = p < 0.07 ? 2.1 - p / 0.07 * 1.25 : p < 0.13 ? 0.85 + (p - 0.07) / 0.06 * 0.15 : 1;
+      else if (n.t === 'call') sc = p < 0.1 ? 1.9 - p / 0.1 * 1 : p < 0.16 ? 0.9 + (p - 0.1) / 0.06 * 0.1 : 1;
+      else sc = p < 0.06 ? 1.55 - p / 0.06 * 0.55 : 1;
+      const a = n.t === 'call' ? Math.min(1, k * 3.2) : Math.min(1, k / 0.38);
+      c.save(); c.globalAlpha = a; c.translate(X(n.x), Y(n.y)); if (sc !== 1) c.scale(sc, sc);
+      c.drawImage(sp.cv, -sp.w / 2, -sp.h / 2, sp.w, sp.h); c.restore();
+    }
+  },
+  live() { return this.a.filter(n => n.life > 0).length; },
+};
+window.NUM37 = NUM37;
+
+/* ---------- 招式名發光色：依流派／品質 ---------- */
+NUM37.callCol = function (f) {
+  if (f.q === 9) return { c: '#ff3b2e' };            // 克制提示
+  if (f.ult) return { c: '#ffb21a', big: 1 };          // 奧義：金
+  if (f.q >= 4) return { c: '#ff6a1a' };
+  if (f.q === 3) return { c: '#ffa21a' };
+  if (f.q === 2) return { c: '#b45cff' };
+  if (f.q === 1) return { c: '#2f9dff' };
+  return { c: '#1ed6a8' };                             // 預設：青玉
+};
+
+/* ---------- 煙霧點陣圖（死亡散去） ---------- */
+const PUFF37 = {
+  cv: null,
+  get() {
+    if (this.cv) return this.cv;
+    const S0 = 128, cv = document.createElement('canvas'); cv.width = cv.height = S0; const c = cv.getContext('2d');
+    const blobs = [[64, 70, 40], [40, 62, 28], [88, 60, 30], [58, 44, 26], [80, 84, 24], [44, 86, 22]];
+    for (const [x, y, r] of blobs) { const g = c.createRadialGradient(x - r * 0.25, y - r * 0.3, r * 0.1, x, y, r); g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(0.55, 'rgba(226,230,232,.75)'); g.addColorStop(1, 'rgba(190,196,200,0)'); c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, 6.283); c.fill(); }
+    this.cv = cv; return cv;
+  },
+};
+
+/* ---------- 掛鉤：數字、招式名、煙霧、震動 ---------- */
+(() => {
+  HS.num = function (x, y, v, crit) { NUM37.add(crit ? 'crit' : 'n', x, Math.min(y, 40) + 46 + rnd(0, 16), v); };
+  // 招式名與克制提示 → 新的毛筆發光字
+  const a0 = FXPool.prototype.add;
+  FXPool.prototype.add = function (o) {
+    if (this === HS.fx && o && o.k === 'call') { NUM37.add('call', o.x, o.y, 0, { txt: o.s, col: NUM37.callCol(o), life: o.life }); o.k = 'nop'; o.life = 0.001; }
+    return a0.call(this, o);
+  };
+  const d0 = FXPool.prototype.draw;
+  FXPool.prototype.draw = function (c, X, Y, s, t) {
+    d0.call(this, c, X, Y, s, t);
+    if (this !== HS.fx) return;
+    for (const f of this.a) if (f.k === 'puff37') {
+      const k = f.life / f.max, p = 1 - k, img = PUFF37.get(), sz = f.r * s * (0.55 + p * 1.1);
+      c.save(); c.globalAlpha = Math.min(1, k * 1.6) * (f.a || 0.9); c.translate(X(f.x), Y(f.y)); c.rotate(f.rot + p * 0.6);
+      c.drawImage(img, -sz / 2, -sz / 2, sz, sz); c.restore();
+    }
+    NUM37.draw(c, X, Y, s);
+  };
+  const die1 = HS.die;
+  HS.die = function (m, silent) {
+    die1.call(this, m, silent);
+    // 屍體不再擊飛：極快淡出，換成煙霧散去
+    for (let i = this.fx.a.length - 1; i >= 0; i--) { const f = this.fx.a[i]; if (f.k === 'dis' && f.key === m.k && f.life > 0.15) { f.life = Math.min(f.life, 0.12); f.max = 0.12; } }
+    const by = (m.y || 0) + m.h * 0.42;
+    this.fx.add({ k: 'puff37', x: m.x, y: by, r: m.h * 1.3, rot: Math.random() * 6, life: 0.42, a: 0.95 });
+    if (!C35.low) for (let i = 0; i < 3; i++) this.fx.add({ k: 'puff37', x: m.x + rnd(-22, 22), y: by + rnd(-10, 18), vx: rnd(-50, 50), vy: rnd(20, 70), r: m.h * rnd(0.55, 0.8), rot: Math.random() * 6, life: rnd(0.35, 0.55), a: 0.8 });
+    if (!silent && this.state === 'walk') {   // 經驗（真實數值：自上次擊殺以來，掛機寶箱累積的經驗）
+      const t = performance.now(), dtm = Math.min(5, ((t - (NUM37._lk || t)) / 60000)); NUM37._lk = t;
+      try { const I = CFG.idle, ev = Math.round(I.exp(S.tower.floor) * IdleManager.mult() * dtm); if (ev > 0 && Math.random() < 0.6) NUM37.add('exp', m.x, by + m.h * 0.5, ev); } catch (e) {}
+    }
+  };
+  const u0 = HS.update;
+  HS.update = function (dt) {
+    u0.call(this, dt);
+    NUM37.update(dt * (C35.spd ? Math.min(C35.spd(), 1.6) : 1));
+    if (S.opt && S.opt.shake37 === false) this.shake = 0;
+  };
+  const dr0 = HS.draw;
+  HS.draw = function () { if (S.opt && S.opt.shake37 === false) this.shake = 0; return dr0.apply(this, arguments); };
+})();
+
+/* ---------- 妖物連續湧入 ---------- */
+const FLOW37 = {
+  t: 0,
+  target() { const i = (ChapterManager.cur() || { idx: 0 }).idx || 0; return CFG.c37.alive[Math.min(i, CFG.c37.alive.length - 1)]; },
+  step(st, dt) {
+    if (st.state !== 'walk' || st.resting || StaminaManager.empty()) return;
+    const lead = st.team[0]; if (!lead) return;
+    this.t -= dt; if (this.t > 0) return;
+    const al = C35.alive(st), ahead = al.filter(m => m.x > lead.x - 20), tg = this.target();
+    if (ahead.length >= tg) return;
+    const n = Math.max(1, Math.min(tg - ahead.length + (Math.random() < 0.35 ? 1 : 0), 4));
+    const far = ahead.reduce((a, m) => Math.max(a, m.x), 0);
+    const x0 = Math.max(st.camX + VW + 30, far + rnd(36, 70), lead.x + 160);
+    // 稀有事件機率改為「每隻妖物、每真實秒」計算：小批補怪與倍速不會讓稀有事件（含銀錠）變多【建議調整】
+    const F = CFG.ev35, rc0 = F && F.rareChance;
+    if (F) F.rareChance = rc0 * n / 4 / (C35.spd() || 1);
+    st._wave35 = { n, x0 }; try { st.spawn(); } finally { st._wave35 = null; if (F) F.rareChance = rc0; }
+    C35.waveN++;
+    st.mobs.forEach(m => { if (m.f37 == null) { m.f37 = 1; if (!m.mimic && !m.elite) { m.hp *= CFG.c37.mobHp; m.max *= CFG.c37.mobHp; } } });
+    this.t = CFG.c37.refill;
+  },
+};
+window.FLOW37 = FLOW37;
+(() => {
+  const p0 = C35.post.bind(C35);
+  C35.post = function (st, dt) { FLOW37.step(st, dt); return p0(st, dt); };
+  // 編組橫幅（混編妖群／重甲方陣…）最多每 25 秒一次，避免小批補怪時洗版
+  const b0 = HS.banner.bind(HS), forms = () => (CFG.ev35 ? CFG.ev35.forms.map(f => f.n) : []);
+  HS.banner = function (t) { if (forms().includes(t)) { const n = performance.now(); if (n - (this._fb37 || -1e9) < 25000) return; this._fb37 = n; } return b0(t); };
+  // ×3 倍速解鎖
+  C35.spdOk3 = function () { const X = CFG.c37.x3; return S.lv >= X.lv || VipManager.level() >= X.vip || VipManager.hasCard() || (VipManager.hasBig && VipManager.hasBig()) || (VipManager.hasLife && VipManager.hasLife()); };
+  const sp0 = UI.act.spd35;
+  UI.act.spd35 = function () {
+    const cur = (S.opt.spd35 || 1), nx = cur >= 3 ? 1 : cur + 1;
+    if (nx === 3 && !C35.spdOk3()) { S.opt.spd35 = 1; UI.toast(`×3 倍速：江湖 Lv${CFG.c37.x3.lv}、VIP${CFG.c37.x3.vip} 或任一月卡解鎖`); SaveManager.save(); C35.renderBtns(true); return; }
+    return sp0.apply(this, arguments);
+  };
+})();
+
+/* ---------- 橫幅字：更乾淨（白金字、細黑邊、外發光） ---------- */
+(() => {
+  const st = document.createElement('style');
+  st.textContent = `
+#hbanner{background:linear-gradient(180deg,#ffffff 0%,#fff6d8 48%,#ffd76a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1px #2a1400;
+ filter:drop-shadow(0 0 1px #000) drop-shadow(0 0 6px rgba(255,190,60,.85)) drop-shadow(0 3px 2px rgba(0,0,0,.45))}
+#hbanner.boss36{background:linear-gradient(180deg,#ffffff 0%,#ffe2c8 45%,#ff8a5a 100%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 0 1px #000) drop-shadow(0 0 7px rgba(255,60,30,.9)) drop-shadow(0 3px 2px rgba(0,0,0,.45))}
+`;
+  document.head.appendChild(st);
+})();
+
+/* 【建議調整】v3.7 連續湧入後實測擊殺速度 ×1.2（新手 60 秒 80 → 97 隻），
+ * 首領進度與包子消耗同比例放大，維持「約 20 秒一次首領」與「每小時包子用量不變」 */
+CFG.c35.need = 29; CFG.c35.killsPerBun = 15;
+CFG.stamina.killsPerBun = CFG.c35.killsPerBun; HS.need = CFG.c35.need;
+
+/* =====================================================================
+ * v3.7 打怪掉裝＋掉落等級
+ * - 擊殺妖物時偶爾噴出裝備：品質色光柱 → 飛進背包；比身上好 → 部位綠色 ↑、「更強裝備」提示、一鍵換裝
+ * - 較差的掉落依「自動分解」設定直接分解（預設：非更強且品質不高於身上 → 分解）；背包滿也自動分解，絕不卡住
+ * - 掉落額度依「真實時間」累積（每小時約 40 件），倍速與刷怪密度不會讓收益暴增
+ * - 首領擊破：金光「恭喜獲得」結算＋必掉 1 件裝備
+ * - 掉落等級：靠累積掛機時間（線上＋離線都算）升級，提高高品質／高品階的掉落機率；流光沙漏每日最多 3 次
+ * ===================================================================== */
+CFG.d37 = {   // 【建議調整】v3.7 掉落數值
+  max: 40,                                  // 掉落等級上限
+  hours: n => Math.round((1 + 0.6 * n) * 10) / 10,   // Lv n → n+1 需要的掛機時數：1.6h、2.2h…Lv39→40 約 24h；全滿約 507h（≈21 天）
+  qPer: 0.5,                                // 每級：品質分布上移 0.5 個百分點（Lv20 ≈ +9.5 點）
+  rPer: 0.025,                              // 每級：高品階權重 +2.5%×階數
+  kill: { perHour: 40, cap: 3, chance: 0.35 },   // 打怪掉裝：每真實小時約 40 件（只在俠客居推進時累積），額度上限 3
+  salv: 0.25,                               // 打怪掉落的分解收益為一般分解的 25%（避免銅幣／精鐵暴增）
+  idleEvery: 15,                            // 掛機寶箱裝備：每 12 → 15 分鐘 1 件（部分產出移到打怪掉落）
+  boost: { cost: { silver: 60 }, hours: 2, daily: 3 },   // 流光沙漏（模擬付費）：+2 小時，每日 3 次
+  filters: [['none', '不自動分解'], ['below', '分解：非更強且品質不高於身上'], ['worse', '分解：所有非更強裝備']],
+};
+CFG.idle.equipEveryMin = CFG.d37.idleEvery;
+
+const DL37 = window.DL37 = {
+  st() {
+    if (!S.d37) S.d37 = { lv: 1, acc: 0, last: now(), tok: 0, day: '', buy: 0, filter: 'below', got: 0, dec: 0, kept: 0, sv: { copper: 0, iron: 0 } };
+    const d = S.d37; if (!d.sv) d.sv = { copper: 0, iron: 0 }; if (!d.filter) d.filter = 'below'; return d;
+  },
+  need(lv = this.st().lv) { return CFG.d37.hours(lv); },
+  tick() {
+    const d = this.st(), t = now(); if (!(d.last > 0) || d.last > t) d.last = t;
+    if (d.lv < CFG.d37.max) d.acc = Math.min(this.need(), d.acc + (t - d.last) / 3.6e6); else d.acc = 0;
+    d.last = t; const dk = dayKey(t); if (d.day !== dk) { d.day = dk; d.buy = 0; }
+    return d;
+  },
+  full() { const d = this.tick(); return d.lv < CFG.d37.max && d.acc >= this.need() - 1e-9; },
+  up() { if (!this.full()) return false; const d = this.st(); d.lv++; d.acc = 0; SaveManager.save(); return true; },
+  boost() {
+    const d = this.tick(), B = CFG.d37.boost;
+    if (d.lv >= CFG.d37.max) return 'max'; if (d.buy >= B.daily) return 'cap'; if (d.acc >= this.need()) return 'full';
+    if (!Eco.pay(B.cost)) return 'res';
+    d.buy++; d.acc = Math.min(this.need(), d.acc + B.hours); SaveManager.save(); return true;
+  },
+  qPts(lv = this.st().lv) { return Math.max(0, lv - 1) * CFG.d37.qPer; },
+  qDist(lv) { return EquipManager.shift(DL37._rd0(0), this.qPts(lv)).map(v => Math.round(v * 100) / 100); },
+  rDist(rl, lv) {
+    const R = CFG.eqRank, cap = EQ34.cap(rl), w = R.base.map((b, i) => i < cap ? b * (1 + (rl - 1) * R.grow * i) * (1 + Math.max(0, lv - 1) * CFG.d37.rPer * i) : 0), t = w.reduce((a, b) => a + b, 0);
+    return w.map(v => Math.round(v / t * 1000) / 10);
+  },
+  /** 品質×品階 的組合機率表（%） */
+  table(lv) {
+    const q = this.qDist(lv), r = this.rDist(S.realm.lv, lv), o = [];
+    q.forEach((pq, qi) => r.forEach((pr, ri) => o.push({ q: qi, r: ri + 1, p: pq * pr / 100 })));
+    return o;
+  },
+  /* ---------- 打怪掉裝 ---------- */
+  earn(dt) { const d = this.st(), K = CFG.d37.kill; d.tok = Math.min(K.cap, (d.tok || 0) + dt * K.perHour / 3600); },
+  decomp(it) {
+    const d = this.st(), eq = S.equip[it.slot]; if (EquipManager.better(it)) return false;
+    if (d.filter === 'worse') return true;
+    if (d.filter === 'below') return !eq || it.q <= eq.q;
+    return false;
+  },
+  salvage(q) {   // 打怪掉落分解：一般分解的 25%，小數累積
+    const d = this.st(), sv = CFG.salvage(q), m = CFG.d37.salv; d.sv.copper += sv.copper * m; d.sv.iron += sv.iron * m;
+    const r = { copper: Math.floor(d.sv.copper), iron: Math.floor(d.sv.iron) }; d.sv.copper -= r.copper; d.sv.iron -= r.iron;
+    if (r.copper || r.iron) Eco.add(r); return r;
+  },
+  onKill(st, m) {
+    const d = this.st(), K = CFG.d37.kill;
+    if (!(d.tok >= 1)) return null;
+    if (d.tok < K.cap - 0.05 && Math.random() > K.chance) return null;
+    d.tok -= 1; return this.dropAt(st, m, 0, 0);
+  },
+  dropAt(st, m, shift, lvAdd) {
+    const d = this.st(), q = EquipManager.rollQuality(EquipManager.realmDist(shift || 0));
+    const full = S.bag.length >= bagCap();
+    let it = full ? null : EquipManager.drop(q, EquipManager.idleItemLevel() + (lvAdd || 0)), fate = 'keep';
+    if (!it) { const r = this.salvage(q); fate = 'full'; d.dec++; it = { slot: CFG.slots[rint(0, CFG.slots.length - 1)].id, q, lvl: EquipManager.idleItemLevel(), r: 1, af: [], ghost: 1, sv: r }; }
+    else if (this.decomp(it)) { S.bag.splice(S.bag.indexOf(it), 1); it.sv = this.salvage(q); fate = 'dec'; d.dec++; }
+    else { d.kept++; if (EquipManager.better(it)) fate = 'better'; }
+    d.got++;
+    LOOT37.pop(st, m, it, fate);
+    return { it, fate };
+  },
+};
+DL37._rd0 = EquipManager.realmDist.bind(EquipManager);
+EquipManager.realmDist = function (extra = 0) { return EquipManager.shift(DL37._rd0(extra), DL37.qPts()); };
+EQ34.dist = function (lv) { return DL37.rDist(lv, DL37.st().lv); };
+
+/* ---------- 掉落演出（DOM 飛行：不擋操作、物件池最多 6 個） ---------- */
+const LOOT37 = window.LOOT37 = {
+  pool: [], betterT: 0,
+  col: q => ['#4fd06a', '#4a8dff', '#b45cff', '#ffb21a', '#ff4a2a'][q] || '#ffffff',
+  target(fate) {
+    const pick = sel => { const el = document.querySelector(sel); if (!el) return null; const r = el.getBoundingClientRect(); return r.width && r.bottom > 0 && r.top < innerHeight ? r : null; };
+    return (fate === 'better' && pick('.eqp34 .auto34')) || pick('.eqp34 .eqh') || pick('.hbtns [data-act="allres"]') || pick('#nav') || { left: innerWidth / 2, top: innerHeight - 40, width: 0, height: 0 };
+  },
+  pop(st, m, it, fate) {
+    if (UI.view !== 'home' || document.hidden) { if (fate === 'better') this.better(it); return; }
+    const cv = st.cv; if (!cv) return; const b = cv.getBoundingClientRect(), [sx, sy] = st.scr(m.x, (m.y || 0) + m.h * 0.5);
+    let el = this.pool.find(e => !e._on);
+    if (!el) { if (this.pool.length >= 6) { el = this.pool[0]; } else { el = document.createElement('div'); el.className = 'loot37'; document.body.appendChild(el); this.pool.push(el); } }
+    el._on = 1; clearTimeout(el._t1); clearTimeout(el._t2);
+    const ik = EQ33.icon(it), sl = CFG.slots.find(s => s.id === it.slot), c = this.col(it.q);
+    el.className = 'loot37 q' + it.q + (fate === 'dec' || fate === 'full' ? ' dec' : '') + (fate === 'better' ? ' up' : '');
+    el.style.setProperty('--c', c);
+    el.innerHTML = `<i class="beam"></i><i class="ring"></i><span class="ic">${ik ? `<img src="${ASSETS[ik]}" alt="">` : (ICO.get(sl.id) || sl.icon)}</span>${fate === 'better' ? '<b class="ar">↑</b>' : ''}${fate === 'dec' || fate === 'full' ? `<em>分解${it.sv && it.sv.iron ? ' 精鐵+' + it.sv.iron : ''}</em>` : ''}`;
+    const x = b.left + sx, y = b.top + sy;
+    el.style.transition = 'none'; el.style.opacity = '1'; el.style.transform = `translate(${x - 22}px,${y - 22}px) scale(.4)`;
+    void el.offsetWidth;
+    const dx = rnd(-40, 40), up = rnd(46, 70);
+    el.style.transition = 'transform .32s cubic-bezier(.2,1.6,.4,1)';
+    el.style.transform = `translate(${x - 22 + dx}px,${y - 22 - up}px) scale(1.05)`;
+    el._t1 = setTimeout(() => {
+      if (fate === 'dec' || fate === 'full') { el.style.transition = 'transform .35s ease-in, opacity .35s ease-in'; el.style.transform = `translate(${x - 22 + dx}px,${y - 22 - up - 26}px) scale(.7)`; el.style.opacity = '0'; }
+      else { const t = this.target(fate); el.style.transition = 'transform .42s cubic-bezier(.6,0,.9,.5), opacity .42s ease-in'; el.style.transform = `translate(${t.left + t.width / 2 - 22}px,${t.top + t.height / 2 - 22}px) scale(.35)`; el.style.opacity = '.25'; }
+      el._t2 = setTimeout(() => { el.style.opacity = '0'; el._on = 0; if (fate === 'better') this.better(it); else if (fate === 'keep') this.bump(); }, 440);
+    }, fate === 'better' ? 620 : 440);
+  },
+  bump() { const el = document.querySelector('.eqp34 .eqh'); if (el) { el.classList.remove('bump37'); void el.offsetWidth; el.classList.add('bump37'); } },
+  better(it) {
+    // 部位 ↑ 與一鍵穿戴按鈕：重繪俠客居下半部（節流，且有彈窗時不打擾）
+    const t = performance.now();
+    if (UI.view === 'home' && !document.querySelector('#modal.on') && t - (this._rt || 0) > 2500) { this._rt = t; try { UI.render(); } catch (e) {} }
+    const stg = document.getElementById('stage'); if (!stg) return;
+    let el = document.getElementById('better37');
+    if (!el) { el = document.createElement('div'); el.id = 'better37'; stg.appendChild(el); }
+    el.innerHTML = `<span class="bt">更強裝備</span><span class="nm">${UI.itemName(it)}</span><button class="btn sm jade" data-act="eq37">一鍵換裝</button><button class="x37" data-act="eq37x" aria-label="關閉">✕</button>`;
+    el.classList.remove('on'); void el.offsetWidth; el.classList.add('on');
+    clearTimeout(this.betterT); this.betterT = setTimeout(() => el.classList.remove('on'), 7000);
+  },
+};
+
+/* ---------- 掛鉤：擊殺掉落、真實時間額度 ---------- */
+(() => {
+  const die0 = HS.die;
+  HS.die = function (m, silent) {
+    die0.call(this, m, silent);
+    if (silent || this.state !== 'walk' || m.split) return;
+    try { DL37.onKill(this, m); } catch (e) { console.warn(e); }
+  };
+  const u0 = HS.update;
+  HS.update = function (dt) { u0.call(this, dt); if (this.state === 'walk' && !this.resting && !StaminaManager.empty()) DL37.earn(dt); };
+  // 首領：金光「恭喜獲得」＋必掉 1 件（品質分布 +1 境界、等級 +2）
+  const be = HS.bossEnd;
+  HS.bossEnd = function (win) { if (win && this.boss && !this.boss.endT) this._cg37 = 1; return be.apply(this, arguments); };
+  const rp = UI.rewardPopup.bind(UI);
+  UI.rewardPopup = function (title, r, items = [], extra = '') {
+    if (!HS._cg37 || !/試煉之塔 第 \d+ 層 通關/.test(title)) return rp(title, r, items, extra);
+    HS._cg37 = 0;
+    const q = EquipManager.rollQuality(EquipManager.realmDist(1)), it = S.bag.length < bagCap() ? EquipManager.drop(q, EquipManager.idleItemLevel() + 2) : null;
+    if (!it) DL37.salvage(q);
+    const its = (items || []).concat(it ? [it] : []), up = it && EquipManager.better(it);
+    rp('恭喜獲得', r, its, `<div class="cgsub37">${title}</div>${up ? '<div class="cgup37">↑ 比身上的更強！<button class="btn sm jade" data-act="eq37">一鍵換裝</button></div>' : ''}${extra}`);
+    const mb = document.querySelector('#modal .mbox'); if (mb) { mb.classList.add('cg37'); mb.insertAdjacentHTML('afterbegin', '<i class="cgwrap37"><i class="cgrays37"></i><i class="cgglow37"></i></i>'); }
+    AudioManager.play && AudioManager.play('win');
+  };
+  // 品階按鈕 → 掉落等級（舊的境界品階表改由面板內連結開啟）
+  UI.act.droprank = () => UI.dropLvModal();
+  UI.act.droprank0 = () => UI.dropRankModal();
+  UI.act.dl37up = () => { const lv = DL37.st().lv; if (DL37.up()) { UI.toast(`掉落等級提升至 Lv${lv + 1}！高品質掉落機率提高`); UI.dropLvModal(); } else UI.toast('掛機時間尚未累積足夠'); };
+  UI.act.dl37boost = () => { const r = DL37.boost(); UI.toast(r === true ? `流光沙漏：掉落進度 +${CFG.d37.boost.hours} 小時` : r === 'cap' ? '今日流光沙漏已用完（每日 3 次）' : r === 'full' ? '進度已滿，請先按「進階」' : r === 'max' ? '掉落等級已滿' : '銀錠不足'); UI.dropLvModal(); };
+  UI.act.dl37f = d => { DL37.st().filter = d.f; SaveManager.save(); UI.toast('自動分解：' + CFG.d37.filters.find(x => x[0] === d.f)[1]); if (document.querySelector('#modal .dl37')) UI.dropLvModal(); else if (UI.act.settings) UI.act.settings(); };
+  UI.act.eq37 = () => { const p = PlayerManager.power(), n = EquipManager.autoEquip(); SaveManager.save(); const el = document.getElementById('better37'); if (el) el.classList.remove('on'); if (document.querySelector('#modal .cg37')) UI.closeModal(); UI.render(); UI.toast(n ? `已換上 ${n} 件更強裝備，戰力 +${fmt(PlayerManager.power() - p)}` : '身上已是最強裝備'); };
+  UI.act.eq37x = () => { const el = document.getElementById('better37'); if (el) el.classList.remove('on'); };
+  UI.act.dl37open = () => UI.dropLvModal();
+  // 品階按鈕紅點：掉落等級可進階
+  const dots0 = UI.dots.bind(UI);
+  UI.dots = function () { dots0(); const b = document.querySelector('.drbtn'); if (b) b.classList.toggle('dl37dot', DL37.full()); };
+})();
+
+/* ---------- 掉落等級面板 ---------- */
+UI.dropLvModal = function () {
+  const d = DL37.tick(), lv = d.lv, mx = lv >= CFG.d37.max, nx = Math.min(lv + 1, CFG.d37.max), need = DL37.need(), Q = CFG.equipQualities, R = CFG.eqRank, B = CFG.d37.boost;
+  const cur = DL37.table(lv), nxt = DL37.table(nx);
+  const rows = cur.map((c, i) => ({ ...c, n: nxt[i].p })).filter(x => x.p > 0.0005 || x.n > 0.0005).sort((a, b) => (b.q - a.q) || (b.r - a.r));
+  const pf = v => v >= 10 ? v.toFixed(1) : v >= 1 ? v.toFixed(2) : v >= 0.01 ? v.toFixed(2) : v > 0 ? '<0.01' : '0';
+  const row = x => { const dl = x.n - x.p, c = Q[x.q].color;
+    return `<div class="dlr37 q${c}"><span class="dn"><b class="qt${c}">${Q[x.q].name}</b><small class="rpips">${[1, 2, 3, 4, 5].map(i => `<b class="${i <= x.r ? 'on' : ''}"></b>`).join('')}</small><i>${R.names[x.r - 1]}</i></span><b class="cu">${pf(x.p)}%</b><b class="nx">${mx ? '—' : pf(x.n) + '%'}</b><small class="${dl > 0.0005 ? 'green' : dl < -0.0005 ? 'red' : 'sub'}">${mx || Math.abs(dl) < 0.0005 ? '' : (dl > 0 ? '+' : '−') + pf(Math.abs(dl))}</small></div>`; };
+  const pct = mx ? 100 : Math.min(100, d.acc / need * 100), full = !mx && d.acc >= need - 1e-9;
+  const flt = CFG.d37.filters.map(([k, n]) => `<button class="btn sm ${d.filter === k ? 'jade' : 'gray'}" data-act="dl37f" data-f="${k}">${n}</button>`).join('');
+  UI.modal(`<h3>掉落等級</h3><div class="dl37">
+    <div class="dlhd37"><div class="dlb37"><small>目前</small><b>Lv${lv}</b></div><span class="arr">➜</span><div class="dlb37 nx"><small>下一級</small><b>${mx ? 'MAX' : 'Lv' + nx}</b></div>
+      <div class="grow"><div class="sub">掛機時間（線上＋離線都算）自動累積</div><div class="bar gold dlbar37"><i style="width:${pct}%"></i><span>${mx ? '已達上限' : `${d.acc.toFixed(1)} / ${need} 小時`}</span></div></div></div>
+    <div class="row" style="gap:6px;margin:6px 0"><button class="btn ${full ? 'pulse' : 'gray'} grow" data-act="dl37up" ${full ? '' : 'disabled'}>進階</button><button class="btn grow" data-act="dl37boost">流光沙漏 +${B.hours}h<small class="bs37">💎${B.cost.silver} · 今日 ${d.buy}/${B.daily}</small></button></div>
+    <div class="dlth37"><span>掉落階級</span><span>目前</span><span>Lv${nx}</span><span>變化</span></div>
+    <div class="dltb37">${rows.map(row).join('')}</div>
+    <div class="hint">打怪掉裝：俠客居推進時每小時約 ${CFG.d37.kill.perHour} 件（依真實時間，倍速不加倍）；首領必掉 1 件。掉落等級每級品質分布上移 ${CFG.d37.qPer} 點、高品階權重 +${CFG.d37.rPer * 100}%×階，品階上限仍由境界決定。【建議調整】</div>
+    <div class="drsec"><b>自動分解（打怪掉落）</b><div class="row" style="gap:4px;flex-wrap:wrap;margin-top:4px">${flt}</div><div class="sub">本次累計：掉落 ${d.got} · 保留 ${d.kept} · 分解 ${d.dec}（背包滿時一律自動分解，不會卡住）</div></div>
+    <div class="row" style="gap:6px"><button class="btn grow" data-act="droprank0">境界品階詳情</button><button class="btn grow" data-act="mclose">關閉</button></div></div>`);
+};
+
+/* ---------- 變強路線：掉落等級可進階 ---------- */
+(() => {
+  const M = G35, rt0 = M.routes.bind(M);
+  M.routes = function () {
+    const R = rt0();
+    try { if (DL37.full()) { const lv = DL37.st().lv, g = Math.max(1, Math.round(PlayerManager.power() * 0.004));
+      R.unshift({ id: 'dl37', src: 'equip', n: '掉落等級進階', d: `Lv${lv}→${lv + 1}：高品質裝備掉落機率提升（預估戰力為之後掉落的期望值）`, cost: {}, gain: g, act: 'dl37open', go: 'home', free: '掛機時間自動累積', paid: `流光沙漏（每日 ${CFG.d37.boost.daily} 次）`, can: true, eff: 1e8 }); } } catch (e) {}
+    return R;
+  };
+})();
+
+/* ---------- 設定：畫面震動、自動分解、版本 ---------- */
+(() => {
+  const s0 = UI.act.settings;
+  UI.act.settings = function () {
+    s0.apply(this, arguments);
+    const kv = document.querySelector('#modal .kv'); if (!kv) return;
+    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = '原型 v3.7（傷害數字重做＋妖物連續湧入＋打怪掉裝＋掉落等級）'; });
+    const on = !(S.opt && S.opt.shake37 === false), f = DL37.st().filter;
+    kv.insertAdjacentHTML('beforeend', `<span>畫面震動</span><span><button class="btn sm ${on ? 'jade' : 'gray'}" data-act="shake37">${on ? '開啟' : '關閉'}</button></span><span>自動分解</span><span><button class="btn sm" data-act="dl37open">${CFG.d37.filters.find(x => x[0] === f)[1]}</button></span>`);
+  };
+  UI.act.shake37 = () => { S.opt.shake37 = S.opt.shake37 === false; SaveManager.save(); UI.toast('畫面震動：' + (S.opt.shake37 === false ? '關閉' : '開啟')); UI.act.settings(); };
+})();
+
+(() => {
+  const css = `
+.loot37{position:fixed;left:0;top:0;width:44px;height:44px;z-index:60;pointer-events:none;opacity:0;will-change:transform}
+.loot37 .ic{position:absolute;inset:4px;border-radius:9px;background:radial-gradient(circle,#fffbe8 0%,#f4e6c0 70%);border:2px solid var(--c);box-shadow:0 0 10px 3px var(--c),0 2px 3px #0008;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.loot37 .ic img{width:100%;height:100%;object-fit:contain}
+.loot37 .ic svg{width:80%;height:80%}
+.loot37 .beam{position:absolute;left:50%;bottom:20px;width:18px;height:120px;margin-left:-9px;background:linear-gradient(0deg,var(--c),transparent);opacity:.75;filter:blur(2px);border-radius:9px;animation:beam37 .9s ease-out forwards}
+.loot37 .ring{position:absolute;inset:-8px;border-radius:50%;border:3px solid var(--c);opacity:0;animation:ring37 .5s ease-out}
+.loot37 .ar{position:absolute;right:-8px;top:-10px;font:900 20px/1 sans-serif;color:#3dff6a;text-shadow:0 0 3px #000,0 0 3px #000;animation:ar37 .5s ease-in-out infinite alternate}
+.loot37 em{position:absolute;left:50%;top:44px;transform:translateX(-50%);white-space:nowrap;font:900 11px/1 sans-serif;font-style:normal;color:#fff;text-shadow:0 0 2px #000,0 0 2px #000}
+.loot37.dec .ic{filter:grayscale(.6) brightness(.9)}
+.loot37.q0 .beam{height:70px}.loot37.q2 .beam,.loot37.q3 .beam,.loot37.q4 .beam{height:170px;width:22px}
+@keyframes beam37{0%{transform:scaleY(.2);opacity:0}25%{transform:scaleY(1);opacity:.9}100%{opacity:0}}
+@keyframes ring37{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.6);opacity:0}}
+@keyframes ar37{to{transform:translateY(-4px)}}
+.eqp34 .eslot>.dot.on{width:17px;height:17px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#6dff8f,#17a046);border:1.5px solid #fff;box-shadow:0 0 6px #3dff6a,0 1px 2px #0007;display:flex;align-items:center;justify-content:center;animation:ar37 .55s ease-in-out infinite alternate}
+.eqp34 .eslot>.dot.on::after{content:"↑";color:#fff;font:900 12px/1 sans-serif;text-shadow:0 1px 0 #0a5a26}
+.eqp34 .eqh.bump37{animation:bump37 .35s ease-out}
+@keyframes bump37{40%{transform:scale(1.04);filter:brightness(1.25)}}
+#better37{position:absolute;left:50%;bottom:92px;z-index:6;transform:translate(-50%,0) scale(.6);opacity:0;pointer-events:none;display:flex;align-items:center;gap:6px;padding:5px 6px 5px 10px;border-radius:14px;background:linear-gradient(#fffaf0,#f1e2bf);border:2px solid #3dbb6a;box-shadow:0 4px 10px #0006;transition:transform .3s cubic-bezier(.2,1.4,.4,1),opacity .2s;white-space:nowrap;max-width:94%}
+#better37.on{transform:translate(-50%,0) scale(1);opacity:1;pointer-events:auto}
+#better37 .bt{font-weight:900;color:#fff;background:#2aa85a;border-radius:8px;padding:2px 6px;font-size:12px}
+#better37 .bt::after{content:" ↑"}
+#better37 .nm{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;max-width:120px}
+#better37 .x37{border:0;background:transparent;font-size:14px;color:#6a5030;padding:0 4px;cursor:pointer}
+.drbtn.dl37dot{position:relative}.drbtn.dl37dot::after{content:"";position:absolute;right:-3px;top:-3px;width:9px;height:9px;border-radius:50%;background:#e8402a;border:1.5px solid #fff}
+.dl37 .dlhd37{display:flex;align-items:center;gap:8px}
+.dlb37{display:flex;flex-direction:column;align-items:center;justify-content:center;width:58px;height:58px;border-radius:12px;background:linear-gradient(#1f7a6a,#0d4a40);border:2px solid #e7b443;color:#fff}
+.dlb37 b{font-size:18px;color:#ffe9a8}.dlb37 small{font-size:10px;opacity:.85}
+.dlb37.nx{background:linear-gradient(#b07a1a,#6a4006)}
+.dl37 .bs37{display:block;font-size:10px;opacity:.9}
+.dl37 .arr{color:#b07a1a;font-weight:900}
+.dlbar37{position:relative;height:16px;margin-top:4px}.dlbar37 span{position:absolute;inset:0;text-align:center;font-size:11px;font-weight:900;line-height:16px;color:#fff;text-shadow:0 0 2px #000}
+.dlth37,.dlr37{display:grid;grid-template-columns:1.7fr .8fr .8fr .7fr;align-items:center;gap:4px;padding:3px 6px}
+.dlth37{font-size:11px;color:#7a6040;font-weight:900;border-bottom:1px solid #d8c49a}
+.dltb37{max-height:240px;overflow:auto;border-radius:8px;background:#fffaf0;border:1px solid #e4d2a8}
+.dlr37{font-size:12px;border-bottom:1px dashed #ead9b4}
+.dlr37 .dn{display:flex;align-items:center;gap:4px;white-space:nowrap}.dlr37 .dn i{font-style:normal;font-size:11px;color:#6a5030}
+.dlr37 .rpips{display:inline-flex;gap:1px}.dlr37 .rpips b{width:5px;height:5px;transform:rotate(45deg);background:#d8c8a8;display:inline-block}.dlr37 .rpips b.on{background:#e7b443}
+.dlr37 .nx{color:#b07a1a}
+.dlr37.q4,.dlr37.q5{background:linear-gradient(90deg,rgba(255,190,60,.18),transparent)}
+.mbox.cg37{position:relative}
+.cgwrap37{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none;z-index:0}
+.cg37 .mtitle span{font-family:"QFBrush","Noto Serif TC",serif;font-size:28px;letter-spacing:5px;color:#ffe680;-webkit-text-stroke:1px #6a3200;text-shadow:0 0 6px rgba(255,200,60,.95),0 0 14px rgba(255,160,30,.7),0 2px 0 #6a3200}
+.cgrays37{position:absolute;left:50%;top:70px;width:520px;height:520px;margin:-260px 0 0 -260px;pointer-events:none;z-index:0;background:repeating-conic-gradient(rgba(255,214,90,.28) 0 7deg,transparent 7deg 18deg);-webkit-mask:radial-gradient(circle,#000 20%,transparent 68%);mask:radial-gradient(circle,#000 20%,transparent 68%);animation:cgspin 9s linear infinite}
+.cgglow37{position:absolute;left:50%;top:70px;width:240px;height:240px;margin:-120px 0 0 -120px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(255,236,150,.85),rgba(255,190,60,.25) 45%,transparent 70%);animation:cgpulse 1.6s ease-in-out infinite alternate}
+.cg37 .mbody,.cg37 .mtitle{position:relative;z-index:1}
+.cgsub37{text-align:center;font-weight:900;color:#8a5a10;margin:4px 0}
+.cgup37{text-align:center;color:#1f8a46;font-weight:900;margin:4px 0}
+@keyframes cgspin{to{transform:rotate(360deg)}}
+@keyframes cgpulse{from{transform:scale(.9);opacity:.75}to{transform:scale(1.08);opacity:1}}
+`;
+  const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 })();
 
 /* v3.4.1 / v3.5 彈窗關閉修正：所有彈窗都可用 ✕、點背景、返回手勢/Esc 關閉（自成一體，可單獨注入舊版） */
