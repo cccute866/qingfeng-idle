@@ -434,6 +434,23 @@ table.t tr.cur{background:#e7b44344}
 #bcut.on{animation:cutin 1s var(--ease) forwards}
 @keyframes cutin{0%{left:-100%}20%,75%{left:0;opacity:1}100%{left:30%;opacity:0}}
 .realmic img.ic{width:100%;height:100%}
+
+/* v3.1 終身卡：專屬稱號＋金色頭像框；月卡卡片 */
+.ptitle{display:inline-block;margin:0 4px;padding:0 6px;border-radius:8px;font-size:11px;font-weight:900;color:#5a2a00;background:linear-gradient(90deg,#ffe39a,#ffb347,#ffe39a);border:1px solid #fff3c4;box-shadow:0 0 6px #ffb34799;vertical-align:middle}
+.avatar.fr-gold img{border:3px solid #ffcf4a;box-shadow:0 0 0 2px #8a4b00,0 0 14px #ffcf4acc,0 0 26px #ff9d2a88}
+.avatar .afr2{position:absolute;inset:-7px;border-radius:50%;pointer-events:none;background:conic-gradient(from 0deg,#fff5c0,#ffb347,#ff7a1a,#ffe08a,#fff5c0);-webkit-mask:radial-gradient(circle,transparent 62%,#000 64%,#000 70%,transparent 72%);mask:radial-gradient(circle,transparent 62%,#000 64%,#000 70%,transparent 72%);animation:spin 6s linear infinite}
+.mcard.big{background:linear-gradient(180deg,#fbf3ff,#fff8ea)}
+.mcard.life{background:linear-gradient(180deg,#fff4dc,#fff9ee)}
+.leadrow{display:flex;gap:6px;overflow-x:auto;margin:6px 0}
+.leadb{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff8e6;border:2px solid #e3cf9c;border-radius:12px;padding:4px 6px;min-width:62px;cursor:pointer;font:inherit}
+.leadb.on{border-color:#e7a22b;background:linear-gradient(#fff3c8,#ffe08a);box-shadow:0 0 8px #ffc94a99}
+.leadb small{font-size:11px;font-weight:800}
+.leadb i{position:absolute;top:-6px;right:-4px;font-style:normal;font-size:10px;font-weight:900;background:#d9452b;color:#fff;border-radius:8px;padding:0 5px}
+.tm{position:relative}.tm.lead .hface{box-shadow:0 0 0 2px #e7a22b,0 0 8px #ffc94a}
+.tm .ldm{position:absolute;top:-6px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:900;background:#d9452b;color:#fff;border-radius:6px;padding:0 4px;white-space:nowrap;z-index:2}
+.ic.hi{filter:hue-rotate(38deg) saturate(1.8) brightness(1.1) drop-shadow(0 0 2px #ffd34d)}
+.mcard .kv{font-size:12px;row-gap:3px}.mcard .rw{font-size:11px;padding:1px 6px;margin:1px 2px}.mcard .rw .ic{width:14px;height:14px}
+.mcard{padding:8px 10px;margin-bottom:8px}.mcard .row>span:first-child{font-size:30px!important}
 </style></head>
 <body><div id="app">
 <section id="stage">
@@ -491,6 +508,7 @@ const CFG = {
     bun:     { name: '包子（體力）', icon: '🥟' },
     page:    { name: '功法殘頁', icon: '📜' },
     tie:     { name: '英雄帖',   icon: '🧧' },
+    tieHi:   { name: '高級英雄帖', icon: '🎴' },   // v3.1 大月卡／終身卡：高級招募（傳世以上機率大增）【建議調整】
     speed:   { name: '加速符',   icon: '⚡' },
     ticket:  { name: '試煉令',   icon: '🎫' },   // 魂器試煉額外次數【文件 §5】
     iron:    { name: '精鐵',     icon: '🔩' },   // 強化材料【建議（待確認）】
@@ -536,15 +554,15 @@ const CFG = {
 
   /* ---------- 俠客名冊（全部原創）---------- */
   heroes: [
-    { id: 'zhu',   name: '阿竹',   title: '竹林樵童', q: 0, role: '攻', glyph: '竹', color: '#5fbf6a', atk: 6,  def: 2, hp: 40, atkType: 'bolt',  cd: 0.9 },
-    { id: 'hu',    name: '石小虎', title: '山寨力士', q: 0, role: '守', glyph: '虎', color: '#c98a4b', atk: 4,  def: 4, hp: 70, atkType: 'orbit', cd: 1.2 },
-    { id: 'liu',   name: '柳兒',   title: '渡口船娘', q: 0, role: '輔', glyph: '柳', color: '#7fc8c0', atk: 3,  def: 2, hp: 45, atkType: 'heal',  cd: 4.0 },
-    { id: 'mo',    name: '秦墨',   title: '書院劍生', q: 1, role: '攻', glyph: '墨', color: '#4a6fd1', atk: 9,  def: 3, hp: 55, atkType: 'bolt',  cd: 0.7 },
-    { id: 'he',    name: '沈青禾', title: '藥谷醫女', q: 1, role: '輔', glyph: '禾', color: '#7ad18a', atk: 5,  def: 3, hp: 60, atkType: 'heal',  cd: 3.2 },
-    { id: 'yao',   name: '蘇雲遙', title: '雲棧劍客', q: 2, role: '攻', glyph: '雲', color: '#5ab4ff', atk: 13, def: 4, hp: 70, atkType: 'fan',   cd: 1.0 },
-    { id: 'tie',   name: '韓鐵衣', title: '鐵衣捕頭', q: 2, role: '守', glyph: '鐵', color: '#8c96a8', atk: 8,  def: 8, hp: 110,atkType: 'orbit', cd: 1.0 },
-    { id: 'shuang',name: '白霜吟', title: '寒潭琴師', q: 3, role: '攻', glyph: '霜', color: '#b9a4ff', atk: 18, def: 5, hp: 90, atkType: 'nova',  cd: 2.2 },
-    { id: 'zhu2',  name: '玄燭真人', title: '金燼老祖', q: 4, role: '攻', glyph: '燭', color: '#ffb347', atk: 26, def: 8, hp: 130,atkType: 'nova', cd: 1.6 },
+    { id: 'zhu',   name: '阿竹',   title: '竹林樵童', q: 0, role: '攻', glyph: '竹', color: '#5fbf6a', atk: 6,  def: 2, hp: 40, atkType: 'bolt',  cd: 0.9 , skill: '飛竹鏢' },
+    { id: 'hu',    name: '石小虎', title: '山寨力士', q: 0, role: '守', glyph: '虎', color: '#c98a4b', atk: 4,  def: 4, hp: 70, atkType: 'orbit', cd: 1.2 , skill: '虎嘯刀輪' },
+    { id: 'liu',   name: '柳兒',   title: '渡口船娘', q: 0, role: '輔', glyph: '柳', color: '#7fc8c0', atk: 3,  def: 2, hp: 45, atkType: 'heal',  cd: 4.0 , skill: '柳岸春回' },
+    { id: 'mo',    name: '秦墨',   title: '書院劍生', q: 1, role: '攻', glyph: '墨', color: '#4a6fd1', atk: 9,  def: 3, hp: 55, atkType: 'bolt',  cd: 0.7 , skill: '墨痕劍氣' },
+    { id: 'he',    name: '沈青禾', title: '藥谷醫女', q: 1, role: '輔', glyph: '禾', color: '#7ad18a', atk: 5,  def: 3, hp: 60, atkType: 'heal',  cd: 3.2 , skill: '青禾回春' },
+    { id: 'yao',   name: '蘇雲遙', title: '雲棧劍客', q: 2, role: '攻', glyph: '雲', color: '#5ab4ff', atk: 13, def: 4, hp: 70, atkType: 'fan',   cd: 1.0 , skill: '雲袖連鏢' },
+    { id: 'tie',   name: '韓鐵衣', title: '鐵衣捕頭', q: 2, role: '守', glyph: '鐵', color: '#8c96a8', atk: 8,  def: 8, hp: 110,atkType: 'orbit', cd: 1.0 , skill: '鐵衣旋鎖' },
+    { id: 'shuang',name: '白霜吟', title: '寒潭琴師', q: 3, role: '攻', glyph: '霜', color: '#b9a4ff', atk: 18, def: 5, hp: 90, atkType: 'nova',  cd: 2.2 , skill: '寒潭琴嘯' },
+    { id: 'zhu2',  name: '玄燭真人', title: '金燼老祖', q: 4, role: '攻', glyph: '燭', color: '#ffb347', atk: 26, def: 8, hp: 130,atkType: 'nova', cd: 1.6 , skill: '金燼焚天' },
   ],
   teamSlots: 3,
   // 英雄帖招募機率【建議（待確認）】：抽到某品質 → 隨機該品質俠客碎片
@@ -766,6 +784,30 @@ const CFG = {
     daily: { silver: 150, iron: 20, tie: 5 },        // 「養成材料」→ 精鐵×20【建議（待確認）】
     offline: 15, sweep: 2, trial: 1, fast: true, realmTimePct: 12,  // 文件：時間 -10%～15% → 取 12%
   },
+  /* ---------- v3.1：大月卡（至尊）／終身特權卡 —— 原「第二階段」提前開放【建議調整】 ----------
+   * 文件 §2.2 定價區間取下緣（NT$328、NT$1,980）；三卡可同時生效（效果相加，境界時間相乘）
+   * 全部為「模擬購買」：只改本地存檔，不連任何金流 */
+  bigCard: {
+    id: 'big', name: '大月卡（至尊）', price: 328, days: 30,
+    instant: { silver: 3280, tieHi: 10, box3: 2, dropRune: 1 },          // 文件：大量銀錠、高級英雄帖、高級裝備箱×1～2、掉落等級提升符
+    dailySilver: [400, 500],   // 每日銀錠 400～500 隨機【建議調整】
+    daily: { silver: 450, iron: 60, stone: 5, tieHi: 1, boxP: 1 },        // 文件：銀錠×400～500、高級材料、高級英雄帖、每日紫裝箱×1（高級帖 8～10 張/日過量 → 1 張高級＋傳世保底，建議調整）
+    offline: 30, sweep: 4, cap: 8, qShift: 1, enhanceDisc: 20, realmTimePct: 28, trial: 1,
+  },
+  lifeCard: {
+    id: 'life', name: '終身特權卡', price: 1980, days: 0,
+    instant: { silver: 19800, tieHi: 30, boxO: 2, shardRand2: 30 },       // 文件：大量資源＋限定外觀＋神話級箱或俠客碎片
+    daily: { silver: 350, iron: 80, stone: 8, tie: 7, boxO: 1 },          // 文件：每日永久 銀錠×300～400、高級材料、英雄帖×6～8、每日橙裝箱×1
+    offline: 45, sweep: 2, cap: 12, qShift: 1, enhanceDisc: 20, realmTimePct: 40,
+    title: '青鋒知己', frame: 'gold',                                     // 專屬稱號＋頭像框（原創命名）
+  },
+  /* v3.1 高級招募：1 張高級英雄帖 = 1 抽，必得精良以上、傳世以上大增【建議調整】 */
+  recruitHi: { rates: [0, 62, 28, 8, 2] },
+  /* v3.1 舞台：只有隊長在場上走、打；其他隊員以「助陣」切入（戰力仍算全隊） */
+  assist: { every: 6.5, stay: 1.1, burst: 3.2 },   // 每 6.5 秒輪一位隊員助陣；助陣傷害 = 該俠客普攻 ×3.2（試煉）
+  /* v3.1 地面線（tools/ground.py 量測後寫入 src/ground.js；此處為缺圖備援＋可手動覆寫） */
+  ground: { bamboo: { feet: 0.70, horizon: 0.55 }, rock: { feet: 0.27, horizon: 0.22 }, ember: { feet: 0.08, horizon: 0.01 }, tower: { feet: 0.27, horizon: 0.22 } },
+  groundOverride: {},
 
   /* ---------- 每日江湖饋贈【文件 §2.3，完全照表】---------- */
   dailyGifts: [
@@ -982,6 +1024,9 @@ const ASSET_SIZE = {"badge_a": [168, 168], "badge_b": [168, 168], "badge_c": [16
 const ASSET_INFO = {"side_zhu": {"facing": "right"}, "side_hu": {"facing": "right"}, "side_liu": {"facing": "right"}, "side_mo": {"facing": "right"}, "side_he": {"facing": "right"}, "side_yao": {"facing": "right"}, "side_tie": {"facing": "right"}, "side_shuang": {"facing": "right"}, "side_zhu2": {"facing": "right"}, "portrait_zhu": {}, "portrait_hu": {}, "portrait_liu": {}, "portrait_mo": {}, "portrait_he": {}, "portrait_yao": {}, "portrait_tie": {}, "portrait_shuang": {}, "portrait_zhu2": {}, "mob_bamboo": {"facing": "left"}, "mob_bamboo_elite": {"facing": "left"}, "mob_rock": {"facing": "left"}, "mob_rock_elite": {"facing": "left"}, "mob_ember": {"facing": "left"}, "mob_ember_elite": {"facing": "left"}, "fx_crystal": {}, "guard_basic": {"facing": "left"}, "guard_shield": {"facing": "left"}, "guard_summon": {"facing": "left"}, "guard_berserk": {"facing": "left"}, "guard_multi": {"facing": "left"}, "bg_bamboo_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_bamboo_mid": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_bamboo_near": {"tileWidth": 1271, "height": 367, "size": [1920, 1080]}, "bg_rock_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_rock_mid": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_rock_near": {"tileWidth": 1253, "height": 235, "size": [1920, 1080]}, "bg_ember_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_ember_mid": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_ember_near": {"tileWidth": 1440, "height": 419, "size": [1920, 1080]}, "bg_tower_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "map_home": {}, "map_city": {}, "map_jianghu": {}, "map_guild": {}, "map_recruit": {}, "icon_copper": {}, "icon_silver": {}, "icon_bun": {}, "icon_page": {}, "icon_tie": {}, "icon_speed": {}, "icon_ticket": {}, "icon_iron": {}, "icon_essence": {}, "icon_stone": {}, "icon_dropRune": {}, "icon_gc": {}, "icon_weapon": {}, "icon_head": {}, "icon_armor": {}, "icon_belt": {}, "icon_boots": {}, "icon_charm": {}, "icon_box1": {}, "icon_box2": {}, "icon_boxP": {}, "icon_box3": {}, "icon_boxO": {}, "icon_crystal": {}, "icon_relic": {}, "icon_realm": {}, "ui_panel_title": {"slice": {"left": 115, "top": 145, "right": 115, "bottom": 116}, "size": [480, 485]}, "ui_card_frame": {"slice": {"left": 115, "top": 115, "right": 115, "bottom": 115}, "size": [480, 480]}, "ui_btn_primary": {"slice": {"left": 77, "top": 82, "right": 77, "bottom": 82}, "size": [360, 184]}, "ui_btn_secondary": {"slice": {"left": 77, "top": 83, "right": 77, "bottom": 83}, "size": [360, 185]}, "ui_btn_disabled": {"slice": {"left": 76, "top": 82, "right": 76, "bottom": 82}, "size": [360, 183]}, "ui_btn_round": {"slice": null, "size": [128, 128]}, "ui_avatar_frame": {"slice": null, "size": [256, 274]}, "ui_red_dot": {"slice": null, "size": [40, 40]}, "ui_title_banner": {"slice": {"left": 120, "right": 120, "top": 0, "bottom": 0}, "size": [600, 154]}, "ui_result_banner": {"slice": null, "size": [720, 254]}, "badge_s": {}, "badgeblank_s": {}, "badge_a": {}, "badgeblank_a": {}, "badge_b": {}, "badgeblank_b": {}, "badge_c": {}, "badgeblank_c": {}, "ui_card_back": {"slice": null, "size": [300, 0]}, "qframe_0": {}, "qframe_1": {}, "qframe_2": {}, "qframe_3": {}, "qframe_4": {}, "qframe_5": {}, "qbar_0": {}, "qbar_1": {}, "qbar_2": {}, "qbar_3": {}, "qbar_4": {}, "qbar_5": {}, "qbar_track": {}};
 const ASSET_PENDING = [];
 
+/* 自動產生：tools/ground.py（背景地面線＋精靈腳底留白）*/
+const GROUND = {"themes": {"bamboo": {"horizon": 0.552, "feet": 0.702, "midTop": 0.3528, "midBot": 0.9069}, "rock": {"horizon": 0.2178, "feet": 0.2678, "midTop": 0.5097, "midBot": 0.8139}, "ember": {"horizon": 0.0115, "feet": 0.0815, "midTop": 0.5819, "midBot": 0.8861}, "tower": {"horizon": 0.2178, "feet": 0.2678, "midTop": 0.5097, "midBot": 0.8139}}, "sprites": {"guard_basic": 0.0, "guard_berserk": 0.0, "guard_multi": 0.0, "guard_shield": 0.0, "guard_summon": 0.0, "mob_bamboo": 0.0, "mob_bamboo_elite": 0.0, "mob_ember": 0.0, "mob_ember_elite": 0.0, "mob_rock": 0.0, "mob_rock_elite": 0.0, "side_he": 0.0, "side_hu": 0.0, "side_liu": 0.0, "side_mo": 0.0, "side_shuang": 0.0, "side_tie": 0.0, "side_yao": 0.0, "side_zhu": 0.0, "side_zhu2": 0.0}};
+
 /* =====================================================================
  * 核心系統（對應 Unity Manager）：SaveManager / EconomyManager / HeroManager /
  * EquipManager / RealmManager / KungfuManager / IdleManager / VipManager /
@@ -1025,9 +1070,9 @@ const SaveManager = {
     const s = {
       v: CFG.version, created: t, lastSeen: t, name: '少俠',
       lv: 1, exp: 0,
-      res: { copper: 3000, silver: 0, bun: 100, page: 20, tie: 10, speed: 0, ticket: 0, iron: 10, essence: 0, stone: 0, dropRune: 0, box1: 0, box2: 0, box3: 0, boxP: 0, boxO: 0 },
+      res: { copper: 3000, silver: 0, bun: 100, page: 20, tie: 10, tieHi: 0, speed: 0, ticket: 0, iron: 10, essence: 0, stone: 0, dropRune: 0, box1: 0, box2: 0, box3: 0, boxP: 0, boxO: 0 },
       bag: [], equip: {}, nextId: 1,
-      heroes: {}, team: ['zhu'],
+      heroes: {}, team: ['zhu'], leader: 'zhu',
       realm: { lv: 1, upEnd: 0 },
       kungfu: { lv: {}, eq: {} },
       train: { atk: 0, def: 0, hp: 0, crit: 0, extra: 0, reflect: 0 },
@@ -1036,7 +1081,7 @@ const SaveManager = {
       trial: { maxCleared: 0, rec: {}, used: 0, ticketAtt: 0, ticketBought: 0, tutorial: false, runs: 0 },
       inn: { used: 0, extra: 0 },
       vip: { total: 0, first: {} },
-      card: { smallEnd: 0, claimDay: '' },
+      card: { smallEnd: 0, claimDay: '', bigEnd: 0, bigClaimDay: '', life: false, lifeAt: 0, lifeClaimDay: '' },
       gifts: [], shop: {}, vipDaily: '',
       day: dayKey(t), dropRuneEnd: 0,
       goal: { idx: 0, cur: null, gen: 0 },
@@ -1080,6 +1125,7 @@ const SaveManager = {
     if (!s.stam || typeof s.stam !== 'object') s.stam = { last: Date.now(), kc: 0, bought: 0, bday: s.day };
     if (!s.ach || typeof s.ach !== 'object') s.ach = {};
     if (typeof s.pity !== 'number') s.pity = 0;
+    if (!s.leader || !s.team.includes(s.leader)) s.leader = s.team[0] || 'zhu';   // v3.1 隊長
     if (typeof s.stats.donate !== 'number') s.stats.donate = 0;
     s.schema = 3;
     return s;
@@ -1096,10 +1142,20 @@ const VipManager = {
   has(field) { return this.sum(field) > 0; },
   hasCard() { return S.card.smallEnd > now(); },
   cardDaysLeft() { return Math.max(0, Math.ceil((S.card.smallEnd - now()) / 86400000)); },
-  offlinePct() { return this.max('offline') + (this.hasCard() ? CFG.smallCard.offline : 0) + KungfuManager.eff('idlePct') + GuildManager.eff('idle'); },
-  fastBattle() { return this.has('fast') || this.hasCard(); },
-  dropCap() { return CFG.baseDropCap + S.lv + this.max('cap') + (S.dropRuneEnd > now() ? CFG.dropRune.bonus : 0); },
-  qShift() { return this.max('qShift') * 4; },
+  // v3.1：大月卡（至尊）／終身特權卡；三卡同時生效
+  hasBig() { return (S.card.bigEnd || 0) > now(); },
+  hasLife() { return !!S.card.life; },
+  bigDaysLeft() { return Math.max(0, Math.ceil(((S.card.bigEnd || 0) - now()) / 86400000)); },
+  activeCards() { return [this.hasCard() && CFG.smallCard, this.hasBig() && CFG.bigCard, this.hasLife() && CFG.lifeCard].filter(Boolean); },
+  cardSum(f) { return this.activeCards().reduce((a, c) => a + (typeof c[f] === 'number' ? c[f] : 0), 0); },
+  title() { return this.hasLife() ? CFG.lifeCard.title : ''; },
+  frame() { return this.hasLife() ? CFG.lifeCard.frame : ''; },
+  offlinePct() { return this.max('offline') + this.cardSum('offline') + KungfuManager.eff('idlePct') + GuildManager.eff('idle'); },
+  fastBattle() { return this.has('fast') || this.activeCards().length > 0; },
+  dropCap() { return CFG.baseDropCap + S.lv + this.max('cap') + this.cardSum('cap') + (S.dropRuneEnd > now() ? CFG.dropRune.bonus : 0); },
+  qShift() { return (this.max('qShift') + this.cardSum('qShift')) * 4; },
+  enhanceDisc() { return Math.max(this.has('enhanceDisc') ? 20 : 0, ...this.activeCards().map(c => c.enhanceDisc || 0)); },
+  realmTimeMul() { return this.activeCards().reduce((m, c) => m * (1 - (c.realmTimePct || 0) / 100), 1); },
   // 模擬儲值：只改本地存檔，不連任何金流
   recharge(nt, silverToo = true) {
     const before = this.level();
@@ -1118,6 +1174,20 @@ const VipManager = {
     Eco.add(CFG.smallCard.instant);
     return CFG.smallCard.instant;
   },
+  buyBig() {
+    this.recharge(CFG.bigCard.price, false);
+    S.card.bigEnd = Math.max(S.card.bigEnd || 0, now()) + CFG.bigCard.days * 86400000;
+    Eco.add(CFG.bigCard.instant); return CFG.bigCard.instant;
+  },
+  buyLife() {
+    if (this.hasLife()) return null;
+    this.recharge(CFG.lifeCard.price, false);
+    S.card.life = true; S.card.lifeAt = now();
+    Eco.add(CFG.lifeCard.instant); return CFG.lifeCard.instant;
+  },
+  claimBigDaily() { if (!this.hasBig() || S.card.bigClaimDay === S.day) return null; S.card.bigClaimDay = S.day; const r = Object.assign({}, CFG.bigCard.daily, { silver: rint(CFG.bigCard.dailySilver[0], CFG.bigCard.dailySilver[1]) }); Eco.add(r); return r; },
+  claimLifeDaily() { if (!this.hasLife() || S.card.lifeClaimDay === S.day) return null; S.card.lifeClaimDay = S.day; Eco.add(CFG.lifeCard.daily); return CFG.lifeCard.daily; },
+  unclaimed() { return (this.hasCard() && S.card.claimDay !== S.day) || (this.hasBig() && S.card.bigClaimDay !== S.day) || (this.hasLife() && S.card.lifeClaimDay !== S.day); },
   claimCardDaily() {
     if (!this.hasCard() || S.card.claimDay === S.day) return null;
     S.card.claimDay = S.day; Eco.add(CFG.smallCard.daily); return CFG.smallCard.daily;
@@ -1245,7 +1315,7 @@ const EquipManager = {
     return { n, tot };
   },
   enhCost(it) {
-    const c = CFG.enhance.cost(it.enh); const d = VipManager.has('enhanceDisc') ? 0.8 : 1;   // VIP7 裝備重鑄折扣（此原型套在強化）
+    const c = CFG.enhance.cost(it.enh); const d = 1 - VipManager.enhanceDisc() / 100;   // VIP7 裝備重鑄折扣（此原型套在強化）
     return { copper: Math.floor(c.copper * d), iron: c.iron };
   },
   enhance(it) {
@@ -1260,7 +1330,7 @@ function VipManagerSafe(s) { let l = 0; CFG.vip.forEach(v => { if (s.vip && s.vi
 const RealmManager = {
   max() { return CFG.realm.length; },
   next() { return CFG.realm[S.realm.lv]; },
-  timeMul() { return 1 - (VipManager.hasCard() ? CFG.smallCard.realmTimePct / 100 : 0); },
+  timeMul() { return VipManager.realmTimeMul(); },
   upgrading() { return S.realm.upEnd > 0; },
   remain() { return Math.max(0, (S.realm.upEnd - now()) / 1000); },
   start() {
@@ -1303,9 +1373,17 @@ const HeroManager = {
     const c = this.btCost(id); if (!c || S.heroes[id].star < c.needStar) return false;
     if (!Eco.pay({ stone: c.stone })) return false; S.heroes[id].bt++; return true;
   },
+  /** v3.1 隊長：舞台上唯一行走／戰鬥的俠客（必須在隊伍中；無效時退回第一位） */
+  leader() { const l = S.leader; return (l && S.team.includes(l) && this.owned(l)) ? l : (S.team.find(id => this.owned(id)) || S.team[0] || 'zhu'); },
+  assists() { const l = this.leader(); return S.team.filter(id => id !== l && this.owned(id)); },
+  setLeader(id) {
+    if (!this.owned(id)) return 'locked';
+    if (!S.team.includes(id)) { if (S.team.length >= CFG.teamSlots) return 'full'; S.team.push(id); }
+    S.leader = id; return 'ok';
+  },
   toggleTeam(id) {
     const i = S.team.indexOf(id);
-    if (i >= 0) { if (S.team.length <= 1) return 'need1'; S.team.splice(i, 1); return 'off'; }
+    if (i >= 0) { if (S.team.length <= 1) return 'need1'; S.team.splice(i, 1); if (S.leader === id) S.leader = S.team[0]; return 'off'; }
     if (!this.owned(id)) return 'locked';
     if (S.team.length >= CFG.teamSlots) return 'full';
     S.team.push(id); return 'on';
@@ -1365,7 +1443,7 @@ const IdleManager = {
   },
   claim() { const p = this.preview(); S.idle.last = now(); S.stats.idle++; return this.grant(p); },
   // 掃蕩 = 立即獲得 N 小時掛機收益
-  sweepFree() { return CFG.inn.baseFree + VipManager.sum('sweep') + (VipManager.hasCard() ? CFG.smallCard.sweep : 0); },
+  sweepFree() { return CFG.inn.baseFree + VipManager.sum('sweep') + VipManager.cardSum('sweep'); },
   sweep() {
     const free = this.sweepFree();
     if (S.inn.used >= free) {
@@ -1758,6 +1836,27 @@ const GachaManager = {
     }
     return res;
   },
+  /** v3.1 高級招募：消耗高級英雄帖（大月卡／終身卡取得），機率見 CFG.recruitHi，計入保底 */
+  pullHi(n) {
+    if ((S.res.tieHi || 0) < n) return null;
+    S.res.tieHi -= n; S.stats.recruit = (S.stats.recruit || 0) + n;
+    const res = [];
+    for (let i = 0; i < n; i++) {
+      S.pity = (S.pity || 0) + 1;
+      let q = EquipManager.rollQuality(CFG.recruitHi.rates);
+      if (S.pity >= CFG.gacha.pity) q = Math.max(q, 3);
+      if (q >= 3) S.pity = 0;
+      res.push(this.grant(q));
+    }
+    return res;
+  },
+  grant(q) {
+    const pool = CFG.heroes.filter(h => h.q === q); const h = pool[rint(0, pool.length - 1)];
+    const hs = S.heroes[h.id]; let cnt, isNew = false;
+    if (hs.star === 0 && CFG.gacha.newHeroWhole) { const need = CFG.starShards[0][q]; cnt = Math.max(1, need - hs.shards); hs.shards += cnt; isNew = true; HeroManager.starUp(h.id); }
+    else { cnt = rint(...CFG.gacha.dupShards[q]); hs.shards += cnt; }
+    return { id: h.id, cnt, q, isNew };
+  },
   // 俠客主動技倍率：星級＋突破讓技能在戰鬥中更有意義
   skillMult(id) { const h = S.heroes[id]; if (!h) return 1; return (1 + CFG.gacha.starSkillPct / 100 * Math.max(0, h.star - 1)) * (1 + 0.2 * h.bt); },
 };
@@ -1859,6 +1958,7 @@ const ART = {
     // 圖示資產 → 直接替換設定表裡的 emoji（所有使用 icon 字串的地方自動換成圖）
     const sw = obj => Object.entries(obj).forEach(([k, v]) => { v.icon = ICO.get(k) || v.icon; });
     sw(CFG.currencies); sw(CFG.boxes);
+    if (CFG.currencies.tieHi && this.pick('icon_tie')) CFG.currencies.tieHi.icon = `<img class="ic hi" src="${ASSETS.icon_tie}" alt="">`;   // v3.1 高級英雄帖：金色英雄帖
     CFG.slots.forEach(s => { s.icon = ICO.get(s.id) || s.icon; });
     CFG.mines.forEach(m => { const a = this.pick('icon_mine_' + m.id); m.icon = a ? `<img class="ic" src="${ASSETS[a]}" alt="">` : (ICO.get(m.res) || m.icon); });
     CFG.train && CFG.train.forEach(t => { t.icon = ICO.get(t.id) || t.icon; });
@@ -1900,11 +2000,30 @@ const ART = {
     if (o.rot) c.rotate(o.rot);
     c.scale((o.flip ? -1 : 1) * (o.sx || 1), o.sy || 1);
     if (o.alpha !== undefined) c.globalAlpha = o.alpha;
-    c.drawImage(img, -w / 2, -h, w, h);
-    if (o.flash > 0) { c.globalAlpha = Math.min(1, o.flash) * (o.alpha ?? 1); c.drawImage(this.whiteOf(k, img), -w / 2, -h, w, h); }
+    const fp = this.footPad(k, img) * h;   // v3.1：以「最下方可見像素」對齊腳底（裁掉透明留白）
+    c.drawImage(img, -w / 2, -h + fp, w, h);
+    if (o.flash > 0) { c.globalAlpha = Math.min(1, o.flash) * (o.alpha ?? 1); c.drawImage(this.whiteOf(k, img), -w / 2, -h + fp, w, h); }
     c.restore(); return w;
   },
-  shadow(c, x, y, w) { c.save(); c.fillStyle = 'rgba(10,30,28,.28)'; c.beginPath(); c.ellipse(x, y, w, w * 0.22, 0, 0, 6.283); c.fill(); c.restore(); },
+  /** 腳底透明留白比例（0～1）：先查 tools/ground.py 預算表，否則執行期量一次並快取 */
+  footPad(k, img) {
+    const b = k.split('|')[0]; this._fp = this._fp || {};
+    if (this._fp[b] !== undefined) return this._fp[b];
+    if (typeof GROUND !== 'undefined' && GROUND.sprites[b] !== undefined) return (this._fp[b] = GROUND.sprites[b]);
+    if (!/^(side|mob|guard|hero)_/.test(b)) return (this._fp[b] = 0);
+    try {
+      const [w, h] = this.size(img), cv = document.createElement('canvas'); cv.width = w; cv.height = h; const x = cv.getContext('2d'); x.drawImage(img, 0, 0);
+      const d = x.getImageData(0, 0, w, h).data; let r = h - 1;
+      for (; r > 0; r--) { let hit = false; for (let i = 0; i < w; i++) if (d[(r * w + i) * 4 + 3] > 40) { hit = true; break; } if (hit) break; }
+      return (this._fp[b] = (h - 1 - r) / h);
+    } catch (e) { return (this._fp[b] = 0); }
+  },
+  /** 柔和地面陰影（徑向漸層橢圓），y = 腳底地面線 */
+  shadow(c, x, y, w) {
+    if (!(w > 0)) return; c.save(); c.translate(x, y); c.scale(1, 0.26);
+    const g = c.createRadialGradient(0, 0, 0, 0, 0, w); g.addColorStop(0, 'rgba(12,28,24,.42)'); g.addColorStop(0.6, 'rgba(12,28,24,.22)'); g.addColorStop(1, 'rgba(12,28,24,0)');
+    c.fillStyle = g; c.beginPath(); c.arc(0, 0, w, 0, 6.283); c.fill(); c.restore();
+  },
 
   /* ---------------- 備援繪圖（只有缺圖時才會用到） ---------------- */
   canvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; },
@@ -2073,7 +2192,7 @@ const ART = {
  * 依據 wuxia-docs/魂器試煉_功能規格_v0.1.md
  * ===================================================================== */
 const TrialManager = {
-  maxAttempts() { return CFG.trial.baseDaily + VipManager.sum('trial') + (VipManager.hasCard() ? CFG.smallCard.trial : 0) + S.trial.ticketAtt + GuildManager.eff('soulExtra'); },
+  maxAttempts() { return CFG.trial.baseDaily + VipManager.sum('trial') + VipManager.cardSum('trial') + S.trial.ticketAtt + GuildManager.eff('soulExtra'); },
   remaining() { return Math.max(0, this.maxAttempts() - S.trial.used); },
   isTutorial() { return !S.trial.tutorial; },
   canStart(L) { return L >= 1 && L <= Math.min(CFG.trial.maxLayer, S.trial.maxCleared + 1) && (this.remaining() > 0 || this.isTutorial()); },
@@ -2125,19 +2244,25 @@ const VW = 480;   // 畫面可視寬度（世界單位）
 
 /* ---------- 共用：橫向場景繪製（試煉 / 俠客居待機 / 爬塔 共用） ---------- */
 const SV = {
-  /** 地面線在地面圖層中的比例位置（素材上緣往下多少比例是腳踩的位置）【依素材目測】 */
-  GL: { bamboo: 0.30, rock: 0.30, ember: 0.30, tower: 0.30 },
+  /** v3.1：地面資料來自 tools/ground.py 量測（src/ground.js → GROUND.themes）
+   *  feet = 角色腳底踩在地面圖層的比例位置；horizon = 地面上緣；midTop/midBot = 中景內容帶 */
+  G(theme) { const g = (typeof GROUND !== 'undefined' && GROUND.themes[theme]) || {}; return Object.assign({ feet: 0.7, horizon: 0.55, midTop: 0.35, midBot: 0.9 }, CFG.ground && CFG.ground[theme], g, CFG.groundOverride && CFG.groundOverride[theme]); },
   bg(c, theme, camX, W, H, s, GY) {
     const L = ART.bg(theme);
     if (L.nearAsset) {
-      const [nw, nh] = ART.size(L.near), info = (ASSET_INFO[L.nearKey] || {}), gl = this.GL[theme] || 0.3;
+      const [nw, nh] = ART.size(L.near), info = (ASSET_INFO[L.nearKey] || {}), gd = this.G(theme), gl = gd.feet;
+      // 地面圖層高度：至少要從腳底線鋪滿到畫布底部
       const gh = Math.max(nh * H / 1080 * ((info.height || nh) / nh), (H - GY) / (1 - gl) + 2);
-      const K = gh / (info.height || nh), gy0 = GY - gl * gh, bot = gy0 + gh;
-      // 遠景
-      const [fw, fh] = ART.size(L.far); const fH = Math.max(1080 * K, bot); ART.tile(c, L.far, camX * 0.1 * s, bot - fH, fH, W, !L.farAsset);
-      // 中景（底部對齊地面底）
-      if (L.midAsset) { const mH = 1080 * K; ART.tile(c, L.mid, camX * 0.4 * s, bot - mH, mH, W, false); }
-      else { const midH = GY * 0.92; c.save(); c.globalAlpha = 0.9; ART.tile(c, L.mid, camX * 0.4 * s, GY + 12 * s - midH, midH, W, false); c.restore(); }
+      const gy0 = GY - gl * gh, bot = gy0 + gh, hzY = gy0 + gd.horizon * gh;   // hzY = 地面上緣（螢幕座標）
+      this.lastHz = hzY; this.lastGy0 = gy0; this.lastGh = gh;
+      // 遠景：鋪滿到地面上緣以下
+      const fH = Math.max(H * 0.9, hzY + 20); ART.tile(c, L.far, camX * 0.1 * s, hzY + 20 - fH, fH, W, !L.farAsset);
+      // 中景：內容帶底部對齊地面上緣（略為埋入草地，避免建築懸空）
+      if (L.midAsset) {
+        const band = Math.max(0.2, gd.midBot - gd.midTop), want = Math.max(40, hzY - H * 0.1);
+        const mH = Math.min(want / band, H * 1.6), y0 = hzY + 6 * s - gd.midBot * mH;
+        ART.tile(c, L.mid, camX * 0.4 * s, y0, mH, W, false);
+      } else { const midH = hzY * 0.95; c.save(); c.globalAlpha = 0.9; ART.tile(c, L.mid, camX * 0.4 * s, hzY + 8 * s - midH, midH, W, false); c.restore(); }
       ART.tile(c, L.near, camX * s, gy0, gh, W, false);
     } else {
       const farH = GY + 30 * s; ART.tile(c, L.far, camX * 0.12 * s, 0, farH, W, !L.farAsset);
@@ -2153,7 +2278,7 @@ const SV = {
   pose(e, t) {
     const o = { dx: 0, dy: 0, sx: 1, sy: 1, rot: 0 };
     if (e.atkT > 0) { const k = e.atkT / (e.atkMax || 0.22); const l = Math.sin(k * Math.PI); o.dx = l * 16 * (e.dir || 1); o.rot = -l * 0.12 * (e.dir || 1); o.sx = 1 + l * 0.08; o.sy = 1 - l * 0.05; }
-    else if (e.moving) { const ph = (t * 9 + (e.ph || 0)); const b = Math.abs(Math.sin(ph)); o.dy = -b * 7; o.sy = 1 - (1 - b) * 0.07 + b * 0.03; o.sx = 1 + (1 - b) * 0.06; o.rot = 0.06 * (e.dir || 1); }
+    else if (e.moving) { const ph = (t * 9 + (e.ph || 0)); const b = Math.abs(Math.sin(ph)); o.dy = -b * 3;   /* v3.1：跑步彈跳收小，腳不離地 */ o.sy = 1 - (1 - b) * 0.07 + b * 0.03; o.sx = 1 + (1 - b) * 0.06; o.rot = 0.06 * (e.dir || 1); }
     else { const b = Math.sin(t * 2.6 + (e.ph || 0)); o.sy = 1 + b * 0.025; o.sx = 1 - b * 0.012; }
     if (e.y > 0) { o.sy *= 1.04; o.sx *= 0.96; }
     if (e.land > 0) { o.sy *= 1 - e.land * 0.6; o.sx *= 1 + e.land * 0.5; }
@@ -2162,6 +2287,58 @@ const SV = {
   hpBar(c, x, y, w, r, col) {
     c.fillStyle = 'rgba(20,30,28,.75)'; c.fillRect(x - w / 2 - 1, y - 1, w + 2, 6);
     c.fillStyle = col; c.fillRect(x - w / 2, y, w * clamp(r, 0, 1), 4);
+  },
+  /* ---------- v3.1 助陣：非隊長俠客不常駐舞台，技能發動時「立繪切入＋跳入出招＋離場」 ---------- */
+  assist(st, id, lead, tx, onHit) {
+    const d = heroDef(id), dur = CFG.assist.stay + 0.45;
+    st.jumps = st.jumps || []; st.cuts = st.cuts || [];
+    st.jumps.push({ id, k: ART.pick('side_' + id) || 'side_yao', x0: lead.x - 120, x: lead.x - 120, tx, y: 0, t: 0, dur, hit: false, onHit, h: 96, ph: 0, dir: 1 });
+    st.cuts.push({ id, name: d.name, skill: d.skill || '助陣', color: d.color, t: 0, dur: 1.15 });
+    if (typeof Sfx !== 'undefined' && Sfx.play) try { Sfx.play('skill'); } catch (e) {}
+  },
+  updAssist(st, dt) {
+    (st.jumps || []).forEach(a => {
+      a.t += dt; const k = a.t / a.dur;
+      if (k < 0.32) { const u = k / 0.32; a.x = a.x0 + (a.tx - a.x0) * u; a.y = Math.sin(u * Math.PI) * 110 + (1 - u) * 0; a.atkT = 0; a.alpha = Math.min(1, u * 3); }
+      else if (k < 0.62) { a.x = a.tx; a.y = 0; if (!a.hit) { a.hit = true; a.atkT = 0.26; a.atkMax = 0.26; a.land = 0.3; if (a.onHit) a.onHit(a); } a.atkT = Math.max(0, a.atkT - dt); a.land = Math.max(0, (a.land || 0) - dt * 2); a.alpha = 1; }
+      else { const u = (k - 0.62) / 0.38; a.x = a.tx - u * 170; a.y = Math.sin(Math.min(1, u * 1.3) * Math.PI * 0.6) * 150; a.alpha = Math.max(0, 1 - u * 1.25); a.dir = -1; }
+    });
+    st.jumps = (st.jumps || []).filter(a => a.t < a.dur);
+    (st.cuts || []).forEach(q => q.t += dt); st.cuts = (st.cuts || []).filter(q => q.t < q.dur);
+  },
+  drawAssist(c, st, X, Y, s, T, GY) {
+    for (const a of st.jumps || []) {
+      const h = a.h * s, o = SV.pose(a, T), x = X(a.x) + o.dx * s, y = Y(a.y) + o.dy * s, gl = Math.max(0.25, 1 - a.y / 180);
+      ART.shadow(c, X(a.x), GY + 1, h * 0.26 * gl * (a.alpha ?? 1));
+      c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha = 0.35 * (a.alpha ?? 1);
+      const g = c.createRadialGradient(x, y - h * 0.5, 0, x, y - h * 0.5, h * 0.7); g.addColorStop(0, heroDef(a.id).color); g.addColorStop(1, 'rgba(0,0,0,0)'); c.fillStyle = g; c.fillRect(x - h, y - h * 1.3, h * 2, h * 1.6); c.restore();
+      ART.draw(c, a.k, x, y, h, { flip: a.dir < 0 ? ART.faceLeftFlip(a.k) : !ART.faceLeftFlip(a.k), sx: o.sx, sy: o.sy, rot: o.rot, alpha: a.alpha ?? 1 });
+    }
+  },
+  /** 立繪切入橫幅（斜帶＋立繪＋名字＋技能名） */
+  drawCutins(c, st, W, H, s) {
+    const list = st.cuts || []; if (!list.length) return;
+    const q = list[list.length - 1], t = q.t, d = q.dur;
+    const inK = Math.min(1, t / 0.18), outK = t > d - 0.22 ? (t - (d - 0.22)) / 0.22 : 0;
+    const ease = u => 1 - Math.pow(1 - u, 3), off = (1 - ease(inK)) * -W + ease(outK) * W;
+    const box = st.cutBox && st.cutBox(), bh = box ? box.h : Math.min(H * 0.30, 150), by = box ? box.y : Math.max(46, H * 0.16);   // 俠客居：畫在地面下方，不擋住頂部資訊
+    c.save(); c.globalAlpha = 1 - outK * 0.6; c.translate(off, 0);
+    c.beginPath(); c.moveTo(0, by + 18); c.lineTo(W, by); c.lineTo(W, by + bh - 18); c.lineTo(0, by + bh); c.closePath();
+    const g = c.createLinearGradient(0, 0, W, 0); g.addColorStop(0, 'rgba(20,12,6,.88)'); g.addColorStop(0.55, q.color + 'cc'); g.addColorStop(1, 'rgba(20,12,6,.55)'); c.fillStyle = g; c.fill();
+    c.strokeStyle = '#ffd77a'; c.lineWidth = 2; c.stroke();
+    c.save(); c.clip();
+    // 速度線
+    c.globalAlpha *= 0.35; c.strokeStyle = '#fff'; c.lineWidth = 1.5; for (let i = 0; i < 9; i++) { const yy = by + ((i * 37 + t * 900) % bh); c.beginPath(); c.moveTo(W * 0.3, yy); c.lineTo(W, yy - 6); c.stroke(); }
+    c.globalAlpha /= 0.35;
+    const img = ART.get('portrait_' + q.id);
+    if (img) { const ph = bh * 1.25, pw = ph * img.width / img.height; c.drawImage(img, W * 0.04, by + bh - ph * 0.92, pw, ph); }
+    c.restore();
+    c.textAlign = 'left'; c.textBaseline = 'middle'; const tx = W * 0.44;
+    c.font = `900 ${Math.round(Math.min(30, bh * 0.22))}px "Noto Serif TC",serif`; c.lineWidth = 5; c.strokeStyle = 'rgba(0,0,0,.75)';
+    c.strokeText(q.skill, tx, by + bh * 0.42); c.fillStyle = '#ffe9a8'; c.fillText(q.skill, tx, by + bh * 0.42);
+    c.font = `800 ${Math.round(Math.min(16, bh * 0.12))}px sans-serif`; c.lineWidth = 4;
+    const sub = `助陣 · ${q.name}`; c.strokeText(sub, tx, by + bh * 0.68); c.fillStyle = '#fff'; c.fillText(sub, tx, by + bh * 0.68);
+    c.restore();
   },
 };
 
@@ -2280,7 +2457,10 @@ const TB = {
     const st = PlayerManager.stats();
     const team = S.team.filter(id => id && HeroManager.owned(id));
     const teamHp = team.reduce((a, id) => a + HeroManager.stats(id).hp, 0) * 0.3;
-    const lead = ART.pick('side_player', 'side_main', 'side_hero') || (team.includes('yao') ? 'side_mo' : 'side_yao');
+    // v3.1：只有隊長上場；其他俠客的屬性與攻擊仍全數計入（攻擊從隊長身上發出＋助陣切入）
+    this.leadId = HeroManager.leader();
+    const lead = ART.pick('side_' + this.leadId) || ART.pick('side_yao', 'side_mo');
+    this.jumps = []; this.cuts = []; this.assistT = CFG.assist.every * 0.6; this.assistI = 0;
     this.p = { x: 60, y: 0, vy: 0, z: 0, key: lead, h: 108, hp: st.hp + teamHp, maxHp: st.hp + teamHp, atk: st.atk, def: st.def, crit: st.crit, extra: st.extra, reflect: st.reflect,
       spd: 175 * (1 + KungfuManager.eff('moveSpd') / 100), pick: 150 * (1 + KungfuManager.eff('pickup') / 100), regen: KungfuManager.eff('regen') / 100,
       cd: 0.2, flash: 0, inv: 0, dir: 1, dashCd: 0, dodgeCd: 0, dashT: 0, dashDir: 1, atkT: 0, atkMax: 0.2, moving: false, land: 0, jumps: 0, ph: 0 };
@@ -2407,9 +2587,7 @@ const TB = {
     }
     // ----- 俠客 -----
     this.allies.forEach((a, i) => {
-      const tx = this.phase === 'guard' ? p.x - p.dir * (50 + i * 34) : p.x - 58 * (i + 1);
-      const ox = a.x; a.x += (tx - a.x) * Math.min(1, dt * 6); a.moving = Math.abs(a.x - ox) > 30 * dt; a.dir = this.phase === 'guard' ? p.dir : 1;
-      a.y = Math.max(0, a.y + (p.y * 0.8 - a.y) * Math.min(1, dt * 10));
+      a.x = p.x; a.y = p.y; a.moving = false; a.dir = p.dir;   // v3.1：不在場上，攻擊由隊長位置發出
       a.atkT -= dt; a.cd -= dt; const d = a.d;
       if (d.atkType === 'orbit') {
         a.orbitA += dt * 5; const bx = p.x + Math.cos(a.orbitA) * 70, by = 55 + Math.sin(a.orbitA) * 30; a.bx = bx; a.by = by;
@@ -2428,6 +2606,19 @@ const TB = {
       const n = d.atkType === 'fan' ? 3 : 1, sx = a.x + 20, sy = a.y + 60, ty = m.y + m.h * 0.5;
       for (let j = 0; j < n; j++) { const ang = Math.atan2(ty - sy, m.x - sx) + (j - (n - 1) / 2) * 0.16; this.shots.push({ x: sx, y: sy, vx: Math.cos(ang) * 620, vy: Math.sin(ang) * 620, dmg: a.atk * (n > 1 ? 1.0 : 1.6), life: 0.9, c: d.color, hit: new Set(), kind: n > 1 ? 'dart' : 'sword' }); }
     });
+    // ----- 助陣切入（輪流非隊長俠客；跳入、範圍重擊、離場）-----
+    this.assistT -= dt; const asl = this.allies.filter(a => a.id !== this.leadId);
+    if (asl.length && this.assistT <= 0 && !this.jumps.length) {
+      const m0 = this.nearestAhead(p.x - 60, 420);
+      if (m0) { this.assistT = CFG.assist.every; const a = asl[this.assistI++ % asl.length];
+        SV.assist(this, a.id, p, m0.x - 50, () => {
+          if (a.d.atkType === 'heal') { const h = p.maxHp * 0.1; p.hp = Math.min(p.maxHp, p.hp + h); this.fx.add({ k: 'ring', x: p.x, y: 0, R: 90, c: '#7dffa0', life: 0.5 }); this.fx.add({ k: 'text', x: p.x, y: p.h + 10, s: '+' + fmt(h), c: '#7dffa0', size: 16, life: 0.8, vx: 0, vy: 50 }); }
+          const cx = m0.x; this.fx.add({ k: 'ring', x: cx, y: 0, R: 120, c: a.d.color, life: 0.45, w: 9 }); this.fx.add({ k: 'glow', x: cx, y: 40, r: 100, c: a.d.color, life: 0.35, grow: 0.5 });
+          this.targets().forEach(o => { if (Math.abs(o.x - cx) < 120 + (o.r || 0)) this.hit(o, a.atk * CFG.assist.burst, true); });
+          this.shake = Math.max(this.shake, 7);
+        }); }
+    }
+    SV.updAssist(this, dt);
     // ----- 我方飛行物 -----
     this.shots = this.shots.filter(s => {
       if (s.delay > 0) { s.delay -= dt; return true; }
@@ -2583,7 +2774,7 @@ const TB = {
     this.mobs = []; this.shots = []; this.eshots = []; this.waves2 = [];
     this.A0 = this.portal.x + 700; this.camX = this.A0;
     const p = this.p; p.x = this.A0 + 90; p.y = 0; p.vy = 0; p.inv = 1.5; p.dir = 1;
-    this.allies.forEach((a, i) => a.x = p.x - 50 - i * 34);
+    this.allies.forEach(a => a.x = p.x);
     { const h = Math.min(p.maxHp - p.hp, p.maxHp * 0.5); p.hp += h; if (h > 0) this.fx.add({ k: 'text', x: p.x, y: p.h + 30, s: '魂器灌注 +' + fmt(h), c: '#7dffa0', size: 17, big: true, vx: 0, vy: 30, life: 1.4 }); }
     let hp = this.mobHp * C.guardianHpMul * gt.hp * (gate ? C.gate.hp : 1); if (this.tutorial) hp *= 0.5;
     const key = ART.pick('guard_' + type, 'guardian_' + type) || 'guard_' + type;
@@ -2756,10 +2947,10 @@ const TB = {
     const ents = [];
     this.mobs.forEach(m => { if (X(m.x) > -80 && X(m.x) < W + 80) ents.push(m); });
     if (this.g && !this.g.dead) ents.push(this.g);
-    this.allies.forEach(a => ents.push(Object.assign(a, { ally: 1 })));
     ents.push(p);
     ents.sort((a, b) => (a.z || 0) - (b.z || 0));
     for (const e of ents) this.drawEnt(c, e, X, Y, s, t);
+    SV.drawAssist(c, this, X, Y, s, t, GY);
     // 環繞刀刃
     this.allies.forEach(a => { if (a.d.atkType === 'orbit' && a.bx !== undefined) { c.save(); c.translate(X(a.bx), Y(a.by)); c.rotate(t * 14); c.globalCompositeOperation = 'lighter'; c.fillStyle = 'rgba(200,240,255,.35)'; c.beginPath(); c.arc(0, 0, 16 * s, 0, 6.283); c.fill(); c.globalCompositeOperation = 'source-over'; c.fillStyle = '#eaf6ff'; c.strokeStyle = '#1d2b2a'; c.lineWidth = 2; for (let i = 0; i < 3; i++) { c.rotate(2.094); c.beginPath(); c.moveTo(0, 0); c.lineTo(14 * s, -4 * s); c.lineTo(18 * s, 0); c.closePath(); c.fill(); c.stroke(); } c.restore(); } });
     // 飛行物
@@ -2773,6 +2964,7 @@ const TB = {
     if (this.phase === 'clear') this.drawProgress(c, W, s);
     // 預警提示圖示（跳 / 閃）
     this.drawHints(c, X, Y, s);
+    SV.drawCutins(c, this, W, H, s);
     const fl = this.fx.a.find(f => f.k === 'flash'); if (fl) { c.globalAlpha = (fl.life / fl.max) * (fl.a || 0.6); c.fillStyle = fl.c; c.fillRect(0, 0, W, H); c.globalAlpha = 1; }
     // 受傷紅邊
     if (p.flash > 0 || p.hp / p.maxHp < 0.3) { const a = p.flash > 0 ? 0.35 : 0.12 + 0.08 * Math.sin(t * 6); const g = c.createRadialGradient(W / 2, H / 2, H * 0.3, W / 2, H / 2, H * 0.8); g.addColorStop(0, 'rgba(200,30,30,0)'); g.addColorStop(1, `rgba(200,30,30,${a})`); c.fillStyle = g; c.fillRect(0, 0, W, H); }
@@ -2782,7 +2974,7 @@ const TB = {
     const isP = e === this.p, isG = e === this.g;
     ART.shadow(c, x, Y(0, e.z || 0), (e.r || 26) * s * (1 - Math.min(0.5, (e.y || 0) / 200)));
     let flip = false;
-    if (e.ally || isP) flip = (e.dir || 1) < 0;
+    if (e.ally || isP) { const lf = ART.faceLeftFlip(e.key); flip = (e.dir || 1) < 0 ? lf : !lf; }   // v3.1 隊長可為任一俠客，依素材朝向翻轉
     else { const lf = ART.faceLeftFlip(e.base || e.key); flip = (e.dir || -1) < 0 ? lf : !lf; }
     let alpha = 1;
     if (isP && e.inv > 0 && e.dashT <= 0 && Math.floor(t * 20) % 2) alpha = 0.55;
@@ -2868,7 +3060,7 @@ const TB = {
 
 /* =====================================================================
  * HomeStage（俠客居上半部的「掛機橫版舞台」）
- * - 隊伍一路往右走、自動斬妖；擊殺累積「首領進度」，滿了可挑戰試煉之塔首領
+ * - v3.1：只有隊長一路往右走、自動斬妖；其他隊員以助陣切入；擊殺累積「首領進度」，滿了可挑戰試煉之塔首領
  * - 純表現層：真正的掛機收益仍由 IdleManager 依時間計算；首領勝負由 TowerManager（戰力 vs 需求）決定
  * ===================================================================== */
 const HS = {
@@ -2886,13 +3078,16 @@ const HS = {
     this.W = r.width; this.H = r.height; this.cv.width = this.W * this.dpr; this.cv.height = this.H * this.dpr; this.s = this.W / VW; this.GY = this.H * 0.8;
   },
   theme() { return ['bamboo', 'rock', 'ember'][Math.floor(S.tower.floor / 10) % 3]; },
+  cutBox() { const h = clamp(this.H - this.GY - 8, 56, 96); return { y: Math.min(this.GY + 6, this.H - h - 2), h }; },
   bgTheme() { return ART.has('bg_tower_far') && this.theme() === 'rock' ? 'tower' : this.theme(); },
   build() {
-    const ids = S.team.length ? S.team : ['zhu'];
-    const lead = ART.pick('side_player', 'side_main', 'side_hero') || (ids.includes('yao') ? 'side_mo' : 'side_yao');
-    this.team = [{ k: lead, x: this.camX + 150, y: 0, h: 104, lead: true, atkT: 0, cd: 0, ph: 0, dir: 1 }];
-    ids.forEach((id, i) => this.team.push({ k: 'side_' + id, id, x: this.camX + 100 - i * 46, y: 0, h: 86, atkT: 0, cd: Math.random(), ph: i + 1, dir: 1 }));
-    this.teamSig = ids.join(',');
+    // v3.1：舞台上只有隊長；其他上陣俠客以「助陣」切入（SV.assist），戰力仍算全隊
+    const lid = HeroManager.leader(), old = this.team && this.team[0];
+    const k = ART.pick('side_' + lid) || ART.pick('side_yao', 'side_mo') || 'side_' + lid;
+    this.team = [{ k, id: lid, x: old ? old.x : this.camX + 150, y: 0, h: 104, lead: true, atkT: 0, cd: 0, ph: 0, dir: 1 }];
+    this.acd = {}; HeroManager.assists().forEach((id, i) => this.acd[id] = Math.random());
+    this.assistT = CFG.assist.every * 0.5; this.assistI = 0; this.jumps = []; this.cuts = [];
+    this.teamSig = S.team.join(',') + '|' + lid;
   },
   mobKey() { const th = this.theme(); return ART.pick('mob_' + th) || 'mob_' + th + '_0'; },
   spawn() {
@@ -2935,7 +3130,7 @@ const HS = {
   scr(x, y) { return [(x - this.camX) * this.s, this.GY - y * this.s]; },
   update(dt) {
     this.T += dt; this.fx.update(dt); if (this.shake > 0) this.shake = Math.max(0, this.shake - dt * 30); if (this.flashA > 0) this.flashA = Math.max(0, this.flashA - dt * 2);
-    if ((S.team.join(',') || 'zhu') !== this.teamSig) this.build();
+    if (S.team.join(',') + '|' + HeroManager.leader() !== this.teamSig) this.build();
     const lead = this.team[0];
     const tgts = this.state === 'boss' ? [this.boss] : this.mobs;
     const ahead = tgts.filter(m => m && m.hp > 0 && m.x > lead.x - 20).sort((a, b) => a.x - b.x)[0];
@@ -2953,8 +3148,19 @@ const HS = {
         const crit = Math.random() < 0.25; this.hitFx(ahead.x - 10, 0, crit); ahead.flash = 1; ahead.kb = 10;
         if (this.state === 'boss') this.bossHit(crit); else { ahead.hp -= crit ? 2 : 1; this.num(ahead.x, 0, Math.round(PlayerManager.power() * rnd(0.04, 0.06) * (crit ? 2 : 1)), crit); if (crit) this.shake = 4; }
       }
-      this.team.slice(1).forEach(e => { if (e.cd <= 0) { e.cd = rnd(0.9, 1.3); e.atkT = 0.2; e.atkMax = 0.2;
-        this.fx.add({ k: 'spark', x: e.x + 30, y: 50, vx: 520, vy: 0, life: (ahead.x - e.x) / 520, w: 5, c: '#9ff5d8', done: () => { if (ahead.hp > 0) { ahead.flash = 0.8; if (this.state === 'boss') this.bossHit(false, 0.5); else { ahead.hp -= 0.6; this.num(ahead.x, 10, Math.round(PlayerManager.power() * 0.025), false); } } } }); } });
+      // 其他上陣俠客：不站在場上，化為隊長身上發出的「同心劍氣」（節奏同 v3，擊殺速度不變）
+      HeroManager.assists().forEach(id => { this.acd[id] = (this.acd[id] ?? Math.random()) - dt; if (this.acd[id] <= 0) { this.acd[id] = rnd(0.9, 1.3);
+        this.fx.add({ k: 'spark', x: lead.x + 24, y: rnd(40, 64), vx: 520, vy: 0, life: Math.max(0.05, (ahead.x - lead.x - 24) / 520), w: 4, c: heroDef(id).color, done: () => { if (ahead.hp > 0) { ahead.flash = 0.8; if (this.state === 'boss') this.bossHit(false, 0.5); else { ahead.hp -= 0.6; this.num(ahead.x, 10, Math.round(PlayerManager.power() * 0.025), false); } } } }); } });
+      // 助陣：輪流一位隊員切入（立繪＋跳入出招＋離場）
+      const ids = HeroManager.assists(); this.assistT -= dt;
+      if (ids.length && this.assistT <= 0 && !this.jumps.length && !(this.boss && this.boss.endT)) {
+        this.assistT = CFG.assist.every; const id = ids[this.assistI++ % ids.length], tgt = ahead;
+        SV.assist(this, id, lead, tgt.x - 46, () => {
+          if (tgt.hp <= 0) return; tgt.flash = 1; tgt.kb = 18; this.shake = 6; this.hitFx(tgt.x - 6, 10, true);
+          if (heroDef(id).atkType === 'heal') this.fx.add({ k: 'ring', x: lead.x, y: 0, R: 80, c: '#7dffa0', life: 0.5 });
+          if (this.state === 'boss') this.bossHit(true, 1.2); else { tgt.hp -= 3; this.num(tgt.x, 20, Math.round(PlayerManager.power() * 0.08), true); }
+        });
+      }
     }
     // 小怪
     if (this.state === 'walk') {
@@ -2969,6 +3175,7 @@ const HS = {
       if (!empty && this.mobs.filter(m => m.x > lead.x).length < 2 && Math.random() < dt * 1.2) this.spawn();
       if (this.resting) { this.zT = (this.zT || 0) - dt; if (this.zT <= 0) { this.zT = 0.9; const e = this.team[rint(0, this.team.length - 1)]; this.fx.add({ k: 'text', x: e.x + 14, y: e.h * 0.9, vx: 14, vy: 34, drag: 0, life: 1.8, s: ['z', 'Z', 'zZ'][rint(0, 2)], size: rint(14, 22), c: '#e6fff8' }); } }
     } else this.updateBoss(dt, lead);
+    SV.updAssist(this, dt);
     // 鏡頭
     const tx = lead.x - VW * 0.32; this.camX += (tx - this.camX) * Math.min(1, dt * 4);
   },
@@ -3008,7 +3215,7 @@ const HS = {
       setTimeout(() => { this.reset(); UI.render(); UI.modal(`<h3>挑戰失敗</h3><div class="seal fail">敗</div><p class="center">戰力 <b class="redt">${fmt(b.pw)}</b> / 需要 <b>${fmt(b.req)}</b></p><div class="tips"><b>變強建議</b><br>① 一鍵穿戴更好的裝備　② 鍛造強化兵刃<br>③ 本城修煉加點　④ 俠客升星、功法升級<br>⑤ 掛機與客棧掃蕩會持續帶來裝備</div><div class="center"><button class="btn" data-act="mclose">知道了</button></div>`); }, 900);
     }
   },
-  reset() { this.resting = false; this.state = 'walk'; this.boss = null; this.kills = 0; this.php = 1; this.mobs = []; UI.renderStageHud(); },
+  reset() { this.jumps = []; this.cuts = []; this.resting = false; this.state = 'walk'; this.boss = null; this.kills = 0; this.php = 1; this.mobs = []; UI.renderStageHud(); },
   /* ---------- 繪圖 ---------- */
   draw() {
     const c = this.ctx, W = this.W, H = this.H, s = this.s, GY = this.GY;
@@ -3020,7 +3227,7 @@ const HS = {
     for (const e of ents) {
       const isBoss = e === this.boss, ally = this.team.includes(e);
       const o = SV.pose(e, this.T), h = e.h * s * (ally && this.resting ? 0.9 : 1), x = X(e.x) + o.dx * s, y = Y(e.y) + o.dy * s;
-      ART.shadow(c, X(e.x), GY + 2, h * 0.28);
+      ART.shadow(c, X(e.x), GY + 1, h * 0.26 * (e.born !== undefined ? e.born : 1));
       if (isBoss && !e.endT) { c.save(); c.globalCompositeOperation = 'lighter'; const g = c.createRadialGradient(x, y - h * 0.5, 0, x, y - h * 0.5, h * 0.7); g.addColorStop(0, 'rgba(255,90,60,.35)'); g.addColorStop(1, 'rgba(255,90,60,0)'); c.fillStyle = g; c.fillRect(x - h, y - h * 1.2, h * 2, h * 1.4); c.restore(); }
       const flip = ally ? false : ART.faceLeftFlip(e.k);
       let alpha = e.born !== undefined ? e.born : 1; if (isBoss && e.endT) alpha = Math.max(0, 1 - e.endT * 1.5);
@@ -3033,7 +3240,9 @@ const HS = {
       const fx0 = X(this.team[0].x + 46), gl = c.createRadialGradient(fx0, GY - 10, 0, fx0, GY - 10, 120 * s); gl.addColorStop(0, `rgba(255,190,90,${0.45 + Math.sin(this.T * 9) * 0.06})`); gl.addColorStop(1, 'rgba(255,190,90,0)');
       c.save(); c.globalCompositeOperation = 'lighter'; c.fillStyle = gl; c.fillRect(fx0 - 130 * s, GY - 140 * s, 260 * s, 170 * s); c.restore();
     }
+    SV.drawAssist(c, this, X, Y, s, this.T, GY);
     this.fx.draw(c, X, (y, z) => Y(y, z), s, this.T);
+    SV.drawCutins(c, this, W, H, s);
     if (this.flashA > 0) { c.fillStyle = `rgba(255,255,255,${this.flashA * 0.6})`; c.fillRect(0, 0, W, H); }
     // 底部漸層，讓舞台與下方面板自然銜接
     const g = c.createLinearGradient(0, H - 26, 0, H); g.addColorStop(0, 'rgba(243,226,184,0)'); g.addColorStop(1, 'rgba(243,226,184,.85)'); c.fillStyle = g; c.fillRect(0, H - 26, W, 26);
@@ -3106,11 +3315,11 @@ const UI = {
   pulseRes(k) { const el = document.querySelector(`#hdr .r[data-k="${k}"]`); if (!el) return; el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); },
   renderHeader() {
     const v = VipManager.level(), need = CFG.player.expNeed(S.lv);
-    const lead = S.team[0] || 'zhu', pk = ART.pick('portrait_' + (S.team.includes('yao') ? 'mo' : 'yao'), 'portrait_' + lead);
+    const lead = HeroManager.leader(), pk = ART.pick('portrait_' + lead, 'portrait_yao');   // v3.1 頭像 = 隊長
     const res = ['copper', 'silver', 'bun', 'speed'].map(k => `<div class="r" data-k="${k}">${ICO.get(k)}<b>${fmt(S.res[k])}</b></div>`).join('');
     document.getElementById('hdr').innerHTML = ICO.fix(`<div class="hrow">
-      <div class="avatar" data-act="settings">${pk ? `<img src="${ASSETS[pk]}" alt="">` : ICO.get('hero')}<span class="lv">${S.lv}</span></div>
-      <div class="pinfo"><div class="pname">${S.name}<span class="vipb" data-act="nav" data-v="welfare" data-tab="vip">VIP${v}</span>${VipManager.hasCard() ? '<span class="tag gold">月卡</span>' : ''}</div>
+      <div class="avatar ${VipManager.frame() ? 'fr-' + VipManager.frame() : ''}" data-act="settings">${pk ? `<img src="${ASSETS[pk]}" alt="">` : ICO.get('hero')}${VipManager.frame() ? '<i class="afr2"></i>' : ''}<span class="lv">${S.lv}</span></div>
+      <div class="pinfo"><div class="pname">${S.name}${VipManager.title() ? `<span class="ptitle">${VipManager.title()}</span>` : ''}<span class="vipb" data-act="nav" data-v="welfare" data-tab="vip">VIP${v}</span>${VipManager.hasBig() ? '<span class="tag gold">至尊</span>' : VipManager.hasCard() ? '<span class="tag gold">月卡</span>' : ''}</div>
       <div class="power"><i>${ICO.get('atk')}</i>戰力 <b>${fmt(PlayerManager.power())}</b></div><div class="expbar"><i style="width:${S.exp / need * 100}%"></i></div></div>
       <div class="hbtns"><button class="iconbtn" data-act="allres" title="全部資源">${ICO.get('bag')}</button><button class="iconbtn" data-act="settings" title="設定">${ICO.get('gear')}</button></div></div>
       <div class="res">${res}</div>`);
@@ -3124,7 +3333,7 @@ const UI = {
   dots() {
     const homeDot = IdleManager.minutes() >= 30 || S.bag.some(it => EquipManager.better(it)) || CFG.heroes.some(h => HeroManager.canAct(h.id));
     const jhDot = TrialManager.remaining() > 0 || TrialManager.isTutorial() || S.inn.used < IdleManager.sweepFree();
-    const wfDot = CFG.dailyGifts.some((g, i) => !g.paid && GiftManager.available(i)) || (VipManager.hasCard() && S.card.claimDay !== S.day);
+    const wfDot = CFG.dailyGifts.some((g, i) => !g.paid && GiftManager.available(i)) || VipManager.unclaimed();
     const set = (n, on) => { const b = document.querySelector(`#nav [data-nav="${n}"] .dot`); if (b) b.classList.toggle('on', !!on); };
     set('home', homeDot); set('jianghu', jhDot); set('city', false); set('welfare', wfDot);
   },
@@ -3153,7 +3362,7 @@ const UI = {
       const tut = TrialManager.isTutorial(), rem = TrialManager.remaining();
       return `<div class="panel homep">
         <div class="eqstrip"><div class="eqgrid">${slots.slice(0)}</div>
-          <div class="eqside"><div class="team">${S.team.map(id => `<div class="tm" data-act="hero" data-id="${id}">${UI.heroFace(id, 40)}<i class="st">${S.heroes[id].star}★</i></div>`).join('')}</div>
+          <div class="eqside"><div class="team">${S.team.map(id => `<div class="tm ${id === HeroManager.leader() ? 'lead' : ''}" data-act="hero" data-id="${id}" title="點擊可設為隊長">${UI.heroFace(id, 40)}<i class="st">${S.heroes[id].star}★</i>${id === HeroManager.leader() ? '<b class="ldm">隊長</b>' : ''}</div>`).join('')}</div>
           <button class="btn jade sm ${betterEq ? 'pulse' : ''}" data-act="autoequip">一鍵穿戴${betterEq ? '<span class="dot on"></span>' : ''}</button></div></div>
         <div class="chestcard ${idleM >= 1 ? 'ready' : ''}" data-act="idleclaim"><div class="cic">${ICO.get('box2')}</div><div class="grow"><b class="goldt">掛機寶箱</b> <span class="tag">收益 +${VipManager.offlinePct()}%</span><div class="sub" data-live="idle"></div><div class="bar gold"><i data-live="idlebar" style="width:${idleM / cap * 100}%"></i></div></div><button class="btn sm ${idleM >= 1 ? 'pulse' : ''}">領取</button></div>
         <div class="cta" data-act="go" data-v="trial">${(rem > 0 || tut) ? '<span class="dot on"></span>' : ''}<div class="cta-ic">${ICO.get('soul')}</div><div class="grow"><b>魂器試煉</b><small>${tut ? '引導關 · 免費 · 約 1 分鐘' : `今日剩餘 ${rem}/${TrialManager.maxAttempts()} 次 · 最高第 ${S.trial.maxCleared} 層`}</small></div><span class="go">出戰</span></div>
@@ -3219,9 +3428,12 @@ const UI = {
       const sorted = CFG.heroes.slice().sort((a, b) => (HeroManager.owned(b.id) - HeroManager.owned(a.id)) || b.q - a.q);
       return `<div class="title"><button class="iconbtn back" data-act="back">←</button>俠客</div>
       <div class="card row recent" data-act="go" data-v="recruit" style="cursor:pointer"><span class="recic">${ICO.get('tie')}</span><div class="grow"><b>英雄帖招募</b><div class="sub">單抽／十連 · ${CFG.gacha.pity} 抽保底「不朽」· 持有英雄帖 ${S.res.tie}</div></div><button class="btn ${S.res.tie >= 1 ? 'pulse' : ''}">前往招募</button></div>
-      <div class="hint">點俠客查看詳情、升星、突破、上陣。上陣俠客會在魂器試煉中跟著你一起戰鬥！（上陣 ${S.team.length}/${CFG.teamSlots}）</div>
+      <div class="card leadc"><div class="row"><b class="grow">隊長（舞台主角）</b><span class="sub">戰力仍計算全隊</span></div>
+        <div class="leadrow">${S.team.filter(id => HeroManager.owned(id)).map(id => `<button class="leadb ${id === HeroManager.leader() ? 'on' : ''}" data-act="setleader" data-id="${id}">${UI.heroFace(id, 44)}<small>${heroDef(id).name}</small>${id === HeroManager.leader() ? '<i>隊長</i>' : ''}</button>`).join('')}</div>
+        <div class="sub">隊長在俠客居、試煉之塔與魂器試煉中親自行走戰鬥；其他上陣俠客提供屬性，並在技能發動時「助陣」切入出招。</div></div>
+      <div class="hint">點俠客查看詳情、升星、突破、上陣（上陣 ${S.team.length}/${CFG.teamSlots}）</div>
       <div class="grid3">${sorted.map(d => { const h = S.heroes[d.id], own = h.star > 0, q = CFG.heroQualities[d.q]; const c = HeroManager.starCost(d.id);
-        const qb = ART.pick('qbar_' + q.color); return `<div class="hero q${q.color} ${own ? '' : 'off'}" data-act="hero" data-id="${d.id}">${qb ? `<i class="hqb" style="background-image:url(${ASSETS[qb]})"></i>` : ''}${S.team.includes(d.id) ? '<span class="badge">上陣</span>' : ''}${HeroManager.canAct(d.id) ? '<span class="dot on" style="top:4px;right:6px"></span>' : ''}${UI.heroFace(d.id)}<div class="stars">${'★'.repeat(h.star)}</div><div class="nm">${d.name}</div><div class="sub qt${q.color}">${q.name}·${d.role}</div><div class="sub">🧩${h.shards}/${c ?? 'MAX'}</div></div>`; }).join('')}</div>`;
+        const qb = ART.pick('qbar_' + q.color); return `<div class="hero q${q.color} ${own ? '' : 'off'}" data-act="hero" data-id="${d.id}">${qb ? `<i class="hqb" style="background-image:url(${ASSETS[qb]})"></i>` : ''}${S.team.includes(d.id) ? `<span class="badge">${d.id === HeroManager.leader() ? '隊長' : '上陣'}</span>` : ''}${HeroManager.canAct(d.id) ? '<span class="dot on" style="top:4px;right:6px"></span>' : ''}${UI.heroFace(d.id)}<div class="stars">${'★'.repeat(h.star)}</div><div class="nm">${d.name}</div><div class="sub qt${q.color}">${q.name}·${d.role}</div><div class="sub">🧩${h.shards}/${c ?? 'MAX'}</div></div>`; }).join('')}</div>`;
     },
     kungfu() {
       const tot = KungfuManager.totalLv(), ins = KungfuManager.insightPct();
@@ -3263,9 +3475,9 @@ const UI = {
       return `<div class="title"><button class="iconbtn back" data-act="back">←</button>🏮 武林客棧</div>
       <div class="card" style="text-align:center"><div style="font-size:50px">🏮🍶</div><div>掃蕩：立即獲得 <b class="goldt">${CFG.inn.sweepHours} 小時</b> 掛機收益</div>
       <div class="rewards">${UI.rewardChips({ copper: p.copper, exp: p.exp, iron: p.iron, page: p.page })}<span class="rw">🎁裝備×${p.equips}</span></div>
-      <div class="sub">今日免費掃蕩：${left}/${free}（基礎 ${CFG.inn.baseFree} + VIP ${VipManager.sum('sweep')} + 小月卡 ${VipManager.hasCard() ? CFG.smallCard.sweep : 0}）</div>
+      <div class="sub">今日免費掃蕩：${left}/${free}（基礎 ${CFG.inn.baseFree} + VIP ${VipManager.sum('sweep')} + 月卡 ${VipManager.cardSum('sweep')}）</div>
       <button class="btn big" style="margin-top:10px;width:80%" data-act="sweep">${left > 0 ? '免費掃蕩' : `🥟${cost} 體力 掃蕩`}</button></div>
-      <div class="hint">收益隨試煉之塔層數提升。VIP1/3/5 與小月卡會增加每日免費掃蕩次數。</div>`;
+      <div class="hint">收益隨試煉之塔層數提升。VIP1/3/5 與月卡（小／至尊／終身）會增加每日免費掃蕩次數。</div>`;
     },
     trial() {
       const maxOpen = Math.min(CFG.trial.maxLayer, S.trial.maxCleared + 1);
@@ -3276,7 +3488,7 @@ const UI = {
       const qn = CFG.equipQualities;
       const mechDesc = { basic: '普攻 + 每 8 秒扇形範圍技（紅色預警 2 秒，記得閃開）', shield: '每 15 秒張開護盾（減傷 80%），擊破護盾讓守衛暈眩 3 秒', summon: '每 12 秒召喚 6 隻小怪，場上 ≥12 隻時守衛減傷 50%', berserk: '血量 <50% 攻速 +30%；<20% 狂暴（攻擊 +50%、移速 +30%）', multi: '多階段：60%' + (L > 40 ? '、30%' : '') + ' 轉階段（無敵 1.5 秒），追加護盾/召喚' + (L > 40 ? '、狂暴與全場範圍技（站進綠圈）' : '') };
       const tut = TrialManager.isTutorial();
-      const sources = `基礎 ${C.baseDaily}${VipManager.sum('trial') ? ` + VIP ${VipManager.sum('trial')}` : ''}${VipManager.hasCard() ? ' + 小月卡 1' : ''}${S.trial.ticketAtt ? ` + 試煉令 ${S.trial.ticketAtt}` : ''}`;
+      const sources = `基礎 ${C.baseDaily}${VipManager.sum('trial') ? ` + VIP ${VipManager.sum('trial')}` : ''}${VipManager.cardSum('trial') ? ` + 月卡 ${VipManager.cardSum('trial')}` : ''}${S.trial.ticketAtt ? ` + 試煉令 ${S.trial.ticketAtt}` : ''}`;
       return `<div class="title"><button class="iconbtn back" data-act="back">←</button>🔮 魂器試煉</div>
       <div class="card"><div class="row"><div class="grow"><b>今日次數 ${TrialManager.remaining()}/${TrialManager.maxAttempts()}</b><div class="sub">${sources} · 成功才扣次，失敗不扣</div></div><div style="text-align:right"><div class="sub">🎫試煉令 ${S.res.ticket}</div><button class="btn sm" data-act="useticket" ${S.res.ticket > 0 ? '' : 'disabled'}>使用</button> <button class="btn sm jade" data-act="buyticket">🪙${fmt(TrialManager.ticketPrice())} 購買</button></div></div></div>
       <div class="layers">${Array.from({ length: show }, (_, i) => i + 1).map(n => { const r = S.trial.rec[n]; const lk = n > maxOpen; return `<div class="layer ${n === maxOpen ? 'cur' : ''} ${lk ? 'lock' : ''} ${n === L ? 'sel' : ''}" data-act="${lk ? 'locked' : 'sellayer'}" data-l="${n}">${n % 5 === 0 ? '👑' : ''}${n}${r ? UI.badge(r.best, 22) : `<span class="rt">${lk ? '🔒' : '—'}</span>`}</div>`; }).join('')}</div>
@@ -3332,12 +3544,19 @@ const UI = {
         const st = GiftManager.state(i), av = GiftManager.available(i);
         return `<div class="li ${g.paid ? 'paid' : ''} ${st ? 'claimed' : ''}"><b style="width:20px">${i + 1}</b><div class="grow"><div>${Object.entries(g.items).map(([k, v]) => rewardName(k) + '×' + fmt(v)).join(' + ')}</div><div class="sub">${g.paid ? `付費 $${g.usd} / NT$${g.paid}` : '免費'}</div></div>
         ${st === 'claimed' ? '<span class="tag">已領取</span>' : st === 'skipped' ? '<span class="tag">已略過</span>' : g.paid ? `<div style="display:flex;flex-direction:column;gap:3px"><button class="btn sm" data-act="gift" data-i="${i}" data-pay="1" ${av ? '' : 'disabled'}>NT$${g.paid}<span class="sim">模擬購買</span></button><button class="btn sm gray" data-act="gift" data-i="${i}" ${av ? '' : 'disabled'} style="${av ? 'cursor:pointer' : ''}">略過</button></div>` : `<button class="btn sm jade ${av ? 'pulse' : ''}" data-act="gift" data-i="${i}" ${av ? '' : 'disabled'}>免費領取</button>`}</div>`; }).join('')}</div>`;
-      if (t === 'card') { const sc = CFG.smallCard, has = VipManager.hasCard();
-        h += `<div class="card" style="border:2px solid #f0c35a"><div class="row"><span style="font-size:40px">🎫</span><div class="grow"><b class="goldt" style="font-size:16px">小月卡</b> <span class="tag">NT$${sc.price} · ${sc.days} 天</span>${has ? `<div class="green">生效中，剩 ${VipManager.cardDaysLeft()} 天</div>` : ''}</div></div>
+      if (t === 'card') { const sc = CFG.smallCard, has = VipManager.hasCard(), bc = CFG.bigCard, hb = VipManager.hasBig(), lc = CFG.lifeCard, hl = VipManager.hasLife();
+        const claimBtn = (act, day, on) => on ? `<button class="btn jade grow ${day !== S.day ? 'pulse' : ''}" data-act="${act}" ${day !== S.day ? '' : 'disabled'}>${day !== S.day ? '領取今日' : '今日已領'}</button>` : '';
+        h += `<div class="sub" style="margin-bottom:6px">三張卡可同時生效、效果疊加 · 購買計入 VIP 經驗 · 全部為<b>模擬購買</b>（不會扣款）</div>`;
+        h += `<div class="card mcard" style="border:2px solid #f0c35a"><div class="row"><span style="font-size:40px">🎫</span><div class="grow"><b class="goldt" style="font-size:16px">小月卡</b> <span class="tag">NT$${sc.price} · ${sc.days} 天</span>${has ? `<div class="green">生效中，剩 ${VipManager.cardDaysLeft()} 天</div>` : ''}</div></div>
         <div class="kv" style="margin:8px 0"><span>立即</span><span>${UI.rewardChips(sc.instant, true)}</span><span>每日</span><span>${UI.rewardChips(sc.daily, true)}</span><span>特權</span><span>離線收益 +${sc.offline}%、每日免費掃蕩 +${sc.sweep}、魂器試煉每日 +${sc.trial}、戰鬥加速解鎖、境界升級時間 -${sc.realmTimePct}%</span></div>
-        <div class="row"><button class="btn grow" data-act="buycard">${has ? '續購' : '購買'} NT$${sc.price}<span class="sim">模擬購買</span></button>${has ? `<button class="btn jade grow ${S.card.claimDay !== S.day ? 'pulse' : ''}" data-act="carddaily" ${S.card.claimDay !== S.day ? '' : 'disabled'}>${S.card.claimDay !== S.day ? '領取今日' : '今日已領'}</button>` : ''}</div></div>
-        <div class="card" style="opacity:.55"><b>大月卡（至尊）NT$328～398</b><div class="sub">每日銀錠 ×400～500、高級英雄帖、離線 +30%、掉落等級上限 +8 … 第二階段開放</div></div>
-        <div class="card" style="opacity:.55"><b>終身特權卡 NT$1,980～2,480</b><div class="sub">永久離線收益 +45%、專屬稱號＋頭像框 … 第二階段開放（三卡可同時生效）</div></div>`; }
+        <div class="row"><button class="btn grow" data-act="buycard">${has ? '續購' : '購買'} NT$${sc.price}<span class="sim">模擬購買</span></button>${claimBtn('carddaily', S.card.claimDay, has)}</div></div>
+        <div class="card mcard big" style="border:2px solid #c98bff"><div class="row"><span style="font-size:40px">👑</span><div class="grow"><b class="goldt" style="font-size:16px">${bc.name}</b> <span class="tag">NT$${bc.price} · ${bc.days} 天</span> <span class="tag">建議調整</span>${hb ? `<div class="green">生效中，剩 ${VipManager.bigDaysLeft()} 天</div>` : ''}</div></div>
+        <div class="kv" style="margin:8px 0"><span>立即</span><span>${UI.rewardChips(bc.instant, true)}</span><span>每日</span><span>${UI.rewardChips(Object.assign({}, bc.daily, { silver: 0 }), true).replace(/^/, `<span class="rw">${CFG.currencies.silver.icon}銀錠 ×${bc.dailySilver[0]}～${bc.dailySilver[1]}</span>`)}</span><span>特權</span><span>離線收益 +${bc.offline}%、掉落等級上限 +${bc.cap}、裝備品質機率提升、每日免費掃蕩 +${bc.sweep}、魂器試煉每日 +${bc.trial}、強化消耗 -${bc.enhanceDisc}%、境界時間 -${bc.realmTimePct}%</span></div>
+        <div class="row"><button class="btn grow" data-act="buybig">${hb ? '續購' : '購買'} NT$${bc.price}<span class="sim">模擬購買</span></button>${claimBtn('bigdaily', S.card.bigClaimDay, hb)}</div></div>
+        <div class="card mcard life" style="border:2px solid #ffb347"><div class="row"><span style="font-size:40px">🏮</span><div class="grow"><b class="goldt" style="font-size:16px">${lc.name}</b> <span class="tag">NT$${fmt(lc.price)} · 永久</span> <span class="tag">建議調整</span>${hl ? '<div class="green">已永久生效</div>' : ''}</div></div>
+        <div class="kv" style="margin:8px 0"><span>立即</span><span>${UI.rewardChips(lc.instant, true)}</span><span>每日</span><span>${UI.rewardChips(lc.daily, true)}</span><span>特權</span><span>永久離線收益 +${lc.offline}%、掉落等級上限 +${lc.cap}、裝備品質機率提升、每日掃蕩 +${lc.sweep}、強化消耗 -${lc.enhanceDisc}%、境界時間 -${lc.realmTimePct}%、專屬稱號「${lc.title}」＋金色頭像框</span></div>
+        <div class="row">${hl ? '<button class="btn grow" disabled>已擁有（永久）</button>' : `<button class="btn grow" data-act="buylife">購買 NT$${fmt(lc.price)}<span class="sim">模擬購買</span></button>`}${claimBtn('lifedaily', S.card.lifeClaimDay, hl)}</div></div>
+        <div class="card"><b>目前月卡加成合計</b><div class="sub">離線 +${VipManager.cardSum('offline')}% · 掉落上限 +${VipManager.cardSum('cap')} · 掃蕩 +${VipManager.cardSum('sweep')} · 境界時間 ×${VipManager.realmTimeMul().toFixed(2)}</div></div>`; }
       if (t === 'vip') { const v = VipManager.level(), nx = CFG.vip[v + 1];
         h += `<div class="card" style="text-align:center"><div class="title" style="justify-content:center">👑 VIP ${v}</div><div class="sub">累計儲值 NT$${fmt(S.vip.total)}${nx ? `，再 NT$${fmt(nx.need - S.vip.total)} 升到 VIP${nx.lv}` : '（已滿級）'}</div>${nx ? `<div class="bar gold" style="margin:6px 0"><i style="width:${S.vip.total / nx.need * 100}%"></i></div>` : ''}
         ${VipManager.has('boxP') ? `<button class="btn sm ${S.vipDaily !== S.day ? 'pulse' : ''}" data-act="vipdaily" ${S.vipDaily !== S.day ? '' : 'disabled'}>${S.vipDaily !== S.day ? '領取 VIP 每日禮' : 'VIP 每日禮已領'}</button>` : ''}</div>
@@ -3362,7 +3581,7 @@ const UI = {
     goalclaim() { const r = GoalManager.claim(); if (r) { UI.rewardPopup('目標完成！', r); } },
     idleclaim() { if (IdleManager.minutes() < 0.5) return UI.toast('寶箱還沒累積，等一下再來'); const { r, items } = IdleManager.claim(); UI.rewardPopup('掛機收益', r, items); },
     allres() { UI.modal(`<h3>全部資源</h3><div class="list">${Object.keys(CFG.currencies).map(k => `<div class="li"><span style="font-size:20px">${CFG.currencies[k].icon}</span><b class="grow">${CFG.currencies[k].name}</b>${fmt(S.res[k] || 0)}</div>`).join('')}</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
-    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存於瀏覽器 localStorage（每 5 秒與每次操作）</span><span>版本</span><span>原型 v0.3（幫會／體力／抽卡）</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
+    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存於瀏覽器 localStorage（每 5 秒與每次操作）</span><span>版本</span><span>原型 v3.1（單人舞台＋助陣／三張月卡）</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
       <div class="row" style="margin:10px 0;gap:6px;flex-wrap:wrap"><button class="btn jade" data-act="savenow">立即存檔</button><button class="btn" data-act="rename">改名</button><button class="btn red" data-act="resetsave">重置存檔</button></div>
       <div class="hint">魂器試煉操作 — 手機：點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；電腦：Space／W 躍起、D／→ 衝刺、A／← 閃避、E 進魂門、P／Esc 暫停。可開啟「自動閃避」。</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
     savenow() { SaveManager.save(); UI.toast('已存檔'); },
@@ -3396,16 +3615,17 @@ const UI = {
     hero(d) {
       const id = d.id, dd = heroDef(id), h = S.heroes[id], q = CFG.heroQualities[dd.q], st = HeroManager.stats(id), c = HeroManager.starCost(id), bt = HeroManager.btCost(id);
       const own = h.star > 0, inTeam = S.team.includes(id);
-      const atkDesc = { bolt: '射出劍氣攻擊最近的敵人', orbit: '周身迴旋刀刃，碰到即傷', heal: '定時為主角回復 7% 氣血', fan: '一次射出 3 道劍氣', nova: '在敵群中引爆範圍琴音' }[dd.atkType];
+      const atkDesc = { bolt: '射出劍氣攻擊最近的敵人', orbit: '周身迴旋刀刃，碰到即傷', heal: '定時為隊長回復 7% 氣血', fan: '一次射出 3 道劍氣', nova: '在敵群中引爆範圍琴音' }[dd.atkType];
       UI.modal(`<div class="row">${UI.heroFace(id, 70)}<div class="grow"><h3 style="text-align:left;margin:0">${dd.name} <small class="qt${q.color}">【${q.name}】</small></h3><div class="sub">${dd.title} · ${dd.role === '攻' ? '輸出' : dd.role === '守' ? '坦克' : '輔助'}</div><div class="stars" style="font-size:14px">${UI.stars(h.star)}</div>${h.bt ? `<span class="tag">突破 ${h.bt}</span>` : ''}</div></div>
       <div class="kv" style="margin:8px 0"><span>攻擊</span><b>${st.atk}</b><span>防禦</span><b>${st.def}</b><span>氣血</span><b>${st.hp}</b><span>戰力</span><b>${fmt(CFG.power(st))}</b><span>試煉技能</span><span>${atkDesc}</span></div>
       <div class="li"><div class="grow">${own ? '升星' : '召喚'}（碎片 ${h.shards}/${c ?? '-'}）<div class="sub">每星 +30% 屬性</div></div>${c != null ? `<button class="btn sm ${h.shards >= c ? 'pulse' : ''}" data-act="starup" data-id="${id}" ${h.shards >= c ? '' : 'disabled'}>${own ? '升星' : '召喚'}</button>` : '<b class="goldt">滿星</b>'}</div>
       ${own && bt ? `<div class="li"><div class="grow">突破 ${h.bt + 1}（需 ${bt.needStar}★、🪨突破石×${bt.stone}）<div class="sub">屬性 +${CFG.breakthrough[h.bt].bonus * 100}% · 突破石來自試煉之塔、魂器試煉</div></div><button class="btn sm" data-act="bt" data-id="${id}" ${h.star >= bt.needStar && S.res.stone >= bt.stone ? '' : 'disabled'}>突破</button></div>` : ''}
       <details style="margin:6px 0"><summary class="sub">升星碎片表（${q.name}）</summary><table class="t"><tr><th>星級</th>${CFG.starShards.map((r, i) => `<th>${i}→${i + 1}</th>`).join('')}</tr><tr><td>碎片</td>${CFG.starShards.map(r => `<td>${r[dd.q]}</td>`).join('')}</tr></table></details>
-      <div class="row" style="justify-content:center;gap:8px;margin-top:6px">${own ? `<button class="btn ${inTeam ? 'gray' : 'jade'}" data-act="team" data-id="${id}">${inTeam ? '下陣' : '上陣'}</button>` : ''}<button class="btn" data-act="mclose">關閉</button></div>`);
+      <div class="row" style="justify-content:center;gap:8px;margin-top:6px">${own ? `<button class="btn ${inTeam ? 'gray' : 'jade'}" data-act="team" data-id="${id}">${inTeam ? '下陣' : '上陣'}</button>` : ''}${own ? (HeroManager.leader() === id ? '<button class="btn" disabled>目前隊長</button>' : `<button class="btn" data-act="setleader" data-id="${id}" data-m="1">設為隊長</button>`) : ''}<button class="btn" data-act="mclose">關閉</button></div>`);
     },
     starup(d) { const was = HeroManager.owned(d.id); if (HeroManager.starUp(d.id)) { UI.flash(was ? `${heroDef(d.id).name} 升到 ${S.heroes[d.id].star}★` : `${heroDef(d.id).name} 加入！`); UI.act.hero(d); } },
     bt(d) { if (HeroManager.breakthrough(d.id)) { UI.flash('突破成功！'); UI.act.hero(d); } },
+    setleader(d) { const r = HeroManager.setLeader(d.id); UI.toast({ ok: `${heroDef(d.id).name} 擔任隊長`, full: `陣容已滿（${CFG.teamSlots} 人），先讓一位下陣`, locked: '尚未擁有' }[r]); if (d.m) UI.act.hero(d); HS.build && HS.build(); UI.renderHeader(); },
     team(d) { const r = HeroManager.toggleTeam(d.id); const msg = { on: '已上陣', off: '已下陣', full: `陣容已滿（${CFG.teamSlots} 人），先讓一位下陣`, need1: '至少要有 1 位俠客上陣', locked: '尚未擁有' }[r]; UI.toast(msg); UI.act.hero(d); },
     kfeq(d) { KungfuManager.equip(d.s, d.o); UI.toast('已裝備功法'); },
     kfup(d) { if (KungfuManager.up(d.o)) UI.toast(`${KungfuManager.opt(d.o).o.name} → Lv${KungfuManager.lv(d.o)}`); else UI.toast('資源不足'); },
@@ -3440,6 +3660,10 @@ const UI = {
     gift(d) { const g = CFG.dailyGifts[+d.i]; const r = GiftManager.claim(+d.i, !!d.pay); if (r == null) return; if (g.paid && !d.pay) return UI.toast('已略過'); UI.rewardPopup(g.paid ? '模擬購買成功（未實際扣款）' : '每日饋贈', r); },
     buycard() { UI.confirm(`模擬購買小月卡 NT$${CFG.smallCard.price}？（不會實際扣款）`, () => { const r = VipManager.buyCard(); UI.rewardPopup('小月卡生效！（模擬購買）', r, [], '<div class="hint">記得每天回來領取每日獎勵。</div>'); }); },
     carddaily() { const r = VipManager.claimCardDaily(); if (r) UI.rewardPopup('小月卡每日獎勵', r); },
+    buybig() { UI.confirm(`模擬購買${CFG.bigCard.name} NT$${CFG.bigCard.price}？（不會實際扣款）`, () => { const r = VipManager.buyBig(); UI.rewardPopup(`${CFG.bigCard.name}生效！（模擬購買）`, r, [], `<div class="hint">離線 +${CFG.bigCard.offline}%、掉落上限 +${CFG.bigCard.cap} 已生效；每天回來領取每日獎勵。</div>`); }); },
+    buylife() { if (VipManager.hasLife()) return UI.toast('已擁有終身特權卡'); UI.confirm(`模擬購買${CFG.lifeCard.name} NT$${fmt(CFG.lifeCard.price)}？（不會實際扣款）`, () => { const r = VipManager.buyLife(); UI.rewardPopup(`${CFG.lifeCard.name}生效！（模擬購買）`, r, [], `<div class="hint">獲得專屬稱號「${CFG.lifeCard.title}」與金色頭像框，永久離線收益 +${CFG.lifeCard.offline}%。</div>`); }); },
+    bigdaily() { const r = VipManager.claimBigDaily(); if (r) UI.rewardPopup(`${CFG.bigCard.name}每日獎勵`, r); },
+    lifedaily() { const r = VipManager.claimLifeDaily(); if (r) UI.rewardPopup(`${CFG.lifeCard.name}每日獎勵`, r); },
     vipdaily() { if (S.vipDaily === S.day) return; S.vipDaily = S.day; const r = { boxP: 1 }; if (VipManager.has('boxO') && Math.random() < 0.3) r.boxO = 1; if (VipManager.has('dailyRes')) { r.stone = 10; r.essence = 200; } Eco.add(r); UI.rewardPopup('VIP 每日禮', r); },
     recharge(d) { const n = +d.n; UI.confirm(`模擬儲值 NT$${n}？（不會實際扣款，只增加本機存檔的銀錠與 VIP 累積）`, () => { const first = !S.vip.first[n]; VipManager.recharge(n); UI.rewardPopup('模擬儲值完成', { silver: n * 10 * (first ? 2 : 1) }, [], `<div class="hint">累計 NT$${fmt(S.vip.total)} → VIP ${VipManager.level()}</div>`); }); },
   },
@@ -3461,7 +3685,7 @@ function boot() {
     if (el.tagName === 'INPUT') { fn(el.dataset, el); SaveManager.save(); return; }
     fn(el.dataset, el);
     SaveManager.save();
-    if (!['mclose', 'item', 'hero', 'starup', 'bt', 'team', 'allres', 'settings', 'cyes', 'cno', 'resetsave', 'towerfight', 'bosschallenge', 'bossinfo', 'tb_pause', 'tb_speed', 'tb_auto', 'tb_quit', 'tb_portal', 'recruit', 'buycard', 'recharge', 'salvageworse'].includes(a) || !document.getElementById('modal').classList.contains('on')) {
+    if (!['mclose', 'item', 'hero', 'starup', 'bt', 'team', 'allres', 'settings', 'cyes', 'cno', 'resetsave', 'towerfight', 'bosschallenge', 'bossinfo', 'tb_pause', 'tb_speed', 'tb_auto', 'tb_quit', 'tb_portal', 'recruit', 'setleader', 'buycard', 'buybig', 'buylife', 'recharge', 'salvageworse'].includes(a) || !document.getElementById('modal').classList.contains('on')) {
       if (!['tb_pause', 'tb_speed', 'tb_auto', 'tb_quit', 'tb_portal', 'towerfight', 'bosschallenge', 'bossinfo'].includes(a)) UI.render();
     }
   });
@@ -3622,6 +3846,7 @@ function boot() {
           <div class="rhave">${ICO.get('tie')}持有英雄帖 <b>${S.res.tie}</b></div>
           <div class="row" style="gap:8px"><button class="btn grow rbtn1 ${S.res.tie >= 1 && !S.stats.recruit ? 'pulse' : ''}" data-act="pull" data-n="1">招募 ×1<small>${ICO.get('tie')}1</small></button>
           <button class="btn jade grow rbtn10 ${S.res.tie >= 10 ? 'pulse' : ''}" data-act="pull" data-n="10">招募 ×10<small>${ICO.get('tie')}10 · 必得傳世+</small></button></div>
+          ${(S.res.tieHi || 0) > 0 ? `<div class="row" style="gap:8px;margin-top:6px"><button class="btn grow rbtnhi pulse" data-act="pullhi" data-n="1">高級招募 ×1<small>🎴1 · 精良以上</small></button>${S.res.tieHi >= 10 ? '<button class="btn grow rbtnhi" data-act="pullhi" data-n="10">高級 ×10<small>🎴10</small></button>' : ''}</div><div class="sub center">持有高級英雄帖 🎴${S.res.tieHi}（大月卡／終身卡）</div>` : ''}
           <div class="sub center" style="margin-top:4px">新俠客直接加入；重複俠客化為碎片，可升星（文件碎片表）</div>
         </div>
       </div>
@@ -3684,12 +3909,13 @@ function boot() {
       return UI.modal(`<h3>英雄帖不足</h3><p class="center">還差 ${ICO.get('tie')}×${miss}，是否用 💠銀錠 ×${c} 補足？</p><div class="sub center">目前銀錠 ${fmt(S.res.silver)}${S.res.silver < c ? '（不足，可至福利→儲值模擬購買）' : ''}</div>
         <div class="row" style="justify-content:center;gap:8px;margin-top:10px"><button class="btn" data-act="pull" data-n="${n}" data-silver="1" ${S.res.silver >= c ? '' : 'disabled'}>補足並招募</button><button class="btn jade" data-act="nav" data-v="welfare" data-tab="pay">去儲值</button><button class="btn gray" data-act="mclose">取消</button></div>`);
     }
-    const res = GachaManager.pull(n, !!d.silver); if (!res) return UI.toast('英雄帖／銀錠不足');
+    const res = GachaManager.pull(n, !!d.silver); if (!res) return UI.toast('英雄帖／銀錠不足'); UI._gHi = false;
     UI.closeModal(); UI.gachaReveal(res, n);
   };
   A.gskip = () => { const el = document.getElementById('gacha'); if (el) el.querySelectorAll('.gcard').forEach(c => c.classList.add('flip')); UI._gRevealDone && UI._gRevealDone(); };
   A.gclose = () => { const el = document.getElementById('gacha'); if (el) el.remove(); UI.render(); if (HeroManager.autoJoined) { const id = HeroManager.autoJoined; HeroManager.autoJoined = null; UI.toast(`${heroDef(id).name} 已自動上陣`); } };
-  A.gagain = d => { const el = document.getElementById('gacha'); if (el) el.remove(); A.pull({ n: d.n }); };
+  A.pullhi = d => { const n = +d.n; const res = GachaManager.pullHi(n); if (!res) return UI.toast('高級英雄帖不足'); UI.closeModal(); UI._gHi = true; UI.gachaReveal(res, n); };
+  A.gagain = d => { const el = document.getElementById('gacha'); if (el) el.remove(); if (UI._gHi) A.pullhi({ n: d.n }); else A.pull({ n: d.n }); };
   A.gjoin = () => { if (GuildManager.join()) { AudioManager.play('reward'); UI.toast(`已加入「${CFG.guild.name}」`); } };
   A.gb = d => {
     const b = GuildManager.B(d.id), l = GuildManager.lv(d.id), c = GuildManager.cost(d.id), why = GuildManager.joined() ? GuildManager.why(d.id) : '請先加入幫會';
