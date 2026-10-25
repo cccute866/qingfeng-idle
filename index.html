@@ -4150,7 +4150,7 @@ const UI = {
     goalclaim() { const r = GoalManager.claim(); if (r) { UI.rewardPopup('目標完成！', r); } },
     idleclaim() { if (IdleManager.minutes() < 0.5) return UI.toast('寶箱還沒累積，等一下再來'); const { r, items } = IdleManager.claim(); UI.rewardPopup('掛機收益', r, items); },
     allres() { UI.modal(`<h3>全部資源</h3><div class="list">${Object.keys(CFG.currencies).map(k => `<div class="li"><span style="font-size:20px">${CFG.currencies[k].icon}</span><b class="grow">${CFG.currencies[k].name}</b>${fmt(S.res[k] || 0)}</div>`).join('')}</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
-    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.9.1</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
+    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.9.2</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
       <div class="row" style="margin:10px 0;gap:6px;flex-wrap:wrap"><button class="btn jade" data-act="savenow">立即存檔</button><button class="btn" data-act="rename">改名</button><button class="btn red" data-act="resetsave">重置存檔</button></div>
       <div class="hint">魂器試煉操作 — ${window.TOUCH381 ? '點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；能量滿 100% 魂門會在前方現身，點擊魂門就進入守衛戰。' : '手機：點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；電腦：Space／W 躍起、D／→ 衝刺、A／← 閃避、E 進魂門、P／Esc 暫停。'}可開啟「自動閃避」。</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
     savenow() { SaveManager.save(); UI.toast('已存檔'); },
@@ -9103,7 +9103,7 @@ UI.dropLvModal = function () {
   UI.act.settings = function () {
     s0.apply(this, arguments);
     const kv = document.querySelector('#modal .kv'); if (!kv) return;
-    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.9.1'; });
+    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.9.2'; });
     const on = !(S.opt && S.opt.shake37 === false), f = DL37.st().filter;
     kv.insertAdjacentHTML('beforeend', `<span>畫面震動</span><span><button class="btn sm ${on ? 'jade' : 'gray'}" data-act="shake37">${on ? '開啟' : '關閉'}</button></span><span>自動分解</span><span><button class="btn sm" data-act="dl37open">${CFG.d37.filters.find(x => x[0] === f)[1]}</button></span>`);
   };
@@ -9675,6 +9675,103 @@ const SHOP39 = {
 .xup,.xup .ic{width:44px;height:44px}
 `;
   const s = document.createElement('style'); s.id = 'css391'; s.textContent = css; document.head.appendChild(s);
+})();
+
+/* =====================================================================
+ * v3.9.2 熱修（偉翔 10/25：「下方留白 40% 只為了 3 個按鈕太浪費，幾乎都開自動」）
+ *  試煉戰鬥畫面改版：
+ *  - 拿掉下方一大塊手動操作區；戰鬥場景改成佔滿剩下的高度（390×844 約 87%）。
+ *  - 底部只留一條：氣血／魂能兩條細條並排＋一排按鈕（俠客技能、自動／手動、倍速）。
+ *  - 「自動」一鍵＝自動閃避＋自動施放技能（預設開）；點一下切成「手動」，
+ *    閃避／躍起／衝刺才以半透明按鈕浮在場景下緣，自動模式完全不佔位置。
+ *  - 暫停移到左上計時旁；暫停後出現「繼續／放棄」。
+ * ===================================================================== */
+(() => {
+  const $ = id => document.getElementById(id);
+  const battle = $('battle'), stage = $('bstage'), panel = $('bpanel');
+  if (!battle || !stage || !panel) return;
+  // ---- 重新排版 DOM（只搬移既有元素，id 與 data-act 全部保留）----
+  const rows = [...panel.querySelectorAll(':scope > .brow')];
+  const bars = document.createElement('div'); bars.className = 'bbar392'; rows.forEach(r => bars.appendChild(r));
+  const row = document.createElement('div'); row.className = 'brow392';
+  let sk = $('bskills'); if (!sk) { sk = document.createElement('div'); sk.id = 'bskills'; }
+  row.appendChild(sk);
+  const auto = $('bauto'), speed = $('bspeed'), pause = $('bpause'), quit = panel.querySelector('[data-act=tb_quit]');
+  if (auto) row.appendChild(auto); if (speed) row.appendChild(speed);
+  panel.prepend(row); panel.prepend(bars);
+  const acts = panel.querySelector('.bacts'); if (acts) stage.appendChild(acts);   // 手動按鈕改成浮在場景下緣
+  const top = stage.querySelector('.btop'); if (top && pause) top.insertBefore(pause, top.querySelector('.bk'));
+  const pm = document.createElement('div'); pm.id = 'bpm392';
+  pm.innerHTML = '<b>暫停中</b><div><button data-act="tb_pause" class="go">繼續</button></div>';
+  if (quit) pm.querySelector('div').appendChild(quit);
+  stage.appendChild(pm);
+  const ctl = panel.querySelector('.bctl'); if (ctl) ctl.remove();
+
+  // ---- 自動＝自動閃避＋自動技能 ----
+  const sync = () => { S.opt.autoSkill = !!S.opt.autoMove; const a = $('bskauto'); if (a) a.classList.toggle('on', S.opt.autoSkill); };
+  const setup0 = TB.setup;
+  TB.setup = function () { sync(); return setup0.apply(this, arguments); };
+  UI.act.tb_auto = function () { S.opt.autoMove = !S.opt.autoMove; sync(); if (!S.opt.autoMove) TB.msg && TB.msg('手動：點畫面躍起，左右滑閃避／衝刺'); TB.hud(); };
+  const ab0 = TB.abandon;
+  TB.abandon = function () {
+    if (this.over) return; const was = !!this.paused; this.paused = true; this.hud();
+    UI.confirm('放棄這次試煉？（不扣次數、沒有獎勵）', () => { this.over = true; this.close(); }, () => { this.paused = was; this.hud(); });
+  };
+  const hud0 = TB.hud;
+  TB.hud = function () {
+    const o = hud0.apply(this, arguments);
+    const on = !!S.opt.autoMove;
+    if (auto) { auto.textContent = on ? '自動' : '手動'; auto.classList.toggle('on', on); }
+    battle.classList.toggle('man392', !on);
+    battle.classList.toggle('pz392', !!this.paused && !this.over);
+    return o;
+  };
+  // 版面變了：開啟時與尺寸改變時重新量畫布
+  const open0 = TB.open;
+  TB.open = function () { const o = open0.apply(this, arguments); requestAnimationFrame(() => this.resize && this.resize()); return o; };
+  // 進度條往下讓出左上的暫停鈕
+  const dp0 = TB.drawProgress;
+  TB.drawProgress = function (c) { c.save(); c.translate(0, 14); const o = dp0.apply(this, arguments); c.restore(); return o; };
+  const rz0 = TB.resize;
+  TB.resize = function () { const o = rz0.apply(this, arguments); if (this.H) this.GY = this.H * (this.H > 560 ? 0.86 : 0.83); return o; };
+
+  const css = `
+#bstage{flex:1 1 auto!important;min-height:0;border-bottom:2px solid var(--gold)}
+#bpanel{flex:0 0 auto!important;gap:5px!important;padding:6px 8px calc(7px + env(safe-area-inset-bottom,0px))!important}
+.bbar392{display:flex;gap:10px}
+.bbar392 .brow{flex:1;min-width:0;gap:5px}
+.bbar392 .brow label{width:auto;font-size:11px}
+.bbar392 .php,.bbar392 .ebar{height:14px}
+.bbar392 .php b,.bbar392 .ebar b{font-size:9.5px;line-height:10px}
+.brow392{display:flex;align-items:center;gap:6px;min-height:48px}
+#bpanel #bskills{position:static;flex:1 1 auto;min-width:0;display:flex;flex-direction:row;align-items:center;gap:5px;z-index:auto}
+#bpanel .bsk{width:46px;height:46px;flex:0 0 46px}
+#bpanel .bsk span{font-size:8.5px}
+#bpanel #bskauto{display:none}
+#bauto,#bspeed{height:44px;min-width:50px;padding:0 10px;border-radius:14px;font-size:14px;font-weight:900;cursor:pointer;border:2px solid #b89250;background:#fff6dc;color:var(--ink);flex:0 0 auto}
+#bauto.on{background:linear-gradient(#3fd2ad,#0f8a72);color:#fff;border-color:var(--gold);box-shadow:0 0 8px #2fc7a888}
+#bauto:not(.on){background:linear-gradient(#ffd56b,#f08a1a);color:#fff;border-color:#a04a00}
+#bspeed{min-width:46px;font-size:13px}
+#bstage .bacts{position:absolute;left:10px;right:10px;bottom:12px;display:none;justify-content:space-between;align-items:flex-end;gap:10px;min-height:0;z-index:5;pointer-events:none}
+#battle.man392 #bstage .bacts{display:flex}
+#bstage .bact{pointer-events:auto;width:60px;height:60px;opacity:.86}
+#bstage .bact.big{width:70px;height:70px;margin-left:auto}
+#bstage .bact i .ic,#bstage .bact i svg{width:22px;height:22px}
+#bstage .bact span{font-size:12px}
+.btop{align-items:flex-start}
+.timer{line-height:36px}
+#bpause{pointer-events:auto;width:44px;height:44px;border-radius:12px;border:1.5px solid var(--gold);background:#062724c0;color:#fff;font-size:12px;font-weight:900;cursor:pointer;padding:0;margin-top:-4px}
+#gbar{top:56px!important}
+.combo{top:104px!important}
+#bpm392{display:none;position:absolute;inset:0;z-index:8;background:#0008;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff3c4}
+#bpm392 b{font-size:26px;letter-spacing:4px;text-shadow:0 2px 0 #000}
+#bpm392 div{display:flex;gap:14px}
+#bpm392 button{min-width:96px;height:48px;border-radius:14px;border:2px solid var(--gold2);font-size:16px;font-weight:900;cursor:pointer;background:#fff6dc;color:var(--ink)}
+#bpm392 button.go{background:linear-gradient(#3fd2ad,#0f8a72);color:#fff}
+#battle.pz392 #bpm392{display:flex}
+@media (max-height:700px){#bstage .bact{width:54px;height:54px}#bstage .bact.big{width:62px;height:62px}}
+`;
+  const s = document.createElement('style'); s.id = 'css392'; s.textContent = css; document.head.appendChild(s);
 })();
 
 /* v3.4.1 / v3.5 彈窗關閉修正：所有彈窗都可用 ✕、點背景、返回手勢/Esc 關閉（自成一體，可單獨注入舊版） */
