@@ -732,6 +732,7 @@ canvas.sdemo{width:100%;border-radius:10px;border:2px solid #d6c39b;background:#
 const CFG = {
   version: 1,
   saveKey: 'wuxia_idle_save_v1',
+  v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
 
   /* ---------- 貨幣（CurrencyConfig）【文件 §2.3 / §1】 ---------- */
   currencies: {
@@ -1366,6 +1367,7 @@ const SaveManager = {
       sign: { n: 0, last: '' },
       daily: { day: '', c: {}, k0: 0, got: [] },
       schema: 3, stam: { last: t, kc: 0, bought: 0, bday: '' }, ach: {}, pity: 0,
+      silvConv35: 1, silvFix393: 1,   // v3.9.3：新存檔不做舊檔銀錠轉換、也不需補回
     };
     CFG.heroes.forEach(h => s.heroes[h.id] = { shards: 0, star: 0, bt: 0 });
     s.heroes.zhu.star = 1;
@@ -1378,10 +1380,19 @@ const SaveManager = {
   load() {
     try {
       const d = this.readSigned(CFG.saveKey) || this.readSigned(CFG.saveKey + '_bak', true);
-      if (d && d.v === CFG.version) { const sch = d.schema || 2; S = this.migrate(Object.assign(this.fresh(), d), sch); return true; }
+      if (d && d.v === CFG.version) { const sch = d.schema || 2; S = this.migrate(Object.assign(this.fresh(), d), sch); this.silv393(d); return true; }
     } catch (e) { console.warn('存檔讀取失敗，建立新存檔', e); }
     S = this.fresh();
     return false;
+  },
+  /** v3.9.3 銀錠轉換旗標：fresh() 預設已轉換，所以要看原始存檔 d 判斷。
+   *  舊存檔＝建立時間早於 v3.5 上線（CFG.v35At）且從沒轉過 → silvConv35=0，開機時轉一次。
+   *  v3.5 之後建立、卻被轉過（d.silvConv35===1）→ silvFix393=0，開機時補回一次（econ2_v35.js）。 */
+  silv393(d) {
+    const legacy = typeof d.created === 'number' && d.created < CFG.v35At;
+    if (d.silvConv35 == null) S.silvConv35 = legacy ? 0 : 1;
+    if (d.silvFix393 !== 1) S.silvFix393 = (!legacy && d.silvConv35 === 1) ? 0 : 1;
+    delete S._needConv35;
   },
   /** v3 存檔遷移：v1/v2 存檔沒有的巢狀欄位補上預設值（淺合併不會補巢狀 key） */
   migrate(s, sch = s.schema || 2) {
@@ -4150,7 +4161,7 @@ const UI = {
     goalclaim() { const r = GoalManager.claim(); if (r) { UI.rewardPopup('目標完成！', r); } },
     idleclaim() { if (IdleManager.minutes() < 0.5) return UI.toast('寶箱還沒累積，等一下再來'); const { r, items } = IdleManager.claim(); UI.rewardPopup('掛機收益', r, items); },
     allres() { UI.modal(`<h3>全部資源</h3><div class="list">${Object.keys(CFG.currencies).map(k => `<div class="li"><span style="font-size:20px">${CFG.currencies[k].icon}</span><b class="grow">${CFG.currencies[k].name}</b>${fmt(S.res[k] || 0)}</div>`).join('')}</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
-    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.9.2</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
+    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.9.3</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
       <div class="row" style="margin:10px 0;gap:6px;flex-wrap:wrap"><button class="btn jade" data-act="savenow">立即存檔</button><button class="btn" data-act="rename">改名</button><button class="btn red" data-act="resetsave">重置存檔</button></div>
       <div class="hint">魂器試煉操作 — ${window.TOUCH381 ? '點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；能量滿 100% 魂門會在前方現身，點擊魂門就進入守衛戰。' : '手機：點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；電腦：Space／W 躍起、D／→ 衝刺、A／← 閃避、E 進魂門、P／Esc 暫停。'}可開啟「自動閃避」。</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
     savenow() { SaveManager.save(); UI.toast('已存檔'); },
@@ -7246,13 +7257,34 @@ const EV35 = {
     r.gem_atk2 = Math.floor(ex / CFG.silverConv.gemPer); r.gem_hp2 = r.gem_atk2;
     S.res.silver = CFG.silverConv.keep; Eco.add(r); return { ex, r };
   };
-  const mg = SaveManager.migrate.bind(SaveManager);
-  SaveManager.migrate = function (s0, sch) { const s = mg(s0, sch) || s0; if (s && s.res && s.res.silver > CFG.silverConv.keep && !s.silvConv35) s._needConv35 = 1; return s; };
+  // v3.9.3：只有 v3.5 以前建立的存檔才轉換（SaveManager.silv393 設 silvConv35=0）；新存檔預設 1，永不轉換。
+  // v3.5 之後建立卻被誤轉的存檔（silvFix393=0）→ 補回一次：
+  //  估計被轉走的銀錠 est＝首次儲值檔位贈送的銀錠合計（每檔 NT$×20，只算下限，不會多補）－ 50,000；
+  //  依 est 收回當時換給的材料（每 100 銀錠：內力 30、銅幣 1,500、魂精 1；每 4,000：攻／血 2 級寶石各 1），
+  //  身上不夠收回的部分（已用掉）按換算價值折抵：每 100 銀錠的價值四等分給內力、銅幣、魂精、寶石。
+  CFG.silverFix = { val: { qi: 25 / 30, copper: 25 / 1500, essence: 25, gem_atk2: 500, gem_hp2: 500 } };
+  EQ33.paidSilverMin = () => Object.keys((S.vip && S.vip.first) || {}).filter(k => S.vip.first[k]).reduce((a, k) => a + (+k || 0) * 20, 0);
+  EQ33.restoreSilver = function () {
+    if (S.silvFix393 !== 0) return null; S.silvFix393 = 1;
+    const est = Math.max(0, this.paidSilverMin() - CFG.silverConv.keep); if (!est) return null;
+    const k = Math.floor(est / 100), g = Math.floor(est / CFG.silverConv.gemPer);
+    const grant = { qi: CFG.silverConv.per100.qi * k, copper: CFG.silverConv.per100.copper * k, essence: CFG.silverConv.per100.essence * k, gem_atk2: g, gem_hp2: g };
+    let ded = 0; const took = {};
+    Object.entries(grant).forEach(([a, v]) => { const t = Math.min(Math.max(0, S.res[a] || 0), v); S.res[a] = (S.res[a] || 0) - t; took[a] = t; ded += (v - t) * CFG.silverFix.val[a]; });
+    const refund = Math.max(0, Math.round(est - ded));
+    S.res.silver = (S.res.silver || 0) + refund;
+    return { est, refund, ded: Math.round(est - refund), took };
+  };
   setTimeout(function chk() {
     if (typeof S === 'undefined' || !S || !S.res) return setTimeout(chk, 500);
-    if (!S._needConv35 && (S.silvConv35 || S.res.silver <= CFG.silverConv.keep)) return;
-    delete S._needConv35; const x = EQ33.convertSilver(); if (!x) return;
-    const show = () => UI.rewardPopup ? UI.rewardPopup('經濟調整補償', x.r, [], `<div class="sub center">v3.5 調整銀錠經濟：超過 ${fmt(CFG.silverConv.keep)} 的 ${fmt(x.ex)} 銀錠已轉為養成材料（內力／銅幣／魂精／寶石）。裝備與俠客皆保留。</div>`) : 0;
+    const fx = EQ33.restoreSilver();
+    if (fx) { try { SaveManager.save(); } catch (e) { }
+      const note = fx.ded > 0 ? `其中已用掉的材料折抵 ${fmt(fx.ded)} 銀錠。` : '';
+      setTimeout(() => UI.rewardPopup ? UI.rewardPopup('銀錠補回', { silver: fx.refund }, [], `<div class="sub center">先前誤把你超過 ${fmt(CFG.silverConv.keep)} 的銀錠轉成了養成材料，現在補回銀錠，並收回當時換給你的材料。${note}</div>`) : 0, 2500);
+      return; }
+    if (S.silvConv35 !== 0) return;
+    const x = EQ33.convertSilver(); try { SaveManager.save(); } catch (e) { } if (!x) return;
+    const show = () => UI.rewardPopup ? UI.rewardPopup('經濟調整補償', x.r, [], `<div class="sub center">銀錠經濟調整：超過 ${fmt(CFG.silverConv.keep)} 的 ${fmt(x.ex)} 銀錠已轉為養成材料（內力／銅幣／魂精／寶石）。裝備與俠客皆保留。</div>`) : 0;
     setTimeout(show, 2500);
   }, 1500);
 
@@ -9103,7 +9135,7 @@ UI.dropLvModal = function () {
   UI.act.settings = function () {
     s0.apply(this, arguments);
     const kv = document.querySelector('#modal .kv'); if (!kv) return;
-    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.9.2'; });
+    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.9.3'; });
     const on = !(S.opt && S.opt.shake37 === false), f = DL37.st().filter;
     kv.insertAdjacentHTML('beforeend', `<span>畫面震動</span><span><button class="btn sm ${on ? 'jade' : 'gray'}" data-act="shake37">${on ? '開啟' : '關閉'}</button></span><span>自動分解</span><span><button class="btn sm" data-act="dl37open">${CFG.d37.filters.find(x => x[0] === f)[1]}</button></span>`);
   };
@@ -9772,6 +9804,24 @@ const SHOP39 = {
 @media (max-height:700px){#bstage .bact{width:54px;height:54px}#bstage .bact.big{width:62px;height:62px}}
 `;
   const s = document.createElement('style'); s.id = 'css392'; s.textContent = css; document.head.appendChild(s);
+})();
+
+/* =====================================================================
+ * v3.9.3 熱修（青鋒監管 10/25 品管 N2：商店、修煉、主畫面按鈕可點範圍 < 44px）
+ *  - 凌霄商店價格鈕改成實高 44px（不再被折扣原價擠扁），卡片改為至少 168px、內容自動撐高。
+ *  - 名器坊購買／刷新貨架、時裝鋪購買鈕同樣實高 44px。
+ *  - 修煉「250」與「×10」各自實高 44px，改成左右並排（卡片不會變高）。
+ *  - 主畫面裝備列「布陣」「品階」高度 30px，透明點擊範圍往上延伸到面板頂（下方緊貼裝備格，不往下搶點擊）。
+ * ===================================================================== */
+(() => {
+  const st = document.createElement('style');
+  st.textContent = `.sc{height:auto;min-height:168px}
+.pb{height:44px;min-height:44px;flex-shrink:0}
+.card.row [data-act=train],.card.row [data-act=train10],#main [data-act=eqbuy],#main [data-act=eqbuyt],#main [data-act=eqref],#main [data-act=cosbuy]{min-height:44px}
+.card.row div:has(>[data-act=train10]){flex-direction:row!important;align-items:center!important;gap:6px!important}
+.eqh .btn.sm{min-height:30px}
+.eqh .btn.sm[data-t44="b"]::before,.eqh .btn.sm[data-t44="a"]::after{top:-17px;bottom:-3px}`;
+  document.head.appendChild(st);
 })();
 
 /* v3.4.1 / v3.5 彈窗關閉修正：所有彈窗都可用 ✕、點背景、返回手勢/Esc 關閉（自成一體，可單獨注入舊版） */
