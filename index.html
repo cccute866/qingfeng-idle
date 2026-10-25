@@ -3143,7 +3143,7 @@ const TB = {
     const before = this.energy;
     this.energy = Math.min(CFG.trial.energyCap, this.energy + e);
     if (before < 100 && this.energy >= 100) {
-      this.portal.open = true; this.msg('傳送門開啟！前往終點'); this.shake = 10;
+      this.portal.open = true; this.msg('魂門現身！點擊魂門進入'); this.shake = 10;
       this.fx.add({ k: 'flash', screen: true, x: 0, y: 0, c: '#bffff4', a: 0.35, life: 0.35 });
     }
   },
@@ -4066,7 +4066,7 @@ const UI = {
       ${!rec ? `<span>首通</span><span class="green">${Object.entries(b.first).map(([k, v]) => rewardName(k) + '×' + v).join(' ')}</span>` : ''}</div>
       ${pw < rp * 0.7 ? '<div class="hint">⚠️ 戰力低於推薦 70%，可能打不過。仍可挑戰。</div>' : ''}
       <div class="row" style="margin-top:8px"><button class="btn big grow ${TrialManager.canStart(L) ? 'pulse' : ''}" data-act="trialstart" data-l="${L}" ${TrialManager.canStart(L) ? '' : 'disabled'}>${tut ? '開始引導試煉（免費）' : TrialManager.remaining() > 0 ? '開始挑戰' : '次數不足'}</button>${rec && rec.best === 'S' ? `<button class="btn jade" data-act="trialsweep" data-l="${L}" ${TrialManager.canSweep(L) ? '' : 'disabled'}>掃蕩</button>` : ''}</div></div>
-      <div class="hint">玩法：橫版自動推進、自動攻擊。看到紅色預警時：${window.TOUCH381 ? '點擊畫面躍起、右滑衝刺、左滑閃避' : '點擊畫面／Space 躍起、右滑／D 衝刺、左滑／A 閃避'}（也可按下方大按鈕，或開啟自動閃避）。擊殺累積魂器能量，滿 100% 後魂門在關底開啟 → 進門挑戰守衛。評分：耗時 50＋存活 25＋能量溢出 15＋守衛機制 10。S≥85、A≥70、B≥50。</div>`;
+      <div class="hint">玩法：橫版自動推進、自動攻擊。看到紅色預警時：${window.TOUCH381 ? '點擊畫面躍起、右滑衝刺、左滑閃避' : '點擊畫面／Space 躍起、右滑／D 衝刺、左滑／A 閃避'}（也可按下方大按鈕，或開啟自動閃避）。擊殺累積魂器能量，滿 100% 魂門會在前方現身 → 點擊魂門挑戰守衛。評分：耗時 50＋存活 25＋能量溢出 15＋守衛機制 10。S≥85、A≥70、B≥50。</div>`;
     },
     tower() {
       const f = TowerManager.next(), req = TowerManager.req(), pw = PlayerManager.power(), r = CFG.tower.reward(f);
@@ -4150,9 +4150,9 @@ const UI = {
     goalclaim() { const r = GoalManager.claim(); if (r) { UI.rewardPopup('目標完成！', r); } },
     idleclaim() { if (IdleManager.minutes() < 0.5) return UI.toast('寶箱還沒累積，等一下再來'); const { r, items } = IdleManager.claim(); UI.rewardPopup('掛機收益', r, items); },
     allres() { UI.modal(`<h3>全部資源</h3><div class="list">${Object.keys(CFG.currencies).map(k => `<div class="li"><span style="font-size:20px">${CFG.currencies[k].icon}</span><b class="grow">${CFG.currencies[k].name}</b>${fmt(S.res[k] || 0)}</div>`).join('')}</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
-    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.9</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
+    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.9.1</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
       <div class="row" style="margin:10px 0;gap:6px;flex-wrap:wrap"><button class="btn jade" data-act="savenow">立即存檔</button><button class="btn" data-act="rename">改名</button><button class="btn red" data-act="resetsave">重置存檔</button></div>
-      <div class="hint">魂器試煉操作 — ${window.TOUCH381 ? '點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；能量滿 100% 點「進入魂門」直接傳送到守衛。' : '手機：點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；電腦：Space／W 躍起、D／→ 衝刺、A／← 閃避、E 進魂門、P／Esc 暫停。'}可開啟「自動閃避」。</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
+      <div class="hint">魂器試煉操作 — ${window.TOUCH381 ? '點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；能量滿 100% 魂門會在前方現身，點擊魂門就進入守衛戰。' : '手機：點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；電腦：Space／W 躍起、D／→ 衝刺、A／← 閃避、E 進魂門、P／Esc 暫停。'}可開啟「自動閃避」。</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
     savenow() { SaveManager.save(); UI.toast('已存檔'); },
     rename() { const n = prompt('輸入俠名（最多 8 字）', S.name); if (n) S.name = n.slice(0, 8); UI.closeModal(); },
     resetsave() { UI.confirm('確定要刪除所有進度並重新開始？此動作無法復原。', () => { SaveManager.reset(); UI.stack = []; UI.view = 'home'; UI.render(); UI.toast('已重置存檔'); }); },
@@ -9103,7 +9103,7 @@ UI.dropLvModal = function () {
   UI.act.settings = function () {
     s0.apply(this, arguments);
     const kv = document.querySelector('#modal .kv'); if (!kv) return;
-    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.9'; });
+    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.9.1'; });
     const on = !(S.opt && S.opt.shake37 === false), f = DL37.st().filter;
     kv.insertAdjacentHTML('beforeend', `<span>畫面震動</span><span><button class="btn sm ${on ? 'jade' : 'gray'}" data-act="shake37">${on ? '開啟' : '關閉'}</button></span><span>自動分解</span><span><button class="btn sm" data-act="dl37open">${CFG.d37.filters.find(x => x[0] === f)[1]}</button></span>`);
   };
@@ -9552,6 +9552,129 @@ const SHOP39 = {
   };
   UI.act.shoptab = d => { UI.shopTab = d.t; UI.render(); };
   if (ASSETS.ui_soldout) document.documentElement.style.setProperty('--stamp-soldout', `url(${ASSETS.ui_soldout})`);
+})();
+
+/* =====================================================================
+ * v3.9.1 熱修（偉翔 10/25 手機回饋）
+ *  A. 魂門看不到：能量滿 100% 時魂門就在主角前方現身（以前在關卡最末端、畫面外），
+ *     點畫面上的魂門走進去；拿掉畫面下方「進入魂門」那一行按鈕。自動模式也會走進門再開戰。
+ *  B. 俠客居主畫面：裝備區改成一張緊湊的 7×2 格（兵刃、靈寶放最前面），
+ *     掛機舞台依剩下空間自動長高（390×844 約 60%）。
+ * ===================================================================== */
+(() => {
+  if (typeof TB !== 'undefined') {
+    /* ---------- A. 魂門在眼前現身 ---------- */
+    const warp0 = TB.warpPortal;
+    TB.warpPortal = function (now) {
+      if (!this.canPortal()) return false;
+      if (now) { this.enter391 = 0; return warp0.call(this); }
+      if (!this.enter391) {   // 先走進門（約 0.5 秒），讓玩家看到自己踏入魂門
+        this.enter391 = this.T || 0.001; this.goPortal = true; this.paused = false; this.stop = 0;
+        this.p.inv = Math.max(this.p.inv || 0, 1.2); this.p.dir = 1;
+        this.fx.add({ k: 'flash', screen: true, x: 0, y: 0, c: '#d8c2ff', a: 0.25, life: 0.3 });
+        if (typeof AudioManager !== 'undefined') AudioManager.play('portal');
+      }
+      return true;
+    };
+    const setup0 = TB.setup;
+    TB.setup = function () { const r = setup0.apply(this, arguments); this.enter391 = 0; this.gate391 = false; return r; };
+    const up0 = TB.update;
+    TB.update = function (dt) {
+      const out = up0.apply(this, arguments);
+      if (!this.p || this.over || this.phase !== 'clear') return out;
+      if (this.energy >= 100 && !this.gate391) {
+        this.gate391 = true;
+        const want = this.p.x + 480 * 0.42;    // 主角在畫面 30%，魂門出現在約 72% 處
+        if (this.portal.x > want) { this.portal.x = want; this.waveI = this.waves.length; }   // 剩下的波次改由魂門裂隙湧出
+        this.portal.open = true;
+      }
+      if (this.enter391) {
+        const p = this.p; p.x += Math.min(this.portal.x - p.x, Math.max(260, (this.portal.x - p.x) * 8) * (dt || 0.016));
+        if (p.x >= this.portal.x - 16 || this.T - this.enter391 > 0.6) this.warpPortal(true);
+      }
+      return out;
+    };
+    // 點畫面上的魂門＝進門（不觸發跳躍）
+    TB.gateHit391 = function (cx, cy) {
+      if (!this.canPortal() || !this.s) return false;
+      const s = this.s, gx = (this.portal.x - this.camX) * s;
+      return Math.abs(cx - gx) < 78 * s && cy > this.GY - 200 * s && cy < this.GY + 30 * s;
+    };
+    const act0 = TB.act;
+    TB.act = function (a, ai) { if (a === 'jump' && !ai && performance.now() - (this.tapGate391 || 0) < 400) return false; return act0.call(this, a, ai); };
+    const bind391 = () => {
+      const cv = document.getElementById('bcv'); if (!cv || cv._g391) return; cv._g391 = 1;
+      cv.addEventListener('pointerup', e => {
+        const r = cv.getBoundingClientRect();
+        if (TB.gateHit391(e.clientX - r.left, e.clientY - r.top)) { TB.tapGate391 = performance.now(); TB.act('portal'); }
+      }, true);
+    };
+    bind391();
+    // 門上的提示：開啟時在門頂顯示「點擊魂門」並加地面光環（不再用畫面下方的按鈕列）
+    const dp = TB.drawPortal;
+    TB.drawPortal = function (c, x, GY, s) {
+      dp.apply(this, arguments);
+      if (this.energy < 100 || x < -120 || x > this.W + 140) return;
+      const k = 0.5 + 0.5 * Math.sin(this.T * 6);
+      c.save(); c.globalCompositeOperation = 'lighter';
+      const g = c.createRadialGradient(x, GY, 0, x, GY, 70 * s); g.addColorStop(0, `rgba(190,150,255,${0.45 + 0.3 * k})`); g.addColorStop(1, 'rgba(0,0,0,0)');
+      c.fillStyle = g; c.beginPath(); c.ellipse(x, GY, 70 * s, 16 * s, 0, 0, 6.283); c.fill(); c.restore();
+      if (this.enter391) return;
+      c.save(); const fs = Math.round(13 * s); c.font = `900 ${fs}px sans-serif`; c.textAlign = 'center'; c.lineWidth = 4; c.strokeStyle = '#2a0f4a'; c.fillStyle = '#fff3c4';
+      const ty = GY - 178 * s - k * 4 * s; c.strokeText('點擊魂門', x, ty); c.fillText('點擊魂門', x, ty); c.restore();
+    };
+  }
+
+  /* ---------- B. 俠客居：緊湊裝備區＋舞台自動長高 ---------- */
+  const ORDER391 = ['weapon', 'lingbao'];
+  const home0 = UI.views.home;
+  UI.views.home = function () {
+    const h = home0.apply(this, arguments);
+    try {
+      const d = document.createElement('div'); d.innerHTML = h;
+      const g = d.querySelector('.eqg34'); if (!g) return h;
+      const cells = [];
+      ORDER391.forEach(id => { const t = g.querySelector('.tall34.' + id); const e = t && t.querySelector('.e34'); if (e) { e.classList.remove('big'); e.classList.add('key391', id); const lab = document.createElement('span'); lab.className = 'sn'; lab.textContent = CFG.slots.find(s => s.id === id).name; if (!e.querySelector('.sn')) e.appendChild(lab); if (t.querySelector(':scope>.dot.on') && !e.querySelector('.dot')) e.insertAdjacentHTML('afterbegin', '<span class="dot on"></span>'); cells.push(e.outerHTML); } });
+      g.querySelectorAll('.eqm34 > .e34:not(.auto34)').forEach(e => cells.push(e.outerHTML));
+      const au = g.querySelector('.auto34'); if (au) cells.push(au.outerHTML);
+      g.outerHTML = `<div class="eqg391">${cells.join('')}</div>`;
+      return d.innerHTML;
+    } catch (e) { return h; }
+  };
+  const fit = () => {
+    const app = document.getElementById('app'), st = document.getElementById('stage'), main = document.getElementById('main');
+    if (!app || !st || !main) return;
+    if (!app.classList.contains('home') || UI.view !== 'home') { if (st.style.height) st.style.height = ''; return; }
+    const H = app.clientHeight, goal = document.getElementById('goal'), nav = document.getElementById('nav');
+    const box = main.firstElementChild; if (!box) return;
+    const cs = getComputedStyle(main), mh = box.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + 2;
+    const gm = goal && goal.offsetParent ? goal.offsetHeight + 8 : 0, nh = nav ? nav.offsetHeight : 0;
+    const want = Math.round(Math.max(H * 0.44, Math.min(H * 0.66, H - mh - gm - nh)));
+    if (Math.abs((parseFloat(st.style.height) || 0) - want) > 1) st.style.height = want + 'px';
+  };
+  UI.fit391 = fit;
+  const r0 = UI.render;
+  UI.render = function () { const o = r0.apply(this, arguments); fit(); requestAnimationFrame(fit); return o; };
+  window.addEventListener('resize', () => requestAnimationFrame(fit));
+
+  const css = `
+#bportal,#bportal.on{display:none!important}
+.eqp34{padding:4px 6px 6px}
+.eqh{margin-bottom:4px}
+.eqg391{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.eqg391 .e34{min-width:44px}
+.eqg391 .e34 .it{aspect-ratio:1;height:auto}
+.eqg391 .e34 .sn{position:absolute;left:0;right:0;bottom:1px;text-align:center;font-size:9px;line-height:11px;color:#fff;text-shadow:0 0 2px #000,0 0 2px #000,0 1px 0 #000;pointer-events:none;z-index:4;margin:0}
+.eqg391 .e34:not(.empty):not(.auto34) .sn{display:none}
+.eqg391 .key391 .it{box-shadow:0 0 0 2px #1a7f6f,0 0 6px #2fc7a8aa}
+.eqg391 .key391.lingbao .it{box-shadow:0 0 0 2px #6b3fa0,0 0 6px #b07affaa}
+.eqg391 .auto34 i{aspect-ratio:1}
+.eqg391 .auto34 .sn{font-size:8.5px}
+.xrow34{margin:3px 0 4px}
+.qiorb{width:46px;height:46px}
+.xup,.xup .ic{width:44px;height:44px}
+`;
+  const s = document.createElement('style'); s.id = 'css391'; s.textContent = css; document.head.appendChild(s);
 })();
 
 /* v3.4.1 / v3.5 彈窗關閉修正：所有彈窗都可用 ✕、點背景、返回手勢/Esc 關閉（自成一體，可單獨注入舊版） */
