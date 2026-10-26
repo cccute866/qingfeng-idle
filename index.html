@@ -681,6 +681,12 @@ canvas.sdemo{width:100%;border-radius:10px;border:2px solid #d6c39b;background:#
   background:var(--stamp-soldout) center/contain no-repeat;pointer-events:none;opacity:.92}
 
 .pb[disabled]{opacity:1}.qf{font-size:34px;line-height:60px}.qf img.ic{width:46px;height:46px;margin-top:7px;vertical-align:top}.sc s .ic{width:12px;height:12px}.stabs a{cursor:pointer}
+/* v3.10.1 招募按鈕：固定在可視區下緣一排，不被導覽列蓋住 */
+.rbar3101{position:sticky;top:0;z-index:3;display:flex;gap:5px;padding:6px 4px;margin:0 -4px 6px;background:linear-gradient(#0a1f2cee,#0a1f2cf8);border:2px solid #f6d77a;border-radius:14px;box-shadow:0 3px 10px #0004}
+.rbar3101 .btn{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:44px;padding:3px 2px;font-size:13px;line-height:1.15;white-space:nowrap;min-width:0}
+.rbar3101 small{font-size:10px;display:flex;align-items:center;justify-content:center;gap:2px}
+.rbar3101 small .ic,.rbar3101 small svg{width:14px;height:14px}
+.rhave{flex-wrap:wrap}.rhv3101{display:inline-flex;align-items:center;gap:3px;margin-left:8px}.rhv3101 .ic{width:18px;height:18px}
 </style></head>
 <body><div id="app">
 <section id="stage">
@@ -4176,7 +4182,7 @@ const UI = {
     goalclaim() { const r = GoalManager.claim(); if (r) { UI.rewardPopup('目標完成！', r); } },
     idleclaim() { if (IdleManager.minutes() < 0.5) return UI.toast('寶箱還沒累積，等一下再來'); const { r, items } = IdleManager.claim(); UI.rewardPopup('掛機收益', r, items); },
     allres() { UI.modal(`<h3>全部資源</h3><div class="list">${Object.keys(CFG.currencies).map(k => `<div class="li"><span style="font-size:20px">${CFG.currencies[k].icon}</span><b class="grow">${CFG.currencies[k].name}</b>${fmt(S.res[k] || 0)}</div>`).join('')}</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
-    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.10</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
+    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.10.1</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
       <div class="row" style="margin:10px 0;gap:6px;flex-wrap:wrap"><button class="btn jade" data-act="savenow">立即存檔</button><button class="btn" data-act="rename">改名</button><button class="btn red" data-act="resetsave">重置存檔</button></div>
       <div class="hint">魂器試煉操作 — ${window.TOUCH381 ? '點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；能量滿 100% 魂門會在前方現身，點擊魂門就進入守衛戰。' : '手機：點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；電腦：Space／W 躍起、D／→ 衝刺、A／← 閃避、E 進魂門、P／Esc 暫停。'}可開啟「自動閃避」。</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
     savenow() { SaveManager.save(); UI.toast('已存檔'); },
@@ -9150,7 +9156,7 @@ UI.dropLvModal = function () {
   UI.act.settings = function () {
     s0.apply(this, arguments);
     const kv = document.querySelector('#modal .kv'); if (!kv) return;
-    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.10'; });
+    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.10.1'; });
     const on = !(S.opt && S.opt.shake37 === false), f = DL37.st().filter;
     kv.insertAdjacentHTML('beforeend', `<span>畫面震動</span><span><button class="btn sm ${on ? 'jade' : 'gray'}" data-act="shake37">${on ? '開啟' : '關閉'}</button></span><span>自動分解</span><span><button class="btn sm" data-act="dl37open">${CFG.d37.filters.find(x => x[0] === f)[1]}</button></span>`);
   };
@@ -10023,6 +10029,70 @@ const SHOP39 = {
 .pl310.win{background:rgba(233,196,90,.16);border:1px solid rgba(233,196,90,.55)}.pl310 .btn{flex:none;min-height:44px}
 .iconbtn.back::after{content:'';position:absolute;inset:-10px}`;  /* P25：返回鍵可點範圍補到 44px，外觀不變 */
   document.head.appendChild(css);
+})();
+
+/* v3.10.1 工程熱修（QA 10/26）
+   - 招募頁：招募按鈕改成固定在畫面下緣的一排（不必往下捲、不被導覽列蓋住）。
+   - N4：高級英雄帖改用金色英雄帖圖示，按鈕寫「高級帖 ×1／×10」，不再被濾成「×11」「×1010」。
+   - N5：拿掉開發字樣「（文件碎片表）」。
+   沒有改任何數值、機率或存檔欄位。 */
+(() => {
+  if (!UI.views || !UI.views.recruit) return;
+  const V = UI.views;
+  const hiIc = () => { const t = ICO.get('tie'); return t.indexOf('class="ic"') >= 0 ? t.replace('class="ic"', 'class="ic hi"') : t; };
+  V.recruit = function () {
+    const bg = ART.pick('map_recruit'), R = CFG.recruit.rates, pl = GachaManager.pityLeft();
+    const feat = CFG.heroes.filter(h => h.q >= 3), tie = ICO.get('tie'), hi = S.res.tieHi || 0;
+    const b = (cls, act, n, label, cost, pulse) => `<button class="btn grow ${cls} ${pulse ? 'pulse' : ''}" data-act="${act}" data-n="${n}">${label}<small>${cost}</small></button>`;
+    const bar = b('rbtn1', 'pull', 1, '招募 ×1', `${tie}1`, S.res.tie >= 1 && !S.stats.recruit)
+      + b('jade rbtn10', 'pull', 10, '招募 ×10', `${tie}10`, S.res.tie >= 10)
+      + (hi > 0 ? b('rbtnhi', 'pullhi', 1, '高級帖 ×1', `${hiIc()}1`, true) : '')
+      + (hi >= 10 ? b('rbtnhi', 'pullhi', 10, '高級帖 ×10', `${hiIc()}10`, false) : '');
+    return `<div class="title"><button class="iconbtn back" data-act="back">←</button>英雄帖招募<button class="iconbtn" data-act="rates" style="margin-left:auto" title="機率">ⓘ</button></div>
+      <div class="rbar3101">${bar}</div>
+      <div class="mapv rcv" ${bg ? `style="background-image:url(${ASSETS[bg]})"` : ''}>
+        <div class="rplq">英雄帖 · 招募</div>
+        <div class="rfeat">${feat.map((h, i) => `<div class="rf" style="--i:${i}">${UI.heroFace(h.id, 74)}<span class="qt${CFG.heroQualities[h.q].color}">${CFG.heroQualities[h.q].name}</span><b>${h.name}</b></div>`).join('')}</div>
+        <div class="rpanel">
+          <div class="rpity"><span>距「不朽」保底</span><b>${pl}</b><span>抽</span><div class="bar gold"><i style="width:${(1 - pl / CFG.gacha.pity) * 100}%"></i></div></div>
+          <div class="rhave">${tie}持有英雄帖 <b>${S.res.tie}</b>${hi > 0 ? `<span class="rhv3101">${hiIc()}持有高級英雄帖 <b>${hi}</b></span>` : ''}</div>
+          <div class="sub">十連必得傳世以上${hi > 0 ? '；高級帖必得精良以上（大月卡／終身卡取得）' : ''}</div>
+          <div class="sub" style="margin-top:4px">新俠客直接加入；重複俠客會變成碎片，可用來升星</div>
+        </div>
+      </div>
+      <div class="card"><b>本期機率</b><div class="sub">${CFG.heroQualities.map((q, i) => `<span class="qt${q.color}">${q.name} ${R[i]}%</span>`).join(' · ')}</div><div class="sub">十連必含傳世以上 · ${CFG.gacha.pity} 抽內必得不朽以上（已累計 ${GachaManager.pity()} 抽）</div></div>
+      <div class="card row" data-act="nav" data-v="welfare" data-tab="pay" style="cursor:pointer"><div class="grow"><b>英雄帖不夠？</b><div class="sub">可用 ${ICO.get('silver')}銀錠補足（每張 ${CFG.gacha.silverPerTie}）· 銀錠於「福利 → 儲值」模擬購買取得</div></div><span class="tag">模擬購買</span></div>`;
+  };
+})();
+
+/* v3.10.1 N3：「閉關歸來」彈窗的數字等對時完成（或逾時 4 秒）才算，和按「全部領取」實際拿到的一致。
+   數字一律用可信時鐘（QFTime）計算；離開時間不足 2 分鐘就不彈。 */
+(() => {
+  const T = () => (typeof QFTime === 'function' ? QFTime() : Date.now());
+  const withT = fn => function () { const rn = Date.now, t = T(); try { Date.now = () => t; return fn.apply(this, arguments); } finally { Date.now = rn; } };
+  if (typeof IdleManager !== 'undefined' && typeof IdleManager.preview === 'function') IdleManager.preview = withT(IdleManager.preview);
+  const html = away => {
+    const p = IdleManager.preview(); const mines = {}; CFG.mines.forEach(m => { const a = Math.floor(IdleManager.mineAmount(m.id)); if (a) mines[m.res] = (mines[m.res] || 0) + a; });
+    return `<h3>🍵 閉關歸來</h3><p style="text-align:center">你離開了 <b class="goldt">${fmtTime(away)}</b>，俠客們替你闖蕩江湖${away / 3600 > IdleManager.capH() ? `（掛機上限 ${IdleManager.capH()} 小時）` : ''}：</p>
+      <div class="rewards">${UI.rewardChips({ copper: p.copper, exp: p.exp, iron: p.iron, page: p.page })}<span class="rw">🎁裝備×${p.equips}</span></div>
+      ${Object.keys(mines).length ? `<div class="sub" style="text-align:center">礦脈產出：${UI.rewardChips(mines, true)}</div>` : ''}
+      <div class="sub" style="text-align:center">離線收益加成 +${VipManager.offlinePct()}%</div>
+      <div style="text-align:center;margin-top:10px"><button class="btn big pulse" data-act="welcomeclaim">全部領取</button></div>`;
+  };
+  const m0 = UI.modal; let busy = false;
+  UI.modal = function (h) {
+    if (busy || typeof h !== 'string' || h.indexOf('data-act="welcomeclaim"') < 0 || typeof S === 'undefined' || !S) return m0.apply(this, arguments);
+    const seen = S.lastSeen, self = this; let n = 0;
+    const show = () => {
+      if (typeof CLK !== 'undefined' && CLK.pending && n++ < 25) return setTimeout(show, 200);
+      const away = (T() - seen) / 1000;
+      if (away <= 120) return;
+      const mo = document.getElementById('modal');
+      if (mo && mo.classList.contains('on')) { if (n) return setTimeout(show, 400); }   // 別的視窗開著（例如新手提示）→ 等它關掉
+      busy = true; try { m0.call(self, html(away)); } finally { busy = false; }
+    };
+    show();
+  };
 })();
 
 /* v3.4.1 / v3.5 彈窗關閉修正：所有彈窗都可用 ✕、點背景、返回手勢/Esc 關閉（自成一體，可單獨注入舊版） */
