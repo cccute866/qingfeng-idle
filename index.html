@@ -736,7 +736,8 @@ canvas.sdemo{width:100%;border-radius:10px;border:2px solid #d6c39b;background:#
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 1,
+  version: 'v3.11.3',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
 
@@ -1349,7 +1350,7 @@ const SaveManager = {
   fresh() {
     const t = now();
     const s = {
-      v: CFG.version, created: t, lastSeen: t, name: '少俠',
+      v: CFG.saveV, created: t, lastSeen: t, name: '少俠',
       lv: 1, exp: 0,
       res: { copper: 3000, silver: 0, bun: 100, page: 20, tie: 10, tieHi: 0, speed: 0, ticket: 0, iron: 10, essence: 0, stone: 0, dropRune: 0, box1: 0, box2: 0, box3: 0, boxP: 0, boxO: 0 },
       bag: [], equip: {}, nextId: 1,
@@ -1386,7 +1387,7 @@ const SaveManager = {
   load() {
     try {
       const d = this.readSigned(CFG.saveKey) || this.readSigned(CFG.saveKey + '_bak', true);
-      if (d && d.v === CFG.version) { const sch = d.schema || 2; S = this.migrate(Object.assign(this.fresh(), d), sch); this.silv393(d); return true; }
+      if (d && d.v === CFG.saveV) { const sch = d.schema || 2; S = this.migrate(Object.assign(this.fresh(), d), sch); this.silv393(d); return true; }
     } catch (e) { console.warn('存檔讀取失敗，建立新存檔', e); }
     S = this.fresh();
     return false;
@@ -4182,7 +4183,7 @@ const UI = {
     goalclaim() { const r = GoalManager.claim(); if (r) { UI.rewardPopup('目標完成！', r); } },
     idleclaim() { if (IdleManager.minutes() < 0.5) return UI.toast('寶箱還沒累積，等一下再來'); const { r, items } = IdleManager.claim(); UI.rewardPopup('掛機收益', r, items); },
     allres() { UI.modal(`<h3>全部資源</h3><div class="list">${Object.keys(CFG.currencies).map(k => `<div class="li"><span style="font-size:20px">${CFG.currencies[k].icon}</span><b class="grow">${CFG.currencies[k].name}</b>${fmt(S.res[k] || 0)}</div>`).join('')}</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
-    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.11.1</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
+    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>${CFG.version}</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
       <div class="row" style="margin:10px 0;gap:6px;flex-wrap:wrap"><button class="btn jade" data-act="savenow">立即存檔</button><button class="btn" data-act="rename">改名</button><button class="btn red" data-act="resetsave">重置存檔</button></div>
       <div class="hint">魂器試煉操作 — ${window.TOUCH381 ? '點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；能量滿 100% 魂門會在前方現身，點擊魂門就進入守衛戰。' : '手機：點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；電腦：Space／W 躍起、D／→ 衝刺、A／← 閃避、E 進魂門、P／Esc 暫停。'}可開啟「自動閃避」。</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
     savenow() { SaveManager.save(); UI.toast('已存檔'); },
@@ -9165,7 +9166,7 @@ UI.dropLvModal = function () {
   UI.act.settings = function () {
     s0.apply(this, arguments);
     const kv = document.querySelector('#modal .kv'); if (!kv) return;
-    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.11.1'; });
+    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = CFG.version; });
     const on = !(S.opt && S.opt.shake37 === false), f = DL37.st().filter;
     kv.insertAdjacentHTML('beforeend', `<span>畫面震動</span><span><button class="btn sm ${on ? 'jade' : 'gray'}" data-act="shake37">${on ? '開啟' : '關閉'}</button></span><span>自動分解</span><span><button class="btn sm" data-act="dl37open">${CFG.d37.filters.find(x => x[0] === f)[1]}</button></span>`);
   };
@@ -9257,6 +9258,9 @@ Object.assign(ASSET_INFO, {guard_basic:{facing:'left'},guard_shield:{facing:'lef
 
 /* v3.11 10/27 青鋒美術交付：五張首領招式預警貼花、首領情報卷軸框、取代 emoji 的 9 個正式圖示（96px 版；程式替換由工程接手） */
 Object.assign(ASSETS, {"fx_tele_charge": "assets/fx_tele_charge.d2df82bb3a.webp", "fx_tele_shield": "assets/fx_tele_shield.a241395c0d.webp", "fx_tele_slam": "assets/fx_tele_slam.d836c096ff.webp", "fx_tele_summon": "assets/fx_tele_summon.d5532c9348.webp", "fx_tele_volley": "assets/fx_tele_volley.f746454b9f.webp", "ui_boss_intel_scroll": "assets/ui_boss_intel_scroll.f448e45fdb.webp", "icon_guild_merit": "assets/icon_guild_merit.7a17e99fbc.webp", "icon_random_name": "assets/icon_random_name.4251da319c.webp", "icon_reset_moon": "assets/icon_reset_moon.877fb43dd4.webp", "icon_rest": "assets/icon_rest.85e543ad53.webp", "icon_sound_off": "assets/icon_sound_off.8e44e7251e.webp", "icon_sound_on": "assets/icon_sound_on.9a129a6529.webp", "icon_star_reward": "assets/icon_star_reward.6f56cfd5f8.webp", "icon_tag": "assets/icon_tag.69d4896698.webp", "icon_tie_gold": "assets/icon_tie_gold.67320a49b0.webp"});
+
+/* v3.11.3 10/28 青鋒美術交付：首領預警貼花補完 icefall／blades／enrage（P2） */
+Object.assign(ASSETS, {"fx_tele_icefall": "assets/fx_tele_icefall.02721642e9.webp", "fx_tele_blades": "assets/fx_tele_blades.a9494b645d.webp", "fx_tele_enrage": "assets/fx_tele_enrage.1af1cbdd11.webp"});
 
 /* =====================================================================
  * v3.8 第七、八章：黃沙驛路／蜃海潮宮（原創）＋ 61 層後難度曲線、等級上限 100
@@ -10198,7 +10202,7 @@ const SHOP39 = {
 
 /* v3.11（10/27 會議）：首領招式預警改用美術貼花（圖沒載入時照舊畫程式色塊）、首領情報卷軸底框、破招保底標記 */
 (() => {
-  const TK = { charge: 'fx_tele_charge', shield: 'fx_tele_shield', slam: 'fx_tele_slam', summon: 'fx_tele_summon', volley: 'fx_tele_volley' };
+  const TK = { charge: 'fx_tele_charge', shield: 'fx_tele_shield', slam: 'fx_tele_slam', summon: 'fx_tele_summon', volley: 'fx_tele_volley', icefall: 'fx_tele_icefall', blades: 'fx_tele_blades', enrage: 'fx_tele_enrage' };   // v3.11.3 P2：補完 icefall／blades／enrage
   const img = k => (typeof ART !== 'undefined' && ASSETS[TK[k]]) ? ART.get(TK[k]) : null;
   const warm = () => Object.keys(TK).forEach(k => { try { img(k); } catch (e) { } });
   const bt0 = HS.bossTele; HS.bossTele = function (b, lead) { warm(); return bt0.call(this, b, lead); };
@@ -10214,13 +10218,16 @@ const SHOP39 = {
     if (t.kind === 'volley') t.spots.forEach(x => spot(x, 34, '#ff4a2a'));
     if (t.kind === 'slam') { const x0 = X(lead.x - 90), x1 = X(b.x - 40), h = 26 * s; c.globalAlpha = Math.min(1, pulse + 0.35); c.drawImage(im, x0, GY - 5 * s - h / 2, x1 - x0, h); }
     if (t.kind === 'charge') { const x0 = X(lead.x - 170), x1 = X(b.x - 30), h = 30 * s; c.globalAlpha = Math.min(1, pulse + 0.4); c.drawImage(im, x0, Y(70) - h / 2, x1 - x0, h); }
+    if (t.kind === 'icefall') t.spots.forEach(x => spot(x, 30, '#7fd4ff'));   // v3.11.3 P2：冰晶落點圈
+    if (t.kind === 'blades') { const x0 = X(lead.x - 90), x1 = X(b.x - 40), h = 34 * s; c.globalAlpha = Math.min(1, pulse + 0.35); c.drawImage(im, x0, Y(26) - h / 2, x1 - x0, h); }   // 飛劍齊射帶（刀尖朝隊伍）
+    if (t.kind === 'enrage') { const w = (0.95 + (1 - k) * 0.35) * 120 * s, h = w * ar; c.globalAlpha = 0.55 + k * 0.45; c.drawImage(im, X(b.x) - w / 2, Y(b.h * 0.5) - h / 2, w, h); }   // 狂暴焰圈套在首領身上
     if (t.kind === 'shield') { const w = (0.8 + (1 - k) * 1.1) * 80 * s, h = w * ar; c.globalAlpha = 0.6 + k * 0.4; c.drawImage(im, X(b.x) - w / 2, Y(b.h * 0.5) - h / 2, w, h); }
     // 首領頭上「！」與招式名（維持程式，與 v3.2 相同）
     c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1;
     const hx = X(b.x) - 64 * s, hy = Y(b.h * 0.72);
     c.fillStyle = '#ff3a2a'; c.beginPath(); c.arc(hx, hy, 13 * s * (1 + Math.sin(T * 16) * 0.12), 0, 6.283); c.fill(); c.strokeStyle = '#fff'; c.lineWidth = 2.5 * s; c.stroke();
     c.fillStyle = '#fff'; c.font = `900 ${18 * s}px sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('!', hx, hy + 1 * s);
-    if (b.skill) { c.font = `900 ${12 * s}px sans-serif`; c.lineWidth = 3; c.strokeStyle = '#2a0a00'; c.fillStyle = '#ffe27a'; c.strokeText(b.skill, hx, hy - 22 * s); c.fillText(b.skill, hx, hy - 22 * s); }
+    if (b.skill && t.kind !== 'icefall') { const lb = t.kind === 'enrage' ? '狂化' : b.skill; c.font = `900 ${12 * s}px sans-serif`; c.lineWidth = 3; c.strokeStyle = '#2a0a00'; c.fillStyle = '#ffe27a'; c.strokeText(lb, hx, hy - 22 * s); c.fillText(lb, hx, hy - 22 * s); }
     c.restore();
   };
   const css = document.createElement('style');
