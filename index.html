@@ -4182,7 +4182,7 @@ const UI = {
     goalclaim() { const r = GoalManager.claim(); if (r) { UI.rewardPopup('目標完成！', r); } },
     idleclaim() { if (IdleManager.minutes() < 0.5) return UI.toast('寶箱還沒累積，等一下再來'); const { r, items } = IdleManager.claim(); UI.rewardPopup('掛機收益', r, items); },
     allres() { UI.modal(`<h3>全部資源</h3><div class="list">${Object.keys(CFG.currencies).map(k => `<div class="li"><span style="font-size:20px">${CFG.currencies[k].icon}</span><b class="grow">${CFG.currencies[k].name}</b>${fmt(S.res[k] || 0)}</div>`).join('')}</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
-    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.11</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
+    settings() { UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>v3.11.1</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${S.opt.mute ? '🔇 已靜音' : '🔊 開啟'}</button></span></div>
       <div class="row" style="margin:10px 0;gap:6px;flex-wrap:wrap"><button class="btn jade" data-act="savenow">立即存檔</button><button class="btn" data-act="rename">改名</button><button class="btn red" data-act="resetsave">重置存檔</button></div>
       <div class="hint">魂器試煉操作 — ${window.TOUCH381 ? '點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；能量滿 100% 魂門會在前方現身，點擊魂門就進入守衛戰。' : '手機：點擊畫面躍起、右滑衝刺、左滑閃避，或按下方三顆大按鈕；電腦：Space／W 躍起、D／→ 衝刺、A／← 閃避、E 進魂門、P／Esc 暫停。'}可開啟「自動閃避」。</div><div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`); },
     savenow() { SaveManager.save(); UI.toast('已存檔'); },
@@ -8088,7 +8088,7 @@ Object.assign(ASSETS, {"icon_g_equip": "assets/icon_g_equip.03f1de3215.webp", "i
     tags: TAG, sch: SCH, qn: QN, qc: QC, pool: P,
     slotLv: [1, 5, 15, 30],                       // 【建議調整】四格解鎖：開局／Lv5／Lv15／Lv30
     grant: { 5: { wx: 'whirl', ling: 5 }, 15: { wx: 'blast', ling: 10 }, 30: { wx: 'sword', ling: 0 } },
-    perLv: 0.2 /* 【建議調整 v3.11，數值 10/27 P2】0.09→0.2，練武學有感 */, starMul: 0.12, starFlat: 0.4,      // 突破：每星 ×1.12 並另加 0.4%（×品質）【建議調整】讓低等武學突破也有感
+    perLv: 0.3 /* 【建議調整 v3.11.2，會議 10/28 P20】0.2→0.3；第 14 天 VIP10÷免費 >×1.71 就回退 */, starMul: 0.12, starFlat: 0.4,      // 突破：每星 ×1.12 並另加 0.4%（×品質）【建議調整】讓低等武學突破也有感
                                        // 每級 +0.09%（×品質係數）【建議調整】0.06 時 5 級幾乎看不出差異
     starNeed: [1, 2, 3, 4, 5], starMax: 5,          // 突破所需同名本數
     stoneQ: [3, 5, 8, 12, 20],                      // 每缺 1 本改用突破石
@@ -8194,7 +8194,7 @@ Object.assign(ASSETS, {"icon_g_equip": "assets/icon_g_equip.03f1de3215.webp", "i
       const d = WX.st().dr;
       if (free) { if (d.free === S.day) return null; d.free = S.day; }
       else { if ((S.res.wxling || 0) < n) return null; S.res.wxling -= n; }
-      const out = []; for (let i = 0; i < n; i++) { let g = null; if (n >= 10 && i === n - 1) try { g = WX.pityCounter(); } catch (e) { g = null; } out.push(g || WX.roll()); }   /* v3.11 破招保底：十連最後一抽 */
+      const out = []; for (let i = 0; i < n; i++) { let g = null; if (n >= 10 && i === n - 1 && d.p10 < C.pity10 - 1 && d.p60 < C.pity60 - 1) try { g = WX.pityCounter(); } catch (e) { g = null; }   /* v3.11.2 P19：本抽會觸發「絕／傳世」保底時，讓給保底，不吃掉必絕 */ out.push(g || WX.roll()); }   /* v3.11 破招保底：十連最後一抽 */
       S.stats.wxDraw = (S.stats.wxDraw || 0) + n; return out;
     },
     /* v3.11 破招保底（數值 10/27 P1）：十連時，下一個首領的特性若沒有任何已擁有的武學能破，最後一抽改給 1 本能破的最低品質武學 */
@@ -9165,7 +9165,7 @@ UI.dropLvModal = function () {
   UI.act.settings = function () {
     s0.apply(this, arguments);
     const kv = document.querySelector('#modal .kv'); if (!kv) return;
-    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.11'; });
+    kv.querySelectorAll('span').forEach((sp, i, a) => { if (sp.textContent === '版本' && a[i + 1]) a[i + 1].textContent = 'v3.11.1'; });
     const on = !(S.opt && S.opt.shake37 === false), f = DL37.st().filter;
     kv.insertAdjacentHTML('beforeend', `<span>畫面震動</span><span><button class="btn sm ${on ? 'jade' : 'gray'}" data-act="shake37">${on ? '開啟' : '關閉'}</button></span><span>自動分解</span><span><button class="btn sm" data-act="dl37open">${CFG.d37.filters.find(x => x[0] === f)[1]}</button></span>`);
   };
@@ -10077,17 +10077,23 @@ const SHOP39 = {
   };
 })();
 
-/* v3.10.1 N3：「閉關歸來」彈窗的數字等對時完成（或逾時 4 秒）才算，和按「全部領取」實際拿到的一致。
-   數字一律用可信時鐘（QFTime）計算；離開時間不足 2 分鐘就不彈。 */
+/* v3.10.1 N3＋v3.11.1 N2／N3：「閉關歸來」彈窗的數字等對時完成（或逾時 4 秒）才算，和按「全部領取」實際拿到的一致。
+   v3.11.1：離開時間／礦脈改用實際可領分鐘；分鐘與礦脈都是 0 時寫「對時失敗，連上網路後再算」；礦脈列用 .rewards（flex-wrap）避免溢出。
+   數字一律用可信時鐘（QFTime）計算；牆鐘離開時間不足 2 分鐘就不彈。 */
 (() => {
   const T = () => (typeof QFTime === 'function' ? QFTime() : Date.now());
-  const withT = fn => function () { const rn = Date.now, t = T(); try { Date.now = () => t; return fn.apply(this, arguments); } finally { Date.now = rn; } };
-  if (typeof IdleManager !== 'undefined' && typeof IdleManager.preview === 'function') IdleManager.preview = withT(IdleManager.preview);
-  const html = away => {
-    const p = IdleManager.preview(); const mines = {}; CFG.mines.forEach(m => { const a = Math.floor(IdleManager.mineAmount(m.id)); if (a) mines[m.res] = (mines[m.res] || 0) + a; });
+  const html = () => {
+    const min = IdleManager.minutes();
+    const mines = {}; CFG.mines.forEach(m => { const a = Math.floor(IdleManager.mineAmount(m.id)); if (a) mines[m.res] = (mines[m.res] || 0) + a; });
+    if (min < 0.5 && !Object.keys(mines).length) {
+      return `<h3>🍵 閉關歸來</h3><p style="text-align:center">對時失敗，連上網路後再算</p>
+        <div class="sub" style="text-align:center">這段離線的掛機與礦脈收益，等連上可信時鐘後再補發。</div>
+        <div style="text-align:center;margin-top:10px"><button class="btn big" data-act="mclose">知道了</button></div>`;
+    }
+    const p = IdleManager.preview(min); const away = min * 60;
     return `<h3>🍵 閉關歸來</h3><p style="text-align:center">你離開了 <b class="goldt">${fmtTime(away)}</b>，俠客們替你闖蕩江湖${away / 3600 > IdleManager.capH() ? `（掛機上限 ${IdleManager.capH()} 小時）` : ''}：</p>
       <div class="rewards">${UI.rewardChips({ copper: p.copper, exp: p.exp, iron: p.iron, page: p.page })}<span class="rw">🎁裝備×${p.equips}</span></div>
-      ${Object.keys(mines).length ? `<div class="sub" style="text-align:center">礦脈產出：${UI.rewardChips(mines, true)}</div>` : ''}
+      ${Object.keys(mines).length ? `<div class="sub" style="text-align:center;margin-bottom:2px">礦脈產出：</div><div class="rewards" style="margin-top:0">${UI.rewardChips(mines, true)}</div>` : ''}
       <div class="sub" style="text-align:center">離線收益加成 +${VipManager.offlinePct()}%</div>
       <div style="text-align:center;margin-top:10px"><button class="btn big pulse" data-act="welcomeclaim">全部領取</button></div>`;
   };
@@ -10097,11 +10103,11 @@ const SHOP39 = {
     const seen = S.lastSeen, self = this; let n = 0;
     const show = () => {
       if (typeof CLK !== 'undefined' && CLK.pending && n++ < 25) return setTimeout(show, 200);
-      const away = (T() - seen) / 1000;
-      if (away <= 120) return;
+      const wall = (T() - seen) / 1000;
+      if (wall <= 120) return;
       const mo = document.getElementById('modal');
-      if (mo && mo.classList.contains('on')) { if (n) return setTimeout(show, 400); }   // 別的視窗開著（例如新手提示）→ 等它關掉
-      busy = true; try { m0.call(self, html(away)); } finally { busy = false; }
+      if (mo && mo.classList.contains('on')) { if (n) return setTimeout(show, 400); }
+      busy = true; try { m0.call(self, html()); } finally { busy = false; }
     };
     show();
   };
@@ -10221,6 +10227,43 @@ const SHOP39 = {
   css.textContent = `.pc311{right:auto!important;left:-4px;background:#1f8a5a!important}` +
     (ASSETS.ui_boss_intel_scroll ? `.bt310{background:url(${ASSETS.ui_boss_intel_scroll}) center/100% 100% no-repeat!important;border:0!important;padding:14px 40px 16px!important;box-shadow:none!important}.bt310>b:first-child{display:block;text-align:center;color:#fff;text-shadow:0 1px 2px #0008;margin-bottom:6px}` : '');
   document.head.appendChild(css);
+})();
+
+/* v3.11.1 工程熱修標記（QA 10/27）
+ *  N2／N3 閉關歸來改動寫在 fix_v3101.js（同一條彈窗路徑，避免雙重攔截）。
+ *  t31 測試資料穩定、council.py max_tokens KeyError 見對應檔。 */
+(() => { /* no-op：歡迎彈窗邏輯在 fix_v3101 */ })();
+
+/* v3.11.2（會議 10/28 P8，監管-3）升級大字不蓋彈窗／試煉準備
+ *  1) 大字一律進佇列，下一拍才判斷（儲值後才開「收下」視窗也擋得住）
+ *  2) 播放中若視窗或試煉打開，立刻收起，等關掉再播
+ *  3) 同類連升合併成一個（江湖等級 56→59！），同一時間只播一個 */
+(() => {
+  const $ = id => document.getElementById(id);
+  const busy = () => { const m = $('modal'), b = $('battle'); return !!((m && m.classList.contains('on')) || (b && b.classList.contains('on'))); };
+  const RE = /^(江湖等級 |VIP |裝備境界 Lv)(\d+)！$/;
+  const q = []; let cur = null;
+  const txt = x => x.t || (x.from === x.to ? `${x.k}${x.to}！` : `${x.k}${x.from}→${x.to}！`);
+  const push = t => {
+    const m = RE.exec(t);
+    if (m) {
+      const k = m[1], n = +m[2];
+      if (cur && cur.x.k === k) { cur.x.to = n; cur.el.textContent = txt(cur.x); return; }
+      const o = q.find(x => x.k === k); if (o) { o.to = n; return; }
+      q.push({ k, from: n, to: n });
+    } else if (!q.some(x => x.t === t) && !(cur && cur.x.t === t)) q.push({ t });
+    while (q.length > 4) q.shift();
+  };
+  const show = x => {
+    const el = document.createElement('div'); el.className = 'lvup'; el.textContent = txt(x); $('app').appendChild(el); cur = { el, x };
+    setTimeout(() => { if (cur && cur.el === el) { el.remove(); cur = null; } }, 1700);
+  };
+  UI.flash = function (t) { push(String(t)); };
+  UI.flashQ = () => ({ q: q.map(txt), cur: cur ? txt(cur.x) : '' });
+  setInterval(() => {
+    if (busy()) { if (cur) { cur.el.remove(); q.unshift(cur.x); cur = null; } return; }
+    if (!cur && q.length) show(q.shift());
+  }, 150);
 })();
 
 /* v3.4.1 / v3.5 彈窗關閉修正：所有彈窗都可用 ✕、點背景、返回手勢/Esc 關閉（自成一體，可單獨注入舊版） */
