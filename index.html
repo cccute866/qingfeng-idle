@@ -736,7 +736,7 @@ canvas.sdemo{width:100%;border-radius:10px;border:2px solid #d6c39b;background:#
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.11.4',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.11.5',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -2273,6 +2273,8 @@ const ICO = {
   },
 };
 ICO.def();
+// v3.11.5：介面剩下的 emoji 改用美術 10/27 交的 icon_*（沒圖時 ICO.fix 會直接濾掉，不留 emoji）
+Object.assign(ICO.EMO, { '🎴': 'tie_gold', '🏵️': 'guild_merit', '🏵': 'guild_merit', '🎲': 'random_name', '💤': 'rest', '🌙': 'reset_moon', '🌟': 'star_reward', '🏷️': 'tag', '🏷': 'tag', '🔇': 'sound_off', '🔊': 'sound_on' });
 
 /* =====================================================================
  * ArtManager（對應 Unity 的 SpriteAtlas / Addressables）
@@ -7676,7 +7678,7 @@ Object.assign(ASSETS, {"ge35_0": "assets/ge35_0.1b3212ae9d.webp", "ge35_1": "ass
     const title = mode === 'rename' ? '更改名號' : '行走江湖，請留名號';
     const sub = mode === 'first' ? '你在竹林中醒來，江湖中人該如何稱呼你？' : mode === 'old' ? '少俠，江湖上已有你的事蹟——是時候留下真正的名號了。' : `${NM.renameCost()} · 名號會顯示在頭像與論劍台`;
     d.innerHTML = `<div class="nmbox"><div class="nmseal">名</div><h3>${title}</h3><p class="sub">${sub}</p>
-      <div class="nmrow"><input id="nm35in" maxlength="16" autocomplete="off" spellcheck="false" placeholder="2–8 字：中文、英文或數字" value="${mode === 'rename' ? S.name : ''}"><button class="btn jade nmdice" data-nm="dice" title="隨機名號">🎲</button></div>
+      <div class="nmrow"><input id="nm35in" maxlength="16" autocomplete="off" spellcheck="false" placeholder="2–8 字：中文、英文或數字" value="${mode === 'rename' ? S.name : ''}"><button class="btn jade nmdice" data-nm="dice" title="隨機名號" aria-label="隨機名號">${ICO.get('random_name') || '隨機'}</button></div>
       <div class="nmerr" id="nm35err"></div><div class="sub nmrule">2–8 個字 · 中文／英文字母／數字 · 不可含不雅字詞或系統保留字</div>
       <div class="nmbtns">${mode === 'first' ? '' : `<button class="btn gray" data-nm="skip">${mode === 'old' ? '暫時沿用「少俠」' : '取消'}</button>`}<button class="btn big pulse" data-nm="ok">${mode === 'rename' ? '確定改名' : '就叫這個名號'}</button></div></div>`;
     document.body.appendChild(d);
@@ -7688,7 +7690,7 @@ Object.assign(ASSETS, {"ge35_0": "assets/ge35_0.1b3212ae9d.webp", "ge35_1": "ass
       if (k === 'dice') { inp.value = NameV.rnd(); live(); try { AudioManager.play('click'); } catch (e) { } }
       if (k === 'skip') { ns().prompted = 1; try { SaveManager.save(); } catch (e2) { } d.remove(); }
       if (k === 'ok') {
-        if (!inp.value.trim()) { err.textContent = '請輸入名號，或按 🎲 隨機取一個'; inp.classList.add('bad'); return; }
+        if (!inp.value.trim()) { err.textContent = '請輸入名號，或按右邊的骰子隨機取一個'; inp.classList.add('bad'); return; }
         const e = NM.set(inp.value, { rename: mode === 'rename' }); if (e) { err.textContent = e; inp.classList.add('bad'); inp.focus(); return; }
         d.remove(); try { AudioManager.play('reward'); } catch (e2) { } UI.toast(`名號「${S.name}」已響徹江湖`); UI.render();
       }
@@ -7718,7 +7720,7 @@ Object.assign(ASSETS, {"ge35_0": "assets/ge35_0.1b3212ae9d.webp", "ge35_1": "ass
   .nmrow input:focus{border-color:#1f7a63;box-shadow:0 0 0 3px #1f7a6333}
   .nmrow input.bad{border-color:#c8402c;box-shadow:0 0 0 3px #c8402c33;animation:nmShake .3s}
   @keyframes nmShake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-  .nmdice{font-size:20px;padding:0 12px}
+  .nmdice{font-size:20px;padding:0 12px}.nmdice .ic{width:28px;height:28px;vertical-align:middle}
   .nmerr{min-height:20px;margin-top:6px;color:#c8402c;font-weight:700;font-size:13px}
   .nmrule{font-size:11px}
   .nmbtns{display:flex;gap:8px;justify-content:center;margin-top:12px}`;
