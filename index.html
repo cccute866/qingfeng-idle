@@ -736,7 +736,7 @@ canvas.sdemo{width:100%;border-radius:10px;border:2px solid #d6c39b;background:#
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.11.3',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.11.4',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -8172,7 +8172,7 @@ Object.assign(ASSETS, {"icon_g_equip": "assets/icon_g_equip.03f1de3215.webp", "i
     equip(id, slot) {
       const w = WX.st(); if (slot >= WX.slots() || !w.own[id]) return false;
       const at = w.eq.indexOf(id); if (at >= 0 && at !== slot) w.eq[at] = w.eq[slot] || null;
-      w.eq[slot] = id; C35.cds[slot] = Math.min(C35.cds[slot] || 0, 1.5); return true;
+      w.eq[slot] = id; return true;   /* v3.11.4 P16：換武學不再把冷卻壓到 ≤1.5 秒（保留原冷卻） */
     },
     unequip(slot) { const w = WX.st(); if (WX.eqd().length <= 1) return false; w.eq[slot] = null; return true; },
     best(traits) {   // 推薦：先依首領特性挑克制武學，再依戰力補滿
@@ -8181,7 +8181,7 @@ Object.assign(ASSETS, {"icon_g_equip": "assets/icon_g_equip.03f1de3215.webp", "i
       own.forEach(i => { if (pick.length < n && !pick.includes(i)) pick.push(i); });
       return pick;
     },
-    apply(list) { const w = WX.st(); w.eq = [0, 1, 2, 3].map(i => list[i] || null); C35.cds = C35.cds.map(c => Math.min(c, 1.5)); },
+    apply(list) { const w = WX.st(); w.eq = [0, 1, 2, 3].map(i => list[i] || null); }   /* v3.11.4 P16：保留原冷卻 */,
     val(id) { const p = WX.pct(id), x = POOL[id]; return p * (WX.aff(id) ? 1.25 : 1) + x.q * 0.01; },
     /* ---------- 藏經閣 ---------- */
     roll() {
@@ -9262,6 +9262,10 @@ Object.assign(ASSETS, {"fx_tele_charge": "assets/fx_tele_charge.d2df82bb3a.webp"
 /* v3.11.3 10/28 青鋒美術交付：首領預警貼花補完 icefall／blades／enrage（P2） */
 Object.assign(ASSETS, {"fx_tele_icefall": "assets/fx_tele_icefall.02721642e9.webp", "fx_tele_blades": "assets/fx_tele_blades.a9494b645d.webp", "fx_tele_enrage": "assets/fx_tele_enrage.1af1cbdd11.webp"});
 
+/* v3.11.4：流派徽記 sch_*、81／91 層首領、音效鑼架（覆寫 icon_sound_*）；來源 incoming/2026-10-28＋2026-10-29 */
+Object.assign(ASSETS, {"sch_jian": "assets/sch_jian.46850e1da8.webp","sch_jian_48": "assets/sch_jian_48.a4389c0331.webp","sch_zhang": "assets/sch_zhang.ad0386cacd.webp","sch_zhang_48": "assets/sch_zhang_48.e39b7579ac.webp","sch_qi": "assets/sch_qi.f325237c1b.webp","sch_qi_48": "assets/sch_qi_48.f12e945364.webp","ui_card_corner": "assets/ui_card_corner.29e603f28b.webp","boss_mo81": "assets/boss_mo81.f1e03b5f75.webp","boss_mo91": "assets/boss_mo91.2fb1ce342d.webp","icon_sound_on": "assets/icon_sound_on.9df4d04d9f.webp","icon_sound_off": "assets/icon_sound_off.3e84196b25.webp","ico_sound_on": "assets/ico_sound_on.9df4d04d9f.webp","ico_sound_off": "assets/ico_sound_off.3e84196b25.webp"});
+Object.assign(ASSET_INFO, {"boss_mo81":{"facing":"left"},"boss_mo91":{"facing":"left"}});
+
 /* =====================================================================
  * v3.8 第七、八章：黃沙驛路／蜃海潮宮（原創）＋ 61 層後難度曲線、等級上限 100
  * 美術：青鋒美術 2026-10-24 交件（assets_ch78.js）；數值：青鋒數值 2026-10-24 報告 B1／C1
@@ -9306,6 +9310,29 @@ Object.assign(ASSETS, {"fx_tele_icefall": "assets/fx_tele_icefall.02721642e9.web
     if (b && !(S.chClear || {})[S.tower.floor]) { S.chClear = S.chClear || {}; S.chClear[S.tower.floor] = 1; Eco.add(b); if (r && typeof r === 'object') for (const k in b) r[k] = (r[k] || 0) + b[k]; }
     return r;
   };
+})();
+
+/* v3.11.4：第九／十章（81／91 層專屬首領 boss_mo81／boss_mo91；小怪沿用第八章）
+ * 美術 2026-10-29；會議 10/29 建版清單 3
+ * 無盡試煉起點隨 endF=last.from+10 自動延到 101（fix_v382） */
+(() => {
+  CFG.chapters.push(
+    { from: 81, name: '第九章 · 墨淵殘卷', story: '潮宮退去，墨色深淵裡翻出一本殘卷——劍魔執飛劍守在卷邊。', scene: 'dusk', roster: 'c9' },
+    { from: 91, name: '第十章 · 裂硯深牢', story: '硯台裂縫下是一座墨牢，魔將揮巨錘擋路。', scene: 'dusk', roster: 'c10' },
+  );
+  const c8 = CFG.rosters.c8;
+  Object.assign(CFG.rosters, {
+    c9: {
+      mobs: c8.mobs, elite: c8.elite,
+      boss: { k: 'boss_mo81', name: '墨淵劍魔', pattern: 'blades', skill: '墨劍齊射', desc: '身後三柄墨飛劍齊出，隊伍前方先出現劍氣預警帶——閃過再輸出。' },
+    },
+    c10: {
+      mobs: c8.mobs, elite: c8.elite,
+      boss: { k: 'boss_mo91', name: '裂硯魔將', pattern: 'slam', skill: '裂硯重錘', desc: '巨錘高舉時地面出現落點預警圈，砸下濺墨震暈——先閃再開打。' },
+    },
+  });
+  /* 不寫入 trialRosters.ember（t10 鎖定 c3+c6）；dusk 已有 c6，c9／c10 僅主線塔使用 */
+  CFG.chapterClear = Object.assign(CFG.chapterClear || {}, { 90: { essence: 120, stone: 20 }, 100: { essence: 150, stone: 25 } });
 })();
 
 /* ================================================================
@@ -10271,6 +10298,69 @@ const SHOP39 = {
     if (busy()) { if (cur) { cur.el.remove(); q.unshift(cur.x); cur = null; } return; }
     if (!cur && q.length) show(q.shift());
   }, 150);
+})();
+
+/* v3.11.4：音效鑼架取代 🔊🔇；流派徽記 sch_* 接上武學卡／套裝列／卷軸特性旁
+ * 會議 10/29 建版清單 2、4；戰鬥技能鈕 ≤20px 不放徽記
+ * 設定面板鏈式呼叫 settings0，保留 drop_v37 的 shake37／自動分解列 */
+(() => {
+  const A = UI.act;
+  const soundImg = mute => {
+    const k = mute ? 'icon_sound_off' : 'icon_sound_on';
+    return ASSETS[k] ? `<img class="ic sndic" src="${ASSETS[k]}" alt="" style="width:18px;height:18px;vertical-align:-4px;margin-right:4px">` : (mute ? '🔇 ' : '🔊 ');
+  };
+  const settings0 = A.settings;
+  A.settings = function () {
+    if (typeof settings0 === 'function') settings0.apply(this, arguments);
+    else {
+      UI.modal(`<h3>設定</h3><div class="kv"><span>存檔</span><span>自動存檔（每 5 秒與每次操作，含校驗與備份）</span><span>版本</span><span>${CFG.version}</span><span>音效</span><span><button class="btn sm ${S.opt.mute ? 'gray' : 'jade'}" data-act="mute">${soundImg(!!S.opt.mute)}${S.opt.mute ? '已靜音' : '開啟'}</button></span></div>
+      <div class="row" style="margin:10px 0;gap:6px;flex-wrap:wrap"><button class="btn jade" data-act="savenow">立即存檔</button><button class="btn" data-act="rename">改名</button><button class="btn red" data-act="resetsave">重置存檔</button></div>
+      <div style="text-align:center"><button class="btn" data-act="mclose">關閉</button></div>`);
+    }
+    const muteBtn = document.querySelector('#modal [data-act="mute"]');
+    if (muteBtn) muteBtn.innerHTML = soundImg(!!S.opt.mute) + (S.opt.mute ? '已靜音' : '開啟');
+  };
+  A.mute = () => { const on = AudioManager.toggle(); UI.toast((on ? soundImg(false) : soundImg(true)) + (on ? '音效開啟' : '已靜音')); if (document.querySelector('#modal [data-act="mute"]')) A.settings(); };
+
+  if (typeof WX !== 'undefined' && WX.view) {
+    const schImg = (s, cls) => {
+      const k48 = 'sch_' + s + '_48', k = ASSETS[k48] ? k48 : ('sch_' + s);
+      return ASSETS[k] ? `<img class="${cls || 'schi'}" src="${ASSETS[k]}" alt="">` : '';
+    };
+    const view0 = WX.view.bind(WX);
+    WX.view = function () {
+      let h = view0();
+      h = h.replace(/<em>([劍掌氣])流 ×(\d+)<\/em>/g, (m, ch, n) => {
+        const s = ch === '劍' ? 'jian' : ch === '掌' ? 'zhang' : 'qi';
+        return `<em class="schrow">${schImg(s, 'schi48')}${ch}流 ×${n}</em>`;
+      });
+      h = h.replace(/<span class="tag">([劍掌氣])<\/span>/g, (m, ch) => {
+        const s = ch === '劍' ? 'jian' : ch === '掌' ? 'zhang' : 'qi';
+        return `<span class="tag schtag">${schImg(s, 'schi48')}${ch}</span>`;
+      });
+      const pool = (CFG.wx36 && CFG.wx36.pool) || [];
+      const byName = {};
+      pool.forEach(x => { byName[x.n] = x; });
+      h = h.replace(/<div class="wxc36 q(\d)" style="([^"]*)"><i class="wxi">([\s\S]*?)<\/i>([\s\S]*?)<b>([^<]+)<\/b>/g, (m, q, st, ic, extra, name) => {
+        const x = byName[name]; const badge = x ? schImg(x.s, 'schbadge') : '';
+        const corner = ASSETS.ui_card_corner ? `<img class="schcorner" src="${ASSETS.ui_card_corner}" alt="">` : '';
+        return `<div class="wxc36 q${q}" style="${st}"><i class="wxi">${ic}</i>${corner}${badge}${extra}<b>${name}</b>`;
+      });
+      return h;
+    };
+  }
+
+  const css = document.createElement('style');
+  css.textContent = `
+.schi48{width:18px;height:18px;vertical-align:-4px;margin-right:2px}
+.schbadge{position:absolute;right:0;top:0;width:22px;height:22px;z-index:2;pointer-events:none}
+.schcorner{position:absolute;right:-2px;top:-2px;width:28px;height:28px;z-index:1;pointer-events:none}
+.wxc36{position:relative}
+.schtag{display:inline-flex;align-items:center;gap:2px}
+.schrow{display:inline-flex;align-items:center;gap:2px}
+.sndic{display:inline-block}
+`;
+  document.head.appendChild(css);
 })();
 
 /* v3.4.1 / v3.5 彈窗關閉修正：所有彈窗都可用 ✕、點背景、返回手勢/Esc 關閉（自成一體，可單獨注入舊版） */
