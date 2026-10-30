@@ -736,7 +736,7 @@ canvas.sdemo{width:100%;border-radius:10px;border:2px solid #d6c39b;background:#
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.11.5',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.12.0',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -8227,14 +8227,14 @@ Object.assign(ASSETS, {"icon_g_equip": "assets/icon_g_equip.03f1de3215.webp", "i
     summon: { n: '召喚小兵', d: '不斷呼叫援兵包圍', c: ['aoe'], hint: '「群攻」快速清場' },
     burst: { n: '高爆發', d: '瞬間打出極高傷害', c: ['shield'], hint: '「護盾」可抵擋' },
   };
-  const PAT = { summon: 'summon', slam: 'rage', volley: 'burst', charge: 'rage', shield: 'iron', enrage: 'burst' };
+  const PAT = { summon: 'summon', slam: 'rage', volley: 'burst', charge: 'rage', shield: 'iron', enrage: 'burst', blades: 'burst' };   /* v3.12：blades→burst（會議 10/30） */
   const TYP = { shield: 'iron', summon: 'summon', berserk: 'rage', multi: 'poison', basic: null };
   WX.chapterEnd = f => CFG.chapters.some(c => c.from - 1 === f);
   WX.milestone = f => f % 10 === 0 || WX.chapterEnd(f);
   WX.traits = f => {
     const type = ['basic', 'shield', 'summon', 'berserk', 'multi'][(f - 1) % 5]; let bd = null; try { bd = HS.bossDef(f); } catch (e) {}
     const out = []; const add = t => t && !out.includes(t) && out.push(t);
-    add(bd && PAT[bd.pattern]); add(TYP[type]);
+    add(TYP[type]); add(bd && PAT[bd.pattern]);   /* v3.12：非關卡首領層「層型優先」（TYP 先於 PAT；會議 10/30） */
     if (WX.milestone(f)) { if (out.length < 2) add(['poison', 'burst', 'rage', 'iron', 'summon'][Math.floor(f / 10) % 5]); if (out.length < 2) add('burst'); return out.slice(0, 2); }
     return out.slice(0, 1);
   };
@@ -9314,8 +9314,13 @@ Object.assign(ASSET_INFO, {"boss_mo81":{"facing":"left"},"boss_mo91":{"facing":"
   };
 })();
 
-/* v3.11.4：第九／十章（81／91 層專屬首領 boss_mo81／boss_mo91；小怪沿用第八章）
- * 美術 2026-10-29；會議 10/29 建版清單 3
+/* 第九章墨淵小怪／精英（青鋒美術 2026-10-30 交件；會議 10/30 建版；原創） */
+Object.assign(ASSETS, {"mob_c9_a": "assets/mob_c9_a.0280989e68.webp", "mob_c9_b": "assets/mob_c9_b.0368b5c4f4.webp", "mob_c9_c": "assets/mob_c9_c.4a6092da1e.webp", "mob_c9_d": "assets/mob_c9_d.28c65c8fa7.webp", "mob_c9_elite": "assets/mob_c9_elite.e5aa088623.webp"});
+Object.assign(ASSET_INFO, {"mob_c9_a": {"facing": "left"}, "mob_c9_b": {"facing": "left"}, "mob_c9_c": {"facing": "left"}, "mob_c9_d": {"facing": "left"}, "mob_c9_elite": {"facing": "left"}});
+
+/* v3.11.4：第九／十章（81／91 層專屬首領 boss_mo81／boss_mo91）
+ * v3.12.0：c9 專屬小怪／精英（美術 2026-10-30）；c10 暫用 c9；缺鍵退回 c8
+ * 美術 2026-10-29／10-30；會議 10/29、10/30
  * 無盡試煉起點隨 endF=last.from+10 自動延到 101（fix_v382） */
 (() => {
   CFG.chapters.push(
@@ -9323,13 +9328,21 @@ Object.assign(ASSET_INFO, {"boss_mo81":{"facing":"left"},"boss_mo91":{"facing":"
     { from: 91, name: '第十章 · 裂硯深牢', story: '硯台裂縫下是一座墨牢，魔將揮巨錘擋路。', scene: 'dusk', roster: 'c10' },
   );
   const c8 = CFG.rosters.c8;
+  const pick = (want, fb) => (typeof ASSETS !== 'undefined' && ASSETS[want.k]) ? want : fb;
+  const c9mobs = [
+    pick({ k: 'mob_c9_a', name: '墨影刺客', type: 'fast' }, c8.mobs[0]),
+    pick({ k: 'mob_c9_b', name: '硯石傀儡', type: 'tank' }, c8.mobs[1]),
+    pick({ k: 'mob_c9_c', name: '殘頁紙魅', type: 'ranged', shot: 'talisman', fly: 26 }, c8.mobs[2]),
+    pick({ k: 'mob_c9_d', name: '寒墨鴉', type: 'ranged', shot: 'ice' }, c8.mobs[3]),
+  ];
+  const c9elite = pick({ k: 'mob_c9_elite', name: '守卷墨將' }, c8.elite);
   Object.assign(CFG.rosters, {
     c9: {
-      mobs: c8.mobs, elite: c8.elite,
+      mobs: c9mobs, elite: c9elite,
       boss: { k: 'boss_mo81', name: '墨淵劍魔', pattern: 'blades', skill: '墨劍齊射', desc: '身後三柄墨飛劍齊出，隊伍前方先出現劍氣預警帶——閃過再輸出。' },
     },
     c10: {
-      mobs: c8.mobs, elite: c8.elite,
+      mobs: c9mobs, elite: c9elite,   /* 第十章小怪組交件前暫用 c9（會議 10/30） */
       boss: { k: 'boss_mo91', name: '裂硯魔將', pattern: 'slam', skill: '裂硯重錘', desc: '巨錘高舉時地面出現落點預警圈，砸下濺墨震暈——先閃再開打。' },
     },
   });
@@ -10363,6 +10376,121 @@ const SHOP39 = {
 .sndic{display:inline-block}
 `;
   document.head.appendChild(css);
+})();
+
+/* v3.12.0：戰鬥飄字「招式名」改直書＋墨旗（本週待辦 5；會議 10/30）
+ * 資產 ui_inkflag 已在 assets_v39；圖沒載到時退回橫書原畫法，不報錯。 */
+(() => {
+  if (typeof NUM37 === 'undefined') return;
+  const sp0 = NUM37.sprite.bind(NUM37);
+  NUM37.sprite = function (t, s, txt, col) {
+    if (t !== 'call') return sp0(t, s, txt, col);
+    const dpr = (typeof HS !== 'undefined' && HS.dpr) || 1;
+    const flag = (typeof ART !== 'undefined') ? ART.get('ui_inkflag') : null;
+    const ready = flag && flag.complete && flag.naturalWidth;
+    if (!ready) return sp0(t, s, txt, col);   /* 圖還沒到：橫書；下次再試（原 cache key 不含 flag） */
+    const fs = (col && col.big ? 34 : 26) * s;
+    const chars = [...String(txt || '')];
+    const step = fs * 1.08, th = Math.max(step, chars.length * step);
+    const fh = th + fs * 1.6, fw = Math.max(fs * 1.6, 38 * s);
+    const key = t + '|' + txt + '|' + (col || '') + '|' + Math.round(s * 100) + '|' + dpr + '|flag';
+    let o = this.cache.get(key); if (o) return o;
+    const cv = document.createElement('canvas');
+    cv.width = Math.ceil((fw + 8) * dpr); cv.height = Math.ceil((fh + 8) * dpr);
+    const c = cv.getContext('2d'); c.scale(dpr, dpr);
+    const cx = (fw + 8) / 2, cy = (fh + 8) / 2;
+    c.globalAlpha = 0.92;
+    try { c.drawImage(flag, 0, 0, flag.naturalWidth, flag.naturalHeight, cx - fw / 2, cy - fh / 2, fw, fh); } catch (e) {}
+    c.globalAlpha = 1;
+    const gc = (col && col.c) || '#22d6a6';
+    c.font = this.font('call', fs);
+    c.textAlign = 'center'; c.textBaseline = 'middle'; c.lineJoin = 'round';
+    chars.forEach((ch, i) => {
+      const x0 = cx, y0 = cy - th / 2 + step * (i + 0.5);
+      c.shadowColor = gc; c.shadowBlur = fs * 0.45;
+      c.lineWidth = fs * 0.24; c.strokeStyle = gc; c.strokeText(ch, x0, y0); c.strokeText(ch, x0, y0);
+      c.shadowBlur = 0; c.lineWidth = fs * 0.14; c.strokeStyle = gc; c.strokeText(ch, x0, y0);
+      c.lineWidth = fs * 0.05; c.strokeStyle = 'rgba(0,0,0,.55)'; c.strokeText(ch, x0, y0);
+      c.fillStyle = '#ffffff'; c.fillText(ch, x0, y0);
+    });
+    o = { cv, w: fw + 8, h: fh + 8 };
+    this.cache.set(key, o);
+    if (this.cache.size > 260) this.cache.delete(this.cache.keys().next().value);
+    return o;
+  };
+})();
+
+/* v3.12.0：破招殘譜（CFG.wx36.cp）＋殘頁合流（CFG.wx36.merge）
+ * 會議 10/29／10/30 採納；殺截止 11/03 複驗第 14 天 VIP10÷免費 ≤×1.71，否則關旗標。
+ * 邏輯對照 econ/d1029/cp.js、conv.js。 */
+(() => {
+  if (typeof WX === 'undefined' || typeof CFG === 'undefined') return;
+  const C = CFG.wx36 = CFG.wx36 || {};
+  if (C.cp == null) C.cp = 1;         /* 1＝開殘譜；0＝關 */
+  if (C.merge == null) C.merge = 3;   /* 3＝3 張合流 1；0＝關 */
+
+  /* ---- 殘譜：關卡首領全破招首通 → 該流派已擁有、未滿星、價值最高的武學 cp+1 ---- */
+  if (C.cp) {
+    const w0 = TowerManager.win.bind(TowerManager);
+    TowerManager.win = function () {
+      const f = TowerManager.next();
+      let give = null;
+      try {
+        if (WX.milestone(f)) {
+          const c = WX.counter(f);
+          if (c.tr.length && c.hit.length === c.tr.length) {
+            const P = WX.P, eq = WX.eqd();
+            const sch = new Set(eq.filter(id => P[id].tags.some(g => c.tr.some(t => WX.TR[t].c.includes(g)))).map(id => P[id].s));
+            const own = WX.st().own;
+            const L = Object.keys(own).filter(id => sch.has(P[id].s) && own[id].star < WX.C.starMax).sort((a, b) => WX.val(b) - WX.val(a));
+            give = L[0] || null;
+          }
+        }
+      } catch (e) {}
+      const r = w0.apply(this, arguments);
+      if (give) {
+        try {
+          WX.st().own[give].cp += 1;
+          try { globalThis.__cp = (globalThis.__cp || 0) + 1; } catch (e) {}
+          const nm = WX.P[give].n;
+          if (r && typeof r === 'object') r.wxcp = (r.wxcp || 0) + 1;
+          setTimeout(() => { try { UI.toast(`獲得「${nm}」殘譜`); } catch (e) {} }, 350);
+        } catch (e) {}
+      }
+      return r;
+    };
+  }
+
+  /* ---- 合流：每日免費抽後，同流派未裝備武學的同名本 merge 張 → 1 張給該流派裝備中未滿星最高價值 ---- */
+  if (C.merge > 0) {
+    const d0 = WX.draw.bind(WX);
+    WX.draw = function (n, free) {
+      const r = d0(n, free);
+      if (free && r) {
+        try {
+          const w = WX.st(), P = WX.P, eq = w.eq.filter(Boolean), needN = C.merge | 0;
+          const by = {};
+          for (const id of Object.keys(w.own)) { const s = P[id].s; (by[s] = by[s] || []).push(id); }
+          const got = [];
+          for (const s in by) {
+            const tg = by[s].filter(id => eq.includes(id) && w.own[id].star < WX.C.starMax).sort((a, b) => WX.val(b) - WX.val(a))[0];
+            if (!tg) continue;
+            const dn = by[s].filter(id => !eq.includes(id));
+            let pool = dn.reduce((x, id) => x + w.own[id].cp, 0);
+            let k = Math.floor(pool / needN);
+            if (!k) continue;
+            let need = k * needN;
+            for (const id of dn) { const t = Math.min(need, w.own[id].cp); w.own[id].cp -= t; need -= t; }
+            w.own[tg].cp += k;
+            try { globalThis.__cv = (globalThis.__cv || 0) + k; } catch (e) {}
+            got.push([P[tg].n, k]);
+          }
+          if (got.length) setTimeout(() => { try { UI.toast(got.map(([n, k]) => `合流 ${k} 張→「${n}」`).join('　')); } catch (e) {} }, 500);
+        } catch (e) {}
+      }
+      return r;
+    };
+  }
 })();
 
 /* v3.4.1 / v3.5 彈窗關閉修正：所有彈窗都可用 ✕、點背景、返回手勢/Esc 關閉（自成一體，可單獨注入舊版） */
