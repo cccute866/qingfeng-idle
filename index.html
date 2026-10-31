@@ -736,7 +736,7 @@ canvas.sdemo{width:100%;border-radius:10px;border:2px solid #d6c39b;background:#
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.12.0',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.12.1',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -2259,9 +2259,10 @@ const ICO = {
     d('inn', `<path d="M3 21V10h18v11z" fill="#f3e2b8" ${O}/><path d="M1.5 10.5L12 4l10.5 6.5z" fill="#a0603a" ${O}/><rect x="9.5" y="14" width="5" height="7" fill="#7a4d2a" ${O}/><circle cx="6" cy="14.5" r="1.6" fill="#e2483c" ${O}/><circle cx="18" cy="14.5" r="1.6" fill="#e2483c" ${O}/>`);
     d('arena', this.P.crown);
   },
-  get(k) { const a = typeof ART !== 'undefined' && ART.pick('icon_' + k); return a ? `<img class="ic" src="${ASSETS[a]}" alt="">` : (this.P[k] || ''); },
+  get(k) { return this.P[k] || ''; },
+  gemIcon(t) { return ASSETS['icon_gem_' + t] ? `<img class="ic" src="${ASSETS['icon_gem_' + t]}" alt="">` : ''; },
   // emoji → 圖示鍵
-  EMO: { '🪙': 'copper', '💎': 'silver', '🥟': 'bun', '⚡': 'speed', '📜': 'page', '🧧': 'tie', '🎫': 'ticket', '🔩': 'iron', '🔮': 'essence', '🪨': 'stone', '📈': 'dropRune', '✨': 'exp', '🧩': 'shard',
+  EMO: { '🔖': 'mql', '🪙': 'copper', '💎': 'silver', '🥟': 'bun', '⚡': 'speed', '📜': 'page', '🧧': 'tie', '🎫': 'ticket', '🔩': 'iron', '🔮': 'essence', '🪨': 'stone', '📈': 'dropRune', '✨': 'exp', '🧩': 'shard',
     '🎁': 'box1', '🧰': 'box2', '📦': 'box3', '🟪': 'boxP', '🟧': 'boxO', '🗡️': 'weapon', '🗡': 'weapon', '🎩': 'head', '🥋': 'armor', '🎗️': 'belt', '🎗': 'belt', '👢': 'boots', '🧿': 'charm',
     '⚔️': 'atk', '⚔': 'atk', '🛡️': 'def', '🛡': 'def', '❤️': 'hp', '❤': 'hp', '💥': 'crit', '🔥': 'extra', '🔁': 'reflect', '⛏️': 'pick', '⛏': 'pick', '💠': 'jade',
     '🏠': 'home', '🗺️': 'map', '🗺': 'map', '🏯': 'city', '📖': 'book', '🔨': 'hammer', '🎒': 'bag', '⚙️': 'gear', '⚙': 'gear', '🥷': 'hero', '🏮': 'lantern', '🗼': 'tower', '🏪': 'shop', '🧘': 'lotus',
@@ -2288,6 +2289,12 @@ const ART = {
     // 頁面載完後，瀏覽器閒置時在背景慢慢預抓：先抓戰鬥用的背景／角色／妖物，再抓其他（圖示用 <img> 本來就是看到才載）
     const go = () => setTimeout(() => { this.prefetch(/^(bg|side|fr|fx|mob|guard|boss|map|full)_/); this.prefetch(/^(?!icon_)/); }, 300);
     if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
+    // icons.get 不再靜態依賴 ART；此處把 ART.pick 優先掛回 ICO.get（單向 art→icons，斷循環）
+    if (typeof ICO !== 'undefined' && !ICO._artGet) {
+      const raw = ICO.get.bind(ICO), self = this;
+      ICO.get = function (k) { const a = self.pick('icon_' + k); return a ? `<img class="ic" src="${ASSETS[a]}" alt="">` : raw(k); };
+      ICO._artGet = 1;
+    }
     // 圖示資產 → 直接替換設定表裡的 emoji（所有使用 icon 字串的地方自動換成圖）
     const sw = obj => Object.entries(obj).forEach(([k, v]) => { v.icon = ICO.get(k) || v.icon; });
     sw(CFG.currencies); sw(CFG.boxes);
@@ -2295,6 +2302,20 @@ const ART = {
     CFG.slots.forEach(s => { s.icon = ICO.get(s.id) || s.icon; });
     CFG.mines.forEach(m => { const a = this.pick('icon_mine_' + m.id); m.icon = a ? `<img class="ic" src="${ASSETS[a]}" alt="">` : (ICO.get(m.res) || m.icon); });
     CFG.train && CFG.train.forEach(t => { t.icon = ICO.get(t.id) || t.icon; });
+    // v3.7.1：名器令／寶石圖示（原 fix_v371）
+    if (CFG.currencies.mql && ASSETS.icon_mql) CFG.currencies.mql.icon = `<img class="ic" src="${ASSETS.icon_mql}" alt="">`;
+    const G = CFG.g35;
+    if (G && G.gem) Object.keys(G.gem.types).forEach(t => {
+      const h = ASSETS['icon_gem_' + t] ? `<img class="ic" src="${ASSETS['icon_gem_' + t]}" alt="">` : '';
+      if (!h) return;
+      for (let i = 1; i <= G.gem.max; i++) { const c = CFG.currencies[`gem_${t}${i}`]; if (c) c.icon = h; }
+    });
+    if (typeof ICO !== 'undefined') window.GEMIC371 = t => ICO.gemIcon(t);
+    if (!document.getElementById('css371')) {
+      const c = document.createElement('style'); c.id = 'css371';
+      c.textContent = `.sk.gi{transform:none;background:none;border:none;position:relative;width:28px;height:28px;border-radius:0}.sk.gi>img.ic{width:28px;height:28px;margin:0}.sk.gi em{transform:none;position:absolute;right:-2px;bottom:-3px;font-size:10px}.gb35 b img.ic{width:18px;height:18px;vertical-align:-4px;margin-right:2px}`;
+      document.head.appendChild(c);
+    }
   },
   /** 素材原始朝向：r=朝右 l=朝左 f=正面；敵人一律要朝左 */
   FACE: { mob_rock: 'l', mob_bamboo: 'l', mob_ember: 'l', guard_basic: 'l', guard_berserk: 'l', guard_shield: 'l', guard_multi: 'l', guard_summon: 'l' },   // v3.8.1：與 ASSET_INFO 一致（全部朝左）
@@ -3157,7 +3178,7 @@ const TB = {
     for (let j = 0; j < (m.k === 'n' ? 7 : 20); j++) { const a = rnd(0, 6.28), v = rnd(80, 260); this.fx.add({ k: 'dot', x: m.x, y: m.y + m.h * 0.5, vx: Math.cos(a) * v, vy: Math.sin(a) * v + 80, c: col, r: rnd(3, 6), life: rnd(0.3, 0.6), g: 500 }); }
     // 死亡殘影：被擊飛的精靈
     this.fx.add({ k: 'corpse', x: m.x, y: m.y, key: m.key, h: m.h, vx: 260 * this.p.dir, vy: 300, g: 1200, life: 0.45, rot: 0, flip: ART.faceLeftFlip(m.base) });
-    this.fx.add({ k: 'img', key: 'fx_ink' + rint(0, 2), x: m.x, y: (m.y || 0) + m.h * 0.42, sz: m.h * 1.25, grow: 0.55, life: 0.55, a: 0.8, rot: rnd(-0.4, 0.4), fadeOut: 2 }); if (typeof ANIM !== 'undefined') ANIM.stop(0.05);   // v3.4 水墨爆散＋頓幀
+    this.fx.add({ k: 'img', key: 'fx_ink' + rint(0, 2), x: m.x, y: (m.y || 0) + m.h * 0.42, sz: m.h * 1.25, grow: 0.55, life: 0.55, a: 0.8, rot: rnd(-0.4, 0.4), fadeOut: 2 }); if (window['ANIM']) window['ANIM'].stop(0.05);   // v3.4 水墨爆散＋頓幀
     const nc = m.k === 'e' ? 10 : m.k === 'c' ? 6 : (Math.random() < 0.5 ? 1 : 0), cv = Math.round(4 + this.L * 2);
     for (let j = 0; j < nc; j++) { this.copperGot += cv; this.fx.add({ k: 'coin', x: m.x, y: m.y + m.h * 0.5, vx: rnd(-120, 160), vy: rnd(200, 380), g: 1300, ph: rnd(0, 6), life: rnd(0.6, 0.8) }); }
     { const p = this.p; p.hp = Math.min(p.maxHp, p.hp + p.maxHp * (m.k === 'e' ? 0.06 : m.k === 'c' ? 0.03 : 0.006)); }   // 擊殺回氣【建議（待確認）】
@@ -3574,9 +3595,9 @@ const HS = {
     });
     // 攻擊
     if (near && ahead) {
-      if (lead.cd <= 0 && !(typeof ANIM !== 'undefined' && ANIM.busy(lead))) {
+      if (lead.cd <= 0 && !(window['ANIM'] && window['ANIM'].busy(lead))) {
         // v3.4 蓄力 → 出招 → 收招：傷害在「出招幀」才結算（約 0.12 秒預備動作），節奏仍是每 0.5 秒一擊
-        lead.cd = 0.5; const tg = ahead, wind = typeof ANIM !== 'undefined' ? ANIM.attack(lead) : 0;
+        lead.cd = 0.5; const tg = ahead, wind = window['ANIM'] ? window['ANIM'].attack(lead) : 0;
         const strike = () => { if (!(tg.hp > 0) || tg.endT) return; lead.atkT = 0.22; lead.atkMax = 0.22;
           const crit = Math.random() < 0.25; this.hitFx(tg.x - 10, 0, crit); tg.flash = 1; tg.kb = crit ? 16 : 10;
           if (tg === this.boss) this.bossHit(crit); else { tg.hp -= crit ? 2 : 1; this.num(tg.x, 0, Math.round(PlayerManager.power() * rnd(0.04, 0.06) * (crit ? 2 : 1)), crit); if (crit) this.shake = 5; } };
@@ -3844,6 +3865,27 @@ const HS = {
 /* =====================================================================
  * UI 層（對應 Unity uGUI 的各 Panel）：只讀 S、呼叫 Manager
  * ===================================================================== */
+/* v3.9 凌霄商店：品質框／折扣（原 fix_v39；移入 ui 以斷 ui↔fix_v39 循環） */
+const SHOP39 = {
+  QM: { tie: 3, speed: 2, ticket: 2, iron: 1, page: 1, stone: 3, box2: 2, essence: 2, bun: 0, copper: 0, qi: 1, dropRune: 3, shardRand2: 4, gem_atk2: 3, gem_hp2: 3 },
+  q(k) { return this.QM[k] != null ? this.QM[k] : 1; },
+  off(it) { return it.off && it.off < 1 && it.daily ? it.off : 0; },
+  cost(it) { const o = this.off(it); if (!o) return it.cost; const c = {}; for (const k in it.cost) c[k] = Math.ceil(it.cost[k] * o); return c; },
+};
+
+
+/* v3.9.3 熱修：點擊範圍 ≥44px（原 fix_v393） */
+(() => {
+  const st = document.createElement('style'); st.id = 'css393';
+  st.textContent = `.sc{height:auto;min-height:168px}
+.pb{height:44px;min-height:44px;flex-shrink:0}
+.card.row [data-act=train],.card.row [data-act=train10],#main [data-act=eqbuy],#main [data-act=eqbuyt],#main [data-act=eqref],#main [data-act=cosbuy]{min-height:44px}
+.card.row div:has(>[data-act=train10]){flex-direction:row!important;align-items:center!important;gap:6px!important}
+.eqh .btn.sm{min-height:30px}
+.eqh .btn.sm[data-t44="b"]::before,.eqh .btn.sm[data-t44="a"]::after{top:-17px;bottom:-3px}`;
+  document.head.appendChild(st);
+})();
+
 const UI = {
   view: 'home', stack: [], tab: {}, selLayer: 0, towerBusy: false,
   go(v, push = true) { if (push && v !== this.view) this.stack.push(this.view); this.view = v; this.render(); document.getElementById('main').scrollTop = 0; },
@@ -6133,7 +6175,7 @@ ANIM.now = function () { return this.clock; };
     const c = this.ctx, s = this.s;
     if (C35.combo >= 3 && this.state === 'walk') {   // 連斬計數
       const k = Math.min(1, C35.comboT / 0.25), pop = C35.comboT > 2.4 ? 1 + (C35.comboT - 2.4) * 2 : 1;
-      c.save(); c.globalAlpha = Math.min(1, C35.comboT * 1.5); c.translate(this.W - 12, (window.NUM37 && NUM37.zone ? NUM37.zone().cy0 + 20 : this.H * 0.6)); c.scale(Math.min(pop, 1.25), Math.min(pop, 1.25)); c.textAlign = 'right'; c.lineJoin = 'round';
+      c.save(); c.globalAlpha = Math.min(1, C35.comboT * 1.5); c.translate(this.W - 12, (this._comboTop != null ? this._comboTop : this.H * 0.6)); c.scale(Math.min(pop, 1.25), Math.min(pop, 1.25)); c.textAlign = 'right'; c.lineJoin = 'round';
       const big = C35.combo >= 20;   // v3.7.1 固定在右上（關卡列下方）的連斬欄，字級縮小
       BTX.draw(c, C35.combo, -30, 0, big ? 26 : 22, big ? 'crit' : 'gold', { ol: '#220800' });
       BTX.draw(c, '連斬', 0, 0, 14, 'white', { ol: '#220800', rim: '#6a3400' }); c.restore(); void k;
@@ -8902,7 +8944,7 @@ const PUFF37 = {
     if (S.opt && S.opt.shake37 === false) this.shake = 0;
   };
   const dr0 = HS.draw;
-  HS.draw = function () { if (S.opt && S.opt.shake37 === false) this.shake = 0; return dr0.apply(this, arguments); };
+  HS.draw = function () { if (S.opt && S.opt.shake37 === false) this.shake = 0; try { this._comboTop = NUM37.zone().cy0 + 20; } catch (e) {} return dr0.apply(this, arguments); };
 })();
 
 /* ---------- 妖物連續湧入 ---------- */
@@ -9236,20 +9278,6 @@ UI.dropLvModal = function () {
 /* v3.7.1 名器令與三種寶石的獨立 Q 版圖示（原創） */
 Object.assign(ASSETS, {"icon_mql": "assets/icon_mql.3e1553412c.webp", "icon_gem_atk": "assets/icon_gem_atk.cf68640077.webp", "icon_gem_def": "assets/icon_gem_def.24390d7edc.webp", "icon_gem_hp": "assets/icon_gem_hp.c38a475a21.webp"});
 
-/* ===== v3.7.1 修正：名器令／三種寶石獨立圖示 ===== */
-(() => {
-  const img = k => ASSETS[k] ? `<img class="ic" src="${ASSETS[k]}" alt="">` : '';
-  ICO.EMO['🔖'] = 'mql'; ICO.re = null;   // 名器令 emoji 原本會被濾掉 → 改成圖示
-  if (CFG.currencies.mql && ASSETS.icon_mql) CFG.currencies.mql.icon = img('icon_mql');
-  const G = CFG.g35;
-  if (G && G.gem) Object.keys(G.gem.types).forEach(t => { const h = img('icon_gem_' + t); if (!h) return; for (let i = 1; i <= G.gem.max; i++) { const c = CFG.currencies[`gem_${t}${i}`]; if (c) c.icon = h; } });
-  window.GEMIC371 = t => img('icon_gem_' + t);
-})();
-(() => { const c = document.createElement('style');
-  c.textContent = `.sk.gi{transform:none;background:none;border:none;position:relative;width:28px;height:28px;border-radius:0}.sk.gi>img.ic{width:28px;height:28px;margin:0}.sk.gi em{transform:none;position:absolute;right:-2px;bottom:-3px;font-size:10px}
-.gb35 b img.ic{width:18px;height:18px;vertical-align:-4px;margin-right:2px}`;
-  document.head.appendChild(c); })();
-
 /* 第七、八章妖物與首領、黃沙／蜃海遠景、修煉屬性與介面 Q 版圖示（青鋒美術 2026-10-24 交件，原創） */
 Object.assign(ASSETS, {"mob_c7_a": "assets/mob_c7_a.854e099809.webp", "mob_c7_b": "assets/mob_c7_b.038c7e9687.webp", "mob_c7_c": "assets/mob_c7_c.d96e279c6e.webp", "mob_c7_d": "assets/mob_c7_d.ae13e520cc.webp", "boss_c7": "assets/boss_c7.0690c9505f.webp", "mob_c7_elite": "assets/mob_c7_elite.dfb50a03bb.webp", "mob_c8_a": "assets/mob_c8_a.f1a9d851fa.webp", "mob_c8_b": "assets/mob_c8_b.727049ecf4.webp", "mob_c8_c": "assets/mob_c8_c.0c0d96f94c.webp", "mob_c8_d": "assets/mob_c8_d.4290605dab.webp", "boss_c8": "assets/boss_c8.5a9e1b0279.webp", "mob_c8_elite": "assets/mob_c8_elite.a6670d554d.webp", "bg_sand_far": "assets/bg_sand_far.ae6325b9ea.webp", "bg_sea_far": "assets/bg_sea_far.d4e6f9f716.webp", "icon_atk": "assets/icon_atk.73610cc5f6.webp", "icon_def": "assets/icon_def.e6b8e662c1.webp", "icon_hp": "assets/icon_hp.b843901969.webp", "icon_crit": "assets/icon_crit.e7421861bf.webp", "icon_extra": "assets/icon_extra.78fb62c9cd.webp", "icon_gear": "assets/icon_gear.ba52040a2c.webp", "icon_crown": "assets/icon_crown.726cee6a71.webp", "icon_check": "assets/icon_check.e9ec312699.webp", "icon_exp": "assets/icon_exp.dc8a3e7403.webp", "icon_play": "assets/icon_play.baf1a64c31.webp", "icon_diamond": "assets/icon_diamond.a0af009c3f.webp"});
 Object.assign(ASSET_INFO, {"mob_c7_a": {"facing": "left"}, "mob_c7_b": {"facing": "left"}, "mob_c7_c": {"facing": "left"}, "mob_c7_d": {"facing": "left"}, "boss_c7": {"facing": "left"}, "mob_c7_elite": {"facing": "left"}, "mob_c8_a": {"facing": "left"}, "mob_c8_b": {"facing": "left"}, "mob_c8_c": {"facing": "left"}, "mob_c8_d": {"facing": "left"}, "boss_c8": {"facing": "left"}, "mob_c8_elite": {"facing": "left"}});
@@ -9317,9 +9345,13 @@ Object.assign(ASSET_INFO, {"boss_mo81":{"facing":"left"},"boss_mo91":{"facing":"
 /* 第九章墨淵小怪／精英（青鋒美術 2026-10-30 交件；會議 10/30 建版；原創） */
 Object.assign(ASSETS, {"mob_c9_a": "assets/mob_c9_a.0280989e68.webp", "mob_c9_b": "assets/mob_c9_b.0368b5c4f4.webp", "mob_c9_c": "assets/mob_c9_c.4a6092da1e.webp", "mob_c9_d": "assets/mob_c9_d.28c65c8fa7.webp", "mob_c9_elite": "assets/mob_c9_elite.e5aa088623.webp"});
 Object.assign(ASSET_INFO, {"mob_c9_a": {"facing": "left"}, "mob_c9_b": {"facing": "left"}, "mob_c9_c": {"facing": "left"}, "mob_c9_d": {"facing": "left"}, "mob_c9_elite": {"facing": "left"}});
+/* v3.12.1：第十章裂硯深牢小怪／精英（青鋒美術 2026-10-31 交件；art_check 6/6；原創） */
+Object.assign(ASSETS, {"mob_c10_a": "assets/mob_c10_a.25bd2053a3.webp", "mob_c10_b": "assets/mob_c10_b.41a3c88cb9.webp", "mob_c10_c": "assets/mob_c10_c.6cfcc4c4c1.webp", "mob_c10_d": "assets/mob_c10_d.f39ccc4d58.webp", "mob_c10_elite": "assets/mob_c10_elite.d145783eaf.webp"});
+Object.assign(ASSET_INFO, {"mob_c10_a": {"facing": "left"}, "mob_c10_b": {"facing": "left"}, "mob_c10_c": {"facing": "left"}, "mob_c10_d": {"facing": "left"}, "mob_c10_elite": {"facing": "left"}});
 
 /* v3.11.4：第九／十章（81／91 層專屬首領 boss_mo81／boss_mo91）
- * v3.12.0：c9 專屬小怪／精英（美術 2026-10-30）；c10 暫用 c9；缺鍵退回 c8
+ * v3.12.0：c9 專屬小怪／精英（美術 2026-10-30）；缺鍵退回 c8
+ * v3.12.1：c10 專屬小怪／精英（美術 2026-10-31）；缺鍵退回 c9
  * 美術 2026-10-29／10-30；會議 10/29、10/30
  * 無盡試煉起點隨 endF=last.from+10 自動延到 101（fix_v382） */
 (() => {
@@ -9336,13 +9368,20 @@ Object.assign(ASSET_INFO, {"mob_c9_a": {"facing": "left"}, "mob_c9_b": {"facing"
     pick({ k: 'mob_c9_d', name: '寒墨鴉', type: 'ranged', shot: 'ice' }, c8.mobs[3]),
   ];
   const c9elite = pick({ k: 'mob_c9_elite', name: '守卷墨將' }, c8.elite);
+  const c10mobs = [
+    pick({ k: 'mob_c10_a', name: '斷鎖囚影', type: 'fast' }, c9mobs[0]),
+    pick({ k: 'mob_c10_b', name: '負枷牢頭', type: 'tank' }, c9mobs[1]),
+    pick({ k: 'mob_c10_c', name: '囚燈魂', type: 'ranged', shot: 'fire', fly: 26 }, c9mobs[2]),
+    pick({ k: 'mob_c10_d', name: '裂硯墨蛛', type: 'ranged', shot: 'feather' }, c9mobs[3]),   // 墨團：沿用 feather 的暗米色橢圓（和囚燈魂的 fire 分得開；只影響彈道外觀）
+  ];
+  const c10elite = pick({ k: 'mob_c10_elite', name: '鎖魂典獄' }, c9elite);
   Object.assign(CFG.rosters, {
     c9: {
       mobs: c9mobs, elite: c9elite,
       boss: { k: 'boss_mo81', name: '墨淵劍魔', pattern: 'blades', skill: '墨劍齊射', desc: '身後三柄墨飛劍齊出，隊伍前方先出現劍氣預警帶——閃過再輸出。' },
     },
     c10: {
-      mobs: c9mobs, elite: c9elite,   /* 第十章小怪組交件前暫用 c9（會議 10/30） */
+      mobs: c10mobs, elite: c10elite,
       boss: { k: 'boss_mo91', name: '裂硯魔將', pattern: 'slam', skill: '裂硯重錘', desc: '巨錘高舉時地面出現落點預警圈，砸下濺墨震暈——先閃再開打。' },
     },
   });
@@ -9639,12 +9678,6 @@ Object.assign(GROUND.themes, {
 // ---- 圖示：新 Q 版圖示的 emoji 對應（不改原字串，只加對照）----
 Object.assign(ICO.EMO, { '📛': 'rename', '⚜️': 'mqf', '⚜': 'mqf', '👘': 'cos' }); ICO.re = null;
 // ---- 凌霄商店：品質框、折扣（只有限購品，實扣＝顯示價）、售罄印章、分頁 ----
-const SHOP39 = {
-  QM: { tie: 3, speed: 2, ticket: 2, iron: 1, page: 1, stone: 3, box2: 2, essence: 2, bun: 0, copper: 0, qi: 1, dropRune: 3, shardRand2: 4, gem_atk2: 3, gem_hp2: 3 },
-  q(k) { return this.QM[k] != null ? this.QM[k] : 1; },
-  off(it) { return it.off && it.off < 1 && it.daily ? it.off : 0; },
-  cost(it) { const o = this.off(it); if (!o) return it.cost; const c = {}; for (const k in it.cost) c[k] = Math.ceil(it.cost[k] * o); return c; },
-};
 (() => {
   const t10 = CFG.shop.find(x => x.id === 's_tie10'); if (t10) t10.off = 0.8;   // 【建議調整】英雄帖×10 每日限 3 次、8 折（900→720 銀錠）
   UI.shopTab = 'ling';
@@ -9883,24 +9916,6 @@ const SHOP39 = {
 @media (max-height:700px){#bstage .bact{width:54px;height:54px}#bstage .bact.big{width:62px;height:62px}}
 `;
   const s = document.createElement('style'); s.id = 'css392'; s.textContent = css; document.head.appendChild(s);
-})();
-
-/* =====================================================================
- * v3.9.3 熱修（青鋒監管 10/25 品管 N2：商店、修煉、主畫面按鈕可點範圍 < 44px）
- *  - 凌霄商店價格鈕改成實高 44px（不再被折扣原價擠扁），卡片改為至少 168px、內容自動撐高。
- *  - 名器坊購買／刷新貨架、時裝鋪購買鈕同樣實高 44px。
- *  - 修煉「250」與「×10」各自實高 44px，改成左右並排（卡片不會變高）。
- *  - 主畫面裝備列「布陣」「品階」高度 30px，透明點擊範圍往上延伸到面板頂（下方緊貼裝備格，不往下搶點擊）。
- * ===================================================================== */
-(() => {
-  const st = document.createElement('style');
-  st.textContent = `.sc{height:auto;min-height:168px}
-.pb{height:44px;min-height:44px;flex-shrink:0}
-.card.row [data-act=train],.card.row [data-act=train10],#main [data-act=eqbuy],#main [data-act=eqbuyt],#main [data-act=eqref],#main [data-act=cosbuy]{min-height:44px}
-.card.row div:has(>[data-act=train10]){flex-direction:row!important;align-items:center!important;gap:6px!important}
-.eqh .btn.sm{min-height:30px}
-.eqh .btn.sm[data-t44="b"]::before,.eqh .btn.sm[data-t44="a"]::after{top:-17px;bottom:-3px}`;
-  document.head.appendChild(st);
 })();
 
 /* =====================================================================
@@ -10277,11 +10292,6 @@ const SHOP39 = {
     (ASSETS.ui_boss_intel_scroll ? `.bt310{background:url(${ASSETS.ui_boss_intel_scroll}) center/100% 100% no-repeat!important;border:0!important;padding:14px 40px 16px!important;box-shadow:none!important}.bt310>b:first-child{display:block;text-align:center;color:#fff;text-shadow:0 1px 2px #0008;margin-bottom:6px}` : '');
   document.head.appendChild(css);
 })();
-
-/* v3.11.1 工程熱修標記（QA 10/27）
- *  N2／N3 閉關歸來改動寫在 fix_v3101.js（同一條彈窗路徑，避免雙重攔截）。
- *  t31 測試資料穩定、council.py max_tokens KeyError 見對應檔。 */
-(() => { /* no-op：歡迎彈窗邏輯在 fix_v3101 */ })();
 
 /* v3.11.2（會議 10/28 P8，監管-3）升級大字不蓋彈窗／試煉準備
  *  1) 大字一律進佇列，下一拍才判斷（儲值後才開「收下」視窗也擋得住）
