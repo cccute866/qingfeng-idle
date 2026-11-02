@@ -736,7 +736,7 @@ canvas.sdemo{width:100%;border-radius:10px;border:2px solid #d6c39b;background:#
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.12.1',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.12.2',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -1320,6 +1320,8 @@ const dayKey = (t = now()) => { const d = new Date(t); return d.getFullYear() + 
 /** 本地日序號（遞增整數）：每日重置只在「比曾見過的最大日序號更大」時觸發，把系統時間調回去不會重置日常（v3.8 防作弊） */
 const dayIdx = (t = now()) => Math.floor((t - new Date(t).getTimezoneOffset() * 60000) / 864e5);
 const dayIdxOfKey = k => { const m = /^(\d+)-(\d+)-(\d+)$/.exec(k || ''); return m ? dayIdx(new Date(+m[1], +m[2] - 1, +m[3], 12).getTime()) : null; };
+/** 幫會加成接口：core 不直接引用 social 的 GuildManager（斷開 core↔social 循環）；social.js 載入時接上，行為不變 */
+const GuildPort = { eff: () => 0 };
 
 function fmt(n) {
   n = Math.floor(n);
@@ -1462,7 +1464,7 @@ const VipManager = {
   cardSum(f) { return this.activeCards().reduce((a, c) => a + (typeof c[f] === 'number' ? c[f] : 0), 0); },
   title() { return this.hasLife() ? CFG.lifeCard.title : ''; },
   frame() { return this.hasLife() ? CFG.lifeCard.frame : ''; },
-  offlinePct() { return this.max('offline') + this.cardSum('offline') + KungfuManager.eff('idlePct') + GuildManager.eff('idle'); },
+  offlinePct() { return this.max('offline') + this.cardSum('offline') + KungfuManager.eff('idlePct') + GuildPort.eff('idle'); },
   fastBattle() { return this.has('fast') || this.activeCards().length > 0; },
   dropCap() { return CFG.baseDropCap + S.lv + this.max('cap') + this.cardSum('cap') + (S.dropRuneEnd > now() ? CFG.dropRune.bonus : 0); },
   qShift() { return (this.max('qShift') + this.cardSum('qShift')) * 4; },
@@ -1540,7 +1542,7 @@ const PlayerManager = {
     s.atk *= 1 + (KungfuManager.eff('atkPct') + ins) / 100;
     s.def *= 1 + (KungfuManager.eff('defPct') + ins) / 100;
     s.hp *= 1 + (KungfuManager.eff('hpPct') + ins) / 100;
-    const gw = 1 + GuildManager.eff('war') / 100; s.atk *= gw; s.def *= gw; s.hp *= gw;   // v3 戰備營
+    const gw = 1 + GuildPort.eff('war') / 100; s.atk *= gw; s.def *= gw; s.hp *= gw;   // v3 戰備營
     for (const k in s) s[k] = k === 'atk' || k === 'def' || k === 'hp' ? Math.round(s[k]) : Math.round(s[k] * 10) / 10;
     return s;
   },
@@ -2038,6 +2040,7 @@ const GuildManager = {
     return this.donLeft('copper') > 0 && S.res.copper >= CFG.guild.donate.copper.cost.copper || this.packetLeft() > 0 || CFG.guild.buildings.some(b => !this.why(b.id));
   },
 };
+GuildPort.eff = k => GuildManager.eff(k);   // 接上 core 的幫會加成接口（core↔social 斷循環，行為不變）
 
 /* ------------------------- SignManager：七日簽到 ------------------------- */
 const SignManager = {
@@ -3624,7 +3627,7 @@ const HS = {
         if (m.x - lead.x > stop) { m.x -= 26 * dt * (m.spd || 1); m.moving = true; } else m.moving = false;
         if (m.fly) m.y = m.fly + Math.sin(this.T * 5 + m.ph) * 6;
         if (m.type === 'ranged' && m.hp > 0 && m.x - lead.x < stop + 30 && m.x - this.camX < VW) { m.cd -= dt; if (m.cd <= 0) { m.cd = CFG.mobTypes.ranged.shotCd; m.atkT = 0.25; m.atkMax = 0.25; this.shoot(m, lead); } }
-        if (m.hp <= 0 && !m.dead) { m.dead = true; this.die(m); this.kills++; S.stats.kills = (S.stats.kills || 0) + 1; if (StaminaManager.onKill()) this.fx.add({ k: 'text', x: lead.x, y: 150, vx: 0, vy: 40, drag: 1, life: 1, s: '🥟 -1', size: 13, c: '#ffe7b0' }); if (this.kills === this.need) { this.banner('首領進度已滿！'); UI.renderStageHud(); if (S.opt.autoTower && (window.WX && WX.effPower ? WX.effPower(TowerManager.next()) : PlayerManager.power()) >= TowerManager.req()) /* v3.10 自動推塔計入武學克制 */ setTimeout(() => this.challenge(), 700); } else UI.renderStageHud(); } });
+        if (m.hp <= 0 && !m.dead) { m.dead = true; this.die(m); this.kills++; S.stats.kills = (S.stats.kills || 0) + 1; if (StaminaManager.onKill()) this.fx.add({ k: 'text', x: lead.x, y: 150, vx: 0, vy: 40, drag: 1, life: 1, s: '🥟 -1', size: 13, c: '#ffe7b0' }); if (this.kills === this.need) { this.banner('首領進度已滿！'); UI.renderStageHud(); if (S.opt.autoTower && (window['WX'] && window['WX'].effPower ? window['WX'].effPower(TowerManager.next()) : PlayerManager.power()) >= TowerManager.req()) /* v3.10 自動推塔計入武學克制 */ setTimeout(() => this.challenge(), 700); } else UI.renderStageHud(); } });
       this.mobs = this.mobs.filter(m => !m.dead && m.x > this.camX - 80);
       // v3d 體力：包子歸零 → 不再生成妖物，清完場上妖物後原地休息
       const empty = StaminaManager.empty();
@@ -9327,7 +9330,7 @@ Object.assign(ASSET_INFO, {"boss_mo81":{"facing":"left"},"boss_mo91":{"facing":"
 
   // 【建議調整 v3.8｜數值 C1】61 層後每層 +8%（原 +9.5%），配合新章節不讓免費玩家在 60 層後卡死
   const rp = CFG.tower.reqPower, r60 = rp(60);
-  CFG.tower.reqPower = f => f <= 60 ? rp(f) : Math.floor(r60 * Math.pow(1.08, f - 60));
+  CFG.tower.reqPower = f => f <= 60 ? rp(f) : f <= 80 ? Math.floor(r60 * Math.pow(1.08, f - 60)) : Math.floor(Math.floor(r60 * Math.pow(1.08, 20)) * Math.pow(1.07, f - 80));   // 【v3.12.2｜數值-1】81 層起 +8%→+7%（10/31 彙整採納），80 層以前不變
   // 【建議調整 v3.8｜數值 B1】等級上限 80 → 100；80 級後所需經驗 ×3（V10 第 5 天就頂 80 級）
   const en = CFG.player.expNeed; CFG.player.maxLevel = 100;
   CFG.player.expNeed = lv => lv >= 80 ? en(lv) * 3 : en(lv);
