@@ -990,14 +990,14 @@ html,body{background:#F3E2B8!important}
   <div id="bresult"></div>
 </div>
 </div>
-<script>window.__AUDIO__={"files":{"ui_reward":"assets/ui_reward.a86044ab15.ogg","ui_click":"assets/ui_click.950d129795.ogg","ui_scroll":"assets/ui_scroll.1c8e10b1d6.ogg","ui_page":"assets/ui_page.dc019c1816.ogg","ui_open":"assets/ui_open.b2e636486f.ogg","ui_error":"assets/ui_error.17b7b48e04.ogg","ui_gacha":"assets/ui_gacha.1739077741.ogg","ui_levelup":"assets/ui_levelup.50a7aa2edd.ogg","bgm_battle":"assets/bgm_battle.1a9f2413ad.ogg","bgm_explore":"assets/bgm_explore.6d588f1cb1.ogg","bgm_boss":"assets/bgm_boss.fab1bd2517.ogg","bgm_home":"assets/bgm_home.3831d83114.ogg","bgm_idle":"assets/bgm_idle.121faec183.ogg","sfx_slash":"assets/sfx_slash.f6b2564093.ogg","sfx_magic":"assets/sfx_magic.51df93e771.ogg","sfx_mob_die":"assets/sfx_mob_die.c00d57538f.ogg","sfx_crit":"assets/sfx_crit.91d71aeb98.ogg","sfx_block":"assets/sfx_block.9191b90855.ogg","sfx_boss_enter":"assets/sfx_boss_enter.d71e60dcc4.ogg","sfx_hit":"assets/sfx_hit.f0632a468e.ogg"},"map":{"click":"ui_click","reward":"ui_reward","coin":"ui_reward","levelup":"ui_levelup","gacha":"ui_gacha","error":"ui_error","fail":"ui_error","open":"ui_open","portal":"ui_open","build":"ui_open","page":"ui_page","scroll":"ui_scroll","hit":"sfx_hit","crit":"sfx_crit","block":"sfx_block","slash":"sfx_slash","dash":"sfx_slash","jump":"sfx_slash","hurt":"sfx_hit","kill":"sfx_mob_die","elite":"sfx_crit","skill":"sfx_magic","magic":"sfx_magic","boss":"sfx_boss_enter","win":"ui_levelup"},"bgm":{"home":"bgm_home","idle":"bgm_idle","battle":"bgm_battle","boss":"bgm_boss","explore":"bgm_explore"},"defaults":{"volBgm":0.4,"volSfx":0.7}};
+<script>window.__AUDIO__={"files":{"ui_reward":"assets/ui_reward.a86044ab15.ogg","ui_click":"assets/ui_click.950d129795.ogg","ui_scroll":"assets/ui_scroll.1c8e10b1d6.ogg","ui_page":"assets/ui_page.dc019c1816.ogg","ui_open":"assets/ui_open.b2e636486f.ogg","ui_error":"assets/ui_error.17b7b48e04.ogg","ui_gacha":"assets/ui_gacha.1739077741.ogg","ui_levelup":"assets/ui_levelup.50a7aa2edd.ogg","bgm_battle":"assets/bgm_battle.1a9f2413ad.ogg","bgm_ch02_cliff_v3C":"assets/bgm_ch02_cliff_v3C.13f063f26d.ogg","bgm_explore":"assets/bgm_explore.6d588f1cb1.ogg","bgm_ch01_bamboo_v3A":"assets/bgm_ch01_bamboo_v3A.85bd58423b.ogg","bgm_boss":"assets/bgm_boss.fab1bd2517.ogg","bgm_home":"assets/bgm_home.3831d83114.ogg","bgm_ch03_ember_v3B":"assets/bgm_ch03_ember_v3B.9bc1e977e0.ogg","bgm_idle":"assets/bgm_idle.121faec183.ogg","sfx_slash":"assets/sfx_slash.f6b2564093.ogg","sfx_magic":"assets/sfx_magic.51df93e771.ogg","sfx_mob_die":"assets/sfx_mob_die.c00d57538f.ogg","sfx_crit":"assets/sfx_crit.91d71aeb98.ogg","sfx_block":"assets/sfx_block.9191b90855.ogg","sfx_boss_enter":"assets/sfx_boss_enter.d71e60dcc4.ogg","sfx_hit":"assets/sfx_hit.f0632a468e.ogg"},"map":{"click":"ui_click","reward":"ui_reward","coin":"ui_reward","levelup":"ui_levelup","gacha":"ui_gacha","error":"ui_error","fail":"ui_error","open":"ui_open","portal":"ui_open","build":"ui_open","page":"ui_page","scroll":"ui_scroll","hit":"sfx_hit","crit":"sfx_crit","block":"sfx_block","slash":"sfx_slash","dash":"sfx_slash","jump":"sfx_slash","hurt":"sfx_hit","kill":"sfx_mob_die","elite":"sfx_crit","skill":"sfx_magic","magic":"sfx_magic","boss":"sfx_boss_enter","win":"ui_levelup"},"bgm":{"home":"bgm_home","idle":"bgm_idle","battle":"bgm_battle","boss":"bgm_boss","explore":"bgm_explore","ch01":"bgm_ch01_bamboo_v3A","ch02":"bgm_ch02_cliff_v3C","ch03":"bgm_ch03_ember_v3B"},"defaults":{"volBgm":0.4,"volSfx":0.7}};
 /* =====================================================================
  * GameConfig — 所有設定資料集中於此（對應 Unity 的 ScriptableObject）
  * 標註：【文件】= 設計文件 v1.0 明確定義；【建議（待確認）】= 文件未定義，原型暫定值
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.12.5',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.12.6',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -5431,10 +5431,25 @@ function boot() {
 }
 
 
-/* v3.12.3／v3.11.4 fold：換頁 BGM、音量拖曳、進戰 BGM */
+/* v3.12.3／v3.11.4 fold：換頁 BGM、音量拖曳、進戰 BGM；BGM-CH123 章曲 */
+const CH_BGM = { 0: 'ch01', 1: 'ch02', 2: 'ch03' };
+UI._chapterBgmKey = () => {
+  try {
+    const ch = (typeof ChapterManager !== 'undefined' && ChapterManager.cur)
+      ? ChapterManager.cur()
+      : (typeof HS !== 'undefined' && HS.chap ? HS.chap() : null);
+    if (!ch || ch.idx == null) return null;
+    return CH_BGM[ch.idx] || null;
+  } catch (e) { return null; }
+};
 UI._bgmFor = v => {
   if (!v) return 'home';
-  if (/battle|tower|stage|chap|boss|trail|innfight|combat/.test(v)) return /boss/.test(v) ? 'boss' : 'battle';
+  if (/battle|tower|stage|chap|boss|trail|innfight|combat/.test(v)) {
+    const ck = UI._chapterBgmKey();
+    // TODO(BGM): 首領專曲 — 目前首領／戰鬥暫用該章 BGM，勿把舊 boss 曲當正式章曲
+    if (ck) return ck;
+    return /boss/.test(v) ? 'boss' : 'battle';
+  }
   if (/idle|afk|qihai|氣海/.test(v)) return 'idle';
   if (/map|explore|world|江湖/.test(v)) return 'explore';
   return 'home';
@@ -5449,7 +5464,11 @@ document.addEventListener('input', e => {
 if (typeof TB !== 'undefined' && TB.start) {
   const _s = TB.start.bind(TB);
   TB.start = function () {
-    try { AudioManager.playBgm('battle'); } catch (e) {}
+    try {
+      const ck = UI._chapterBgmKey();
+      // TODO(BGM): 首領專曲 — 首領戰暫用該章 BGM，尚未接獨立 boss 曲
+      AudioManager.playBgm(ck || 'battle');
+    } catch (e) {}
     return _s.apply(this, arguments);
   };
 }
