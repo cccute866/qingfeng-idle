@@ -997,7 +997,7 @@ html,body{background:#F3E2B8!important}
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.12.6',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.12.7',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -1556,16 +1556,17 @@ CFG.gacha = {
 };
 
 /* 自動產生：tools/assets.py（來源 /workspace/wuxia-art）*/
-const ASSETS = {"icon_m_bag": "assets/icon_m_bag.39aaa6cf13.webp", "icon_m_mine": "assets/icon_m_mine.e01f0ba797.webp", "icon_m_realm": "assets/icon_m_realm.f173ae13a0.webp", "icon_m_forge": "assets/icon_m_forge.5f80c326d5.webp", "badge_a": "assets/badge_a.79245727f8.webp", "badge_b": "assets/badge_b.fcd8a53e89.webp", "badge_c": "assets/badge_c.957fba08db.webp", "badge_s": "assets/badge_s.a079acfbe7.webp", "badgeblank_a": "assets/badgeblank_a.656dad739c.webp", "badgeblank_b": "assets/badgeblank_b.78292a8840.webp", "badgeblank_c": "assets/badgeblank_c.1c008c8d20.webp", "badgeblank_s": "assets/badgeblank_s.2be141bace.webp", "bg_bamboo_far": "assets/bg_bamboo_far.0988316333.webp", "bg_bamboo_mid": "assets/bg_bamboo_mid.402ea4a3c2.webp", "bg_bamboo_near": "assets/bg_bamboo_near.5d4bc184e4.webp", "bg_ember_far": "assets/bg_ember_far.d01c68f064.webp", "bg_ember_mid": "assets/bg_ember_mid.3ef6323c6f.webp", "bg_ember_near": "assets/bg_ember_near.fd2f5ca61d.webp", "bg_rock_far": "assets/bg_rock_far.a64d836d15.webp", "bg_rock_mid": "assets/bg_rock_mid.9c10fcabb9.webp", "bg_rock_near": "assets/bg_rock_near.41ad474d00.webp", "bg_tower_far": "assets/bg_tower_far.0a12b6fbb6.webp", "boss_c1": "assets/boss_c1.1d5f344696.webp", "boss_c2": "assets/boss_c2.0dc46e5f93.webp", "boss_c3": "assets/boss_c3.a754596b7b.webp", "boss_c4": "assets/boss_c4.79bfd75b92.webp", "boss_c5": "assets/boss_c5.09f3b1ed69.webp", "boss_c6": "assets/boss_c6.fd25fe7258.webp", "fr_cos_jinli_cast": "assets/fr_cos_jinli_cast.fbf232fb25.webp", "fr_cos_jinli_charge": "assets/fr_cos_jinli_charge.9c9fb81e42.webp", "fr_cos_jinli_hit": "assets/fr_cos_jinli_hit.fc92de250f.webp", "fr_cos_jinli_idle": "assets/fr_cos_jinli_idle.a7feb99e1f.webp", "fr_cos_jinli_ko": "assets/fr_cos_jinli_ko.54986fffc2.webp", "fr_cos_jinli_recov": "assets/fr_cos_jinli_recov.b5f3f86bf8.webp", "fr_cos_jinli_strike": "assets/fr_cos_jinli_strike.5b0aee75db.webp", "fr_cos_jinli_w1": "assets/fr_cos_jinli_w1.ef9795f800.webp", "fr_cos_jinli_w2": "assets/fr_cos_jinli_w2.b42c70cdac.webp", "fr_cos_jinli_w3": "assets/fr_cos_jinli_w3.5d9081d477.webp", "fr_cos_jinli_w4": "assets/fr_cos_jinli_w4.9bb542e11d.webp", "fr_cos_jinli_wind": "assets/fr_cos_jinli_wind.1c575b6185.webp", "fr_cos_liuyun_cast": "assets/fr_cos_liuyun_cast.7745916b97.webp", "fr_cos_liuyun_charge": "assets/fr_cos_liuyun_charge.404749ac21.webp", "fr_cos_liuyun_hit": "assets/fr_cos_liuyun_hit.9f7d4efe4f.webp", "fr_cos_liuyun_idle": "assets/fr_cos_liuyun_idle.5282ecfc8f.webp", "fr_cos_liuyun_ko": "assets/fr_cos_liuyun_ko.0a447c8abd.webp", "fr_cos_liuyun_recov": "assets/fr_cos_liuyun_recov.c8fcb00362.webp", "fr_cos_liuyun_strike": "assets/fr_cos_liuyun_strike.eb7f7e32ca.webp", "fr_cos_liuyun_w1": "assets/fr_cos_liuyun_w1.877c73ff23.webp", "fr_cos_liuyun_w2": "assets/fr_cos_liuyun_w2.c3727e0365.webp", "fr_cos_liuyun_w3": "assets/fr_cos_liuyun_w3.1a31203f80.webp", "fr_cos_liuyun_w4": "assets/fr_cos_liuyun_w4.36c3bb826e.webp", "fr_cos_liuyun_wind": "assets/fr_cos_liuyun_wind.aae7f8445e.webp", "fr_cos_xuanye_cast": "assets/fr_cos_xuanye_cast.e47314146e.webp", "fr_cos_xuanye_charge": "assets/fr_cos_xuanye_charge.dc0254ffd5.webp", "fr_cos_xuanye_hit": "assets/fr_cos_xuanye_hit.e1b1eea011.webp", "fr_cos_xuanye_idle": "assets/fr_cos_xuanye_idle.ce977c45c4.webp", "fr_cos_xuanye_ko": "assets/fr_cos_xuanye_ko.5166024708.webp", "fr_cos_xuanye_recov": "assets/fr_cos_xuanye_recov.ac10cb5c5d.webp", "fr_cos_xuanye_strike": "assets/fr_cos_xuanye_strike.3f9abb8c1d.webp", "fr_cos_xuanye_w1": "assets/fr_cos_xuanye_w1.f04de6d77e.webp", "fr_cos_xuanye_w2": "assets/fr_cos_xuanye_w2.285ecaa3f4.webp", "fr_cos_xuanye_w3": "assets/fr_cos_xuanye_w3.511697e560.webp", "fr_cos_xuanye_w4": "assets/fr_cos_xuanye_w4.7fdb60cadf.webp", "fr_cos_xuanye_wind": "assets/fr_cos_xuanye_wind.1501b5ae92.webp", "fr_cos_zhuying_cast": "assets/fr_cos_zhuying_cast.5501f14e30.webp", "fr_cos_zhuying_charge": "assets/fr_cos_zhuying_charge.e181b657fa.webp", "fr_cos_zhuying_hit": "assets/fr_cos_zhuying_hit.df3285bb17.webp", "fr_cos_zhuying_idle": "assets/fr_cos_zhuying_idle.c52edd55e3.webp", "fr_cos_zhuying_ko": "assets/fr_cos_zhuying_ko.f6e3fb6392.webp", "fr_cos_zhuying_recov": "assets/fr_cos_zhuying_recov.0f19f9a438.webp", "fr_cos_zhuying_strike": "assets/fr_cos_zhuying_strike.14da982cba.webp", "fr_cos_zhuying_w1": "assets/fr_cos_zhuying_w1.55bb79678d.webp", "fr_cos_zhuying_w2": "assets/fr_cos_zhuying_w2.50d49a710b.webp", "fr_cos_zhuying_w3": "assets/fr_cos_zhuying_w3.3eff102ca4.webp", "fr_cos_zhuying_w4": "assets/fr_cos_zhuying_w4.1b7e37e7dd.webp", "fr_cos_zhuying_wind": "assets/fr_cos_zhuying_wind.273521b9e4.webp", "fr_fen_cast": "assets/fr_fen_cast.13d3b92186.webp", "fr_fen_charge": "assets/fr_fen_charge.94f96d4953.webp", "fr_fen_hit": "assets/fr_fen_hit.da6d59bf05.webp", "fr_fen_idle": "assets/fr_fen_idle.ed7d180e1a.webp", "fr_fen_ko": "assets/fr_fen_ko.98e03a3e84.webp", "fr_fen_recov": "assets/fr_fen_recov.63e0f5e522.webp", "fr_fen_strike": "assets/fr_fen_strike.a5076c0362.webp", "fr_fen_w1": "assets/fr_fen_w1.ccba8d8588.webp", "fr_fen_w2": "assets/fr_fen_w2.d509d6da25.webp", "fr_fen_w3": "assets/fr_fen_w3.5880fa3dd7.webp", "fr_fen_w4": "assets/fr_fen_w4.5d64805317.webp", "fr_fen_wind": "assets/fr_fen_wind.adcd027d1c.webp", "fr_luan_cast": "assets/fr_luan_cast.35f0ffc2a1.webp", "fr_luan_charge": "assets/fr_luan_charge.07bc89a44a.webp", "fr_luan_hit": "assets/fr_luan_hit.65849dc163.webp", "fr_luan_idle": "assets/fr_luan_idle.ebc9e8284a.webp", "fr_luan_ko": "assets/fr_luan_ko.d02083b995.webp", "fr_luan_recov": "assets/fr_luan_recov.b8c1564dd3.webp", "fr_luan_strike": "assets/fr_luan_strike.20d8eac081.webp", "fr_luan_w1": "assets/fr_luan_w1.b8c2e79fe1.webp", "fr_luan_w2": "assets/fr_luan_w2.b62c121cb0.webp", "fr_luan_w3": "assets/fr_luan_w3.5555ef98fe.webp", "fr_luan_w4": "assets/fr_luan_w4.97b63ec172.webp", "fr_luan_wind": "assets/fr_luan_wind.21be6fd766.webp", "fr_zhu_cast": "assets/fr_zhu_cast.20904c59f2.webp", "fr_zhu_charge": "assets/fr_zhu_charge.5084a1b75b.webp", "fr_zhu_hit": "assets/fr_zhu_hit.2cb902e581.webp", "fr_zhu_idle": "assets/fr_zhu_idle.c40322e831.webp", "fr_zhu_ko": "assets/fr_zhu_ko.31d9c3a3a7.webp", "fr_zhu_recov": "assets/fr_zhu_recov.e1e45eda3c.webp", "fr_zhu_strike": "assets/fr_zhu_strike.969d52c890.webp", "fr_zhu_w1": "assets/fr_zhu_w1.78d05c9742.webp", "fr_zhu_w2": "assets/fr_zhu_w2.9aeb912429.webp", "fr_zhu_w3": "assets/fr_zhu_w3.7e45199988.webp", "fr_zhu_w4": "assets/fr_zhu_w4.1168b4f135.webp", "fr_zhu_wind": "assets/fr_zhu_wind.3937b2e717.webp", "fx_crystal": "assets/fx_crystal.4cb43aab82.webp", "fx_flame": "assets/fx_flame.7f94cc3720.webp", "fx_fsword": "assets/fx_fsword.41dd0be9aa.webp", "fx_fwheel": "assets/fx_fwheel.4605cfa71f.webp", "fx_ink0": "assets/fx_ink0.67ed0ed51a.webp", "fx_ink1": "assets/fx_ink1.d352ab59a8.webp", "fx_ink2": "assets/fx_ink2.56a6dfca5c.webp", "fx_qi": "assets/fx_qi.9d836c236f.webp", "fx_ring": "assets/fx_ring.26a58d6041.webp", "fx_spark": "assets/fx_spark.2f53c1431d.webp", "guard_basic": "assets/guard_basic.e9f0b69a5f.webp", "guard_berserk": "assets/guard_berserk.133db92649.webp", "guard_multi": "assets/guard_multi.1b0736eb92.webp", "guard_shield": "assets/guard_shield.a22fa034f5.webp", "guard_summon": "assets/guard_summon.cc1b878e15.webp", "icon_armor": "assets/icon_armor.1dd8b957e2.webp", "icon_belt": "assets/icon_belt.815b9687c3.webp", "icon_boots": "assets/icon_boots.00cc379732.webp", "icon_box1": "assets/icon_box1.90152c2e90.webp", "icon_box2": "assets/icon_box2.b8811f4efb.webp", "icon_box3": "assets/icon_box3.0da9df833b.webp", "icon_boxO": "assets/icon_boxO.1176106271.webp", "icon_boxP": "assets/icon_boxP.53267ad061.webp", "icon_bun": "assets/icon_bun.a0bfb14d9b.webp", "icon_charm": "assets/icon_charm.7e8c3116aa.webp", "icon_copper": "assets/icon_copper.f8d6b7609f.webp", "icon_crystal": "assets/icon_crystal.92e7e13fc5.webp", "icon_dropRune": "assets/icon_dropRune.6d7acdb3ec.webp", "icon_eq_armor_0_0": "assets/icon_eq_armor_0_0.daba50d2a6.webp", "icon_eq_armor_0_1": "assets/icon_eq_armor_0_1.022c7cfc40.webp", "icon_eq_armor_0_2": "assets/icon_eq_armor_0_2.0d3f08cb26.webp", "icon_eq_armor_1_0": "assets/icon_eq_armor_1_0.83ec716702.webp", "icon_eq_armor_1_1": "assets/icon_eq_armor_1_1.14d3180ad8.webp", "icon_eq_armor_1_2": "assets/icon_eq_armor_1_2.1ee97ffe8b.webp", "icon_eq_armor_2_0": "assets/icon_eq_armor_2_0.e98c2136a6.webp", "icon_eq_armor_2_1": "assets/icon_eq_armor_2_1.b693508656.webp", "icon_eq_armor_2_2": "assets/icon_eq_armor_2_2.80041bde44.webp", "icon_eq_armor_3_0": "assets/icon_eq_armor_3_0.f556cdf1d1.webp", "icon_eq_armor_3_1": "assets/icon_eq_armor_3_1.0631708fb6.webp", "icon_eq_armor_3_2": "assets/icon_eq_armor_3_2.e88ce86b7a.webp", "icon_eq_armor_4_0": "assets/icon_eq_armor_4_0.c3e521b961.webp", "icon_eq_armor_4_1": "assets/icon_eq_armor_4_1.8ea549aa63.webp", "icon_eq_armor_4_2": "assets/icon_eq_armor_4_2.86d147f4d2.webp", "icon_eq_belt_0_0": "assets/icon_eq_belt_0_0.758f494690.webp", "icon_eq_belt_0_1": "assets/icon_eq_belt_0_1.07fe8b043d.webp", "icon_eq_belt_0_2": "assets/icon_eq_belt_0_2.0603c2b2e4.webp", "icon_eq_belt_1_0": "assets/icon_eq_belt_1_0.332c44b68f.webp", "icon_eq_belt_1_1": "assets/icon_eq_belt_1_1.67eaf7383c.webp", "icon_eq_belt_1_2": "assets/icon_eq_belt_1_2.5bba0a1433.webp", "icon_eq_belt_2_0": "assets/icon_eq_belt_2_0.c161ead193.webp", "icon_eq_belt_2_1": "assets/icon_eq_belt_2_1.1885b0f3e5.webp", "icon_eq_belt_2_2": "assets/icon_eq_belt_2_2.50788e860a.webp", "icon_eq_belt_3_0": "assets/icon_eq_belt_3_0.a4655c761c.webp", "icon_eq_belt_3_1": "assets/icon_eq_belt_3_1.f3a2638d9a.webp", "icon_eq_belt_3_2": "assets/icon_eq_belt_3_2.a94dcbc036.webp", "icon_eq_belt_4_0": "assets/icon_eq_belt_4_0.225404d1c0.webp", "icon_eq_belt_4_1": "assets/icon_eq_belt_4_1.e841b0ce0a.webp", "icon_eq_belt_4_2": "assets/icon_eq_belt_4_2.9f0ccb4d9b.webp", "icon_eq_boots_0_0": "assets/icon_eq_boots_0_0.14ff02c5cb.webp", "icon_eq_boots_0_1": "assets/icon_eq_boots_0_1.8d2a71baf2.webp", "icon_eq_boots_0_2": "assets/icon_eq_boots_0_2.146f24e897.webp", "icon_eq_boots_1_0": "assets/icon_eq_boots_1_0.b40d6b178f.webp", "icon_eq_boots_1_1": "assets/icon_eq_boots_1_1.fca9719e4f.webp", "icon_eq_boots_1_2": "assets/icon_eq_boots_1_2.ede540b46a.webp", "icon_eq_boots_2_0": "assets/icon_eq_boots_2_0.5ae0f62986.webp", "icon_eq_boots_2_1": "assets/icon_eq_boots_2_1.51c58b98d5.webp", "icon_eq_boots_2_2": "assets/icon_eq_boots_2_2.f0b5987b10.webp", "icon_eq_boots_3_0": "assets/icon_eq_boots_3_0.994ace6d1f.webp", "icon_eq_boots_3_1": "assets/icon_eq_boots_3_1.4cc330e2f6.webp", "icon_eq_boots_3_2": "assets/icon_eq_boots_3_2.3b25433995.webp", "icon_eq_boots_4_0": "assets/icon_eq_boots_4_0.6ea43973d1.webp", "icon_eq_boots_4_1": "assets/icon_eq_boots_4_1.9e7b9b9827.webp", "icon_eq_boots_4_2": "assets/icon_eq_boots_4_2.934b15119e.webp", "icon_eq_bracer_0_0": "assets/icon_eq_bracer_0_0.f18d30c132.webp", "icon_eq_bracer_0_1": "assets/icon_eq_bracer_0_1.d86d9211a2.webp", "icon_eq_bracer_0_2": "assets/icon_eq_bracer_0_2.ba85787709.webp", "icon_eq_bracer_1_0": "assets/icon_eq_bracer_1_0.92d9b6ae1a.webp", "icon_eq_bracer_1_1": "assets/icon_eq_bracer_1_1.9b17c20fa0.webp", "icon_eq_bracer_1_2": "assets/icon_eq_bracer_1_2.ab77e5dce2.webp", "icon_eq_bracer_2_0": "assets/icon_eq_bracer_2_0.35b6b96693.webp", "icon_eq_bracer_2_1": "assets/icon_eq_bracer_2_1.b38db9a178.webp", "icon_eq_bracer_2_2": "assets/icon_eq_bracer_2_2.f3966a1dfa.webp", "icon_eq_bracer_3_0": "assets/icon_eq_bracer_3_0.a4c24c8c4b.webp", "icon_eq_bracer_3_1": "assets/icon_eq_bracer_3_1.7e225d0912.webp", "icon_eq_bracer_3_2": "assets/icon_eq_bracer_3_2.60e358c2e2.webp", "icon_eq_bracer_4_0": "assets/icon_eq_bracer_4_0.81134d2535.webp", "icon_eq_bracer_4_1": "assets/icon_eq_bracer_4_1.caad4b7e47.webp", "icon_eq_bracer_4_2": "assets/icon_eq_bracer_4_2.bc13f37354.webp", "icon_eq_charm_0_0": "assets/icon_eq_charm_0_0.b01b676a7d.webp", "icon_eq_charm_0_1": "assets/icon_eq_charm_0_1.45a4c995ce.webp", "icon_eq_charm_0_2": "assets/icon_eq_charm_0_2.4c1323d934.webp", "icon_eq_charm_1_0": "assets/icon_eq_charm_1_0.5cd380a619.webp", "icon_eq_charm_1_1": "assets/icon_eq_charm_1_1.41d99b7051.webp", "icon_eq_charm_1_2": "assets/icon_eq_charm_1_2.d8dbf6f3ad.webp", "icon_eq_charm_2_0": "assets/icon_eq_charm_2_0.ecf59333b2.webp", "icon_eq_charm_2_1": "assets/icon_eq_charm_2_1.77a17f8764.webp", "icon_eq_charm_2_2": "assets/icon_eq_charm_2_2.40e8977ea2.webp", "icon_eq_charm_3_0": "assets/icon_eq_charm_3_0.d37ee0fd96.webp", "icon_eq_charm_3_1": "assets/icon_eq_charm_3_1.5545efde84.webp", "icon_eq_charm_3_2": "assets/icon_eq_charm_3_2.743fc0e7e3.webp", "icon_eq_charm_4_0": "assets/icon_eq_charm_4_0.44f9a9aaf4.webp", "icon_eq_charm_4_1": "assets/icon_eq_charm_4_1.32872cffa1.webp", "icon_eq_charm_4_2": "assets/icon_eq_charm_4_2.272ac78258.webp", "icon_eq_cloak_0_0": "assets/icon_eq_cloak_0_0.de46b4b7af.webp", "icon_eq_cloak_0_1": "assets/icon_eq_cloak_0_1.55232fb074.webp", "icon_eq_cloak_0_2": "assets/icon_eq_cloak_0_2.1d545fc73d.webp", "icon_eq_cloak_1_0": "assets/icon_eq_cloak_1_0.21e7a09e69.webp", "icon_eq_cloak_1_1": "assets/icon_eq_cloak_1_1.08cbbbd141.webp", "icon_eq_cloak_1_2": "assets/icon_eq_cloak_1_2.089a367484.webp", "icon_eq_cloak_2_0": "assets/icon_eq_cloak_2_0.4707e4e6c2.webp", "icon_eq_cloak_2_1": "assets/icon_eq_cloak_2_1.7d4f6da880.webp", "icon_eq_cloak_2_2": "assets/icon_eq_cloak_2_2.0ec985ac45.webp", "icon_eq_cloak_3_0": "assets/icon_eq_cloak_3_0.60b4791093.webp", "icon_eq_cloak_3_1": "assets/icon_eq_cloak_3_1.d35bab3443.webp", "icon_eq_cloak_3_2": "assets/icon_eq_cloak_3_2.d9bb31fd36.webp", "icon_eq_cloak_4_0": "assets/icon_eq_cloak_4_0.1c8b60b2c4.webp", "icon_eq_cloak_4_1": "assets/icon_eq_cloak_4_1.1cccd81f17.webp", "icon_eq_cloak_4_2": "assets/icon_eq_cloak_4_2.cbf54889ff.webp", "icon_eq_head_0_0": "assets/icon_eq_head_0_0.41b3d21355.webp", "icon_eq_head_0_1": "assets/icon_eq_head_0_1.1c3816705e.webp", "icon_eq_head_0_2": "assets/icon_eq_head_0_2.fe6e4aa602.webp", "icon_eq_head_1_0": "assets/icon_eq_head_1_0.81132938df.webp", "icon_eq_head_1_1": "assets/icon_eq_head_1_1.9033b0da2c.webp", "icon_eq_head_1_2": "assets/icon_eq_head_1_2.e407ea657b.webp", "icon_eq_head_2_0": "assets/icon_eq_head_2_0.e7fa8d370e.webp", "icon_eq_head_2_1": "assets/icon_eq_head_2_1.88791e9a66.webp", "icon_eq_head_2_2": "assets/icon_eq_head_2_2.7c360a1e3b.webp", "icon_eq_head_3_0": "assets/icon_eq_head_3_0.89fa0695e5.webp", "icon_eq_head_3_1": "assets/icon_eq_head_3_1.6582587677.webp", "icon_eq_head_3_2": "assets/icon_eq_head_3_2.358f2ec12e.webp", "icon_eq_head_4_0": "assets/icon_eq_head_4_0.70b3b86346.webp", "icon_eq_head_4_1": "assets/icon_eq_head_4_1.7be902c7b1.webp", "icon_eq_head_4_2": "assets/icon_eq_head_4_2.e1cd3ff6a5.webp", "icon_eq_lingbao_0_0": "assets/icon_eq_lingbao_0_0.8a2137c302.webp", "icon_eq_lingbao_0_1": "assets/icon_eq_lingbao_0_1.d2dfc2b9ac.webp", "icon_eq_lingbao_0_2": "assets/icon_eq_lingbao_0_2.9fce37c30f.webp", "icon_eq_lingbao_1_0": "assets/icon_eq_lingbao_1_0.7098c53c91.webp", "icon_eq_lingbao_1_1": "assets/icon_eq_lingbao_1_1.4e14ac6708.webp", "icon_eq_lingbao_1_2": "assets/icon_eq_lingbao_1_2.ae00f534c9.webp", "icon_eq_lingbao_2_0": "assets/icon_eq_lingbao_2_0.bff32d2afa.webp", "icon_eq_lingbao_2_1": "assets/icon_eq_lingbao_2_1.9a10c67673.webp", "icon_eq_lingbao_2_2": "assets/icon_eq_lingbao_2_2.6432f03ad5.webp", "icon_eq_lingbao_3_0": "assets/icon_eq_lingbao_3_0.3316ab495d.webp", "icon_eq_lingbao_3_1": "assets/icon_eq_lingbao_3_1.949803cb20.webp", "icon_eq_lingbao_3_2": "assets/icon_eq_lingbao_3_2.182fc4d389.webp", "icon_eq_lingbao_4_0": "assets/icon_eq_lingbao_4_0.cbf6a3a057.webp", "icon_eq_lingbao_4_1": "assets/icon_eq_lingbao_4_1.7fb125a498.webp", "icon_eq_lingbao_4_2": "assets/icon_eq_lingbao_4_2.c7e4a40eb0.webp", "icon_eq_neck_0_0": "assets/icon_eq_neck_0_0.34f43c9df3.webp", "icon_eq_neck_0_1": "assets/icon_eq_neck_0_1.2e3759e988.webp", "icon_eq_neck_0_2": "assets/icon_eq_neck_0_2.6146a8b152.webp", "icon_eq_neck_1_0": "assets/icon_eq_neck_1_0.39866f47eb.webp", "icon_eq_neck_1_1": "assets/icon_eq_neck_1_1.202f7b1523.webp", "icon_eq_neck_1_2": "assets/icon_eq_neck_1_2.b7c9b8ddc2.webp", "icon_eq_neck_2_0": "assets/icon_eq_neck_2_0.c90125eae1.webp", "icon_eq_neck_2_1": "assets/icon_eq_neck_2_1.df5e43ed47.webp", "icon_eq_neck_2_2": "assets/icon_eq_neck_2_2.0e651ec9c7.webp", "icon_eq_neck_3_0": "assets/icon_eq_neck_3_0.9fdffdfaf6.webp", "icon_eq_neck_3_1": "assets/icon_eq_neck_3_1.0b1d84f112.webp", "icon_eq_neck_3_2": "assets/icon_eq_neck_3_2.03f8035134.webp", "icon_eq_neck_4_0": "assets/icon_eq_neck_4_0.7e900ab9e3.webp", "icon_eq_neck_4_1": "assets/icon_eq_neck_4_1.e32c96e9c9.webp", "icon_eq_neck_4_2": "assets/icon_eq_neck_4_2.36c5f1cb7f.webp", "icon_eq_pants_0_0": "assets/icon_eq_pants_0_0.9d509c8910.webp", "icon_eq_pants_0_1": "assets/icon_eq_pants_0_1.91474c0fcf.webp", "icon_eq_pants_0_2": "assets/icon_eq_pants_0_2.eb89fc89d1.webp", "icon_eq_pants_1_0": "assets/icon_eq_pants_1_0.1e446d682d.webp", "icon_eq_pants_1_1": "assets/icon_eq_pants_1_1.883a0cf0fc.webp", "icon_eq_pants_1_2": "assets/icon_eq_pants_1_2.7a7c9862f6.webp", "icon_eq_pants_2_0": "assets/icon_eq_pants_2_0.74bc3934f9.webp", "icon_eq_pants_2_1": "assets/icon_eq_pants_2_1.fe9c78cca8.webp", "icon_eq_pants_2_2": "assets/icon_eq_pants_2_2.6cb7d449a3.webp", "icon_eq_pants_3_0": "assets/icon_eq_pants_3_0.7775f11d3b.webp", "icon_eq_pants_3_1": "assets/icon_eq_pants_3_1.a6e33ce3df.webp", "icon_eq_pants_3_2": "assets/icon_eq_pants_3_2.1ca84c00f2.webp", "icon_eq_pants_4_0": "assets/icon_eq_pants_4_0.921417e16c.webp", "icon_eq_pants_4_1": "assets/icon_eq_pants_4_1.cc8be86e4e.webp", "icon_eq_pants_4_2": "assets/icon_eq_pants_4_2.859ad6f45d.webp", "icon_eq_ring_0_0": "assets/icon_eq_ring_0_0.9172a2e682.webp", "icon_eq_ring_0_1": "assets/icon_eq_ring_0_1.9bdc0b195f.webp", "icon_eq_ring_0_2": "assets/icon_eq_ring_0_2.83e295bf90.webp", "icon_eq_ring_1_0": "assets/icon_eq_ring_1_0.aa037d7bbc.webp", "icon_eq_ring_1_1": "assets/icon_eq_ring_1_1.372ebcadec.webp", "icon_eq_ring_1_2": "assets/icon_eq_ring_1_2.de1ab58da1.webp", "icon_eq_ring_2_0": "assets/icon_eq_ring_2_0.6e7a489edc.webp", "icon_eq_ring_2_1": "assets/icon_eq_ring_2_1.98bbe19dc3.webp", "icon_eq_ring_2_2": "assets/icon_eq_ring_2_2.933b92fcd7.webp", "icon_eq_ring_3_0": "assets/icon_eq_ring_3_0.89c1748c85.webp", "icon_eq_ring_3_1": "assets/icon_eq_ring_3_1.778fdeaa4d.webp", "icon_eq_ring_3_2": "assets/icon_eq_ring_3_2.88674ae591.webp", "icon_eq_ring_4_0": "assets/icon_eq_ring_4_0.ccdef360b4.webp", "icon_eq_ring_4_1": "assets/icon_eq_ring_4_1.d0e681f113.webp", "icon_eq_ring_4_2": "assets/icon_eq_ring_4_2.558319979c.webp", "icon_eq_shoulder_0_0": "assets/icon_eq_shoulder_0_0.33d0045c71.webp", "icon_eq_shoulder_0_1": "assets/icon_eq_shoulder_0_1.8b26a45868.webp", "icon_eq_shoulder_0_2": "assets/icon_eq_shoulder_0_2.dfd7d8cc73.webp", "icon_eq_shoulder_1_0": "assets/icon_eq_shoulder_1_0.03ab70a799.webp", "icon_eq_shoulder_1_1": "assets/icon_eq_shoulder_1_1.27fd6c6481.webp", "icon_eq_shoulder_1_2": "assets/icon_eq_shoulder_1_2.6e85e66a01.webp", "icon_eq_shoulder_2_0": "assets/icon_eq_shoulder_2_0.665f01f4e6.webp", "icon_eq_shoulder_2_1": "assets/icon_eq_shoulder_2_1.5e660edd26.webp", "icon_eq_shoulder_2_2": "assets/icon_eq_shoulder_2_2.4c5924baa2.webp", "icon_eq_shoulder_3_0": "assets/icon_eq_shoulder_3_0.c0e57fced9.webp", "icon_eq_shoulder_3_1": "assets/icon_eq_shoulder_3_1.49bc8f0c14.webp", "icon_eq_shoulder_3_2": "assets/icon_eq_shoulder_3_2.33da1b0ece.webp", "icon_eq_shoulder_4_0": "assets/icon_eq_shoulder_4_0.32fbfb9505.webp", "icon_eq_shoulder_4_1": "assets/icon_eq_shoulder_4_1.843dfb8755.webp", "icon_eq_shoulder_4_2": "assets/icon_eq_shoulder_4_2.8990fde722.webp", "icon_eq_weapon_0_0": "assets/icon_eq_weapon_0_0.50f5ffe08e.webp", "icon_eq_weapon_0_1": "assets/icon_eq_weapon_0_1.beabca6f99.webp", "icon_eq_weapon_0_2": "assets/icon_eq_weapon_0_2.e9fcac0262.webp", "icon_eq_weapon_1_0": "assets/icon_eq_weapon_1_0.b3b96dc382.webp", "icon_eq_weapon_1_1": "assets/icon_eq_weapon_1_1.ee6b474fc6.webp", "icon_eq_weapon_1_2": "assets/icon_eq_weapon_1_2.33388826ae.webp", "icon_eq_weapon_2_0": "assets/icon_eq_weapon_2_0.de51f10f18.webp", "icon_eq_weapon_2_1": "assets/icon_eq_weapon_2_1.0d3f3ff462.webp", "icon_eq_weapon_2_2": "assets/icon_eq_weapon_2_2.72cb2b4b44.webp", "icon_eq_weapon_3_0": "assets/icon_eq_weapon_3_0.9212166380.webp", "icon_eq_weapon_3_1": "assets/icon_eq_weapon_3_1.afca539f0a.webp", "icon_eq_weapon_3_2": "assets/icon_eq_weapon_3_2.c042e5b274.webp", "icon_eq_weapon_4_0": "assets/icon_eq_weapon_4_0.5766a9e16b.webp", "icon_eq_weapon_4_1": "assets/icon_eq_weapon_4_1.3712bd6d4b.webp", "icon_eq_weapon_4_2": "assets/icon_eq_weapon_4_2.c00516b8a6.webp", "icon_essence": "assets/icon_essence.34576a3d10.webp", "icon_gc": "assets/icon_gc.ecc4998273.webp", "icon_head": "assets/icon_head.2a0d88f229.webp", "icon_iron": "assets/icon_iron.12eb0e6846.webp", "icon_kf_base": "assets/icon_kf_base.23398551d2.webp", "icon_kf_ext1": "assets/icon_kf_ext1.91faeb0edd.webp", "icon_kf_ext2": "assets/icon_kf_ext2.94308aef3b.webp", "icon_kf_heart": "assets/icon_kf_heart.515557bb6a.webp", "icon_kf_move": "assets/icon_kf_move.9fc470f13b.webp", "icon_kf_ult": "assets/icon_kf_ult.2ebe533c87.webp", "icon_m_battle": "assets/icon_m_battle.2d1b28abcd.webp", "icon_m_drum": "assets/icon_m_drum.9378215871.webp", "icon_m_formation": "assets/icon_m_formation.a9ff4733ec.webp", "icon_m_friend": "assets/icon_m_friend.765a1fd4aa.webp", "icon_m_fund": "assets/icon_m_fund.70577b4d75.webp", "icon_m_heroes": "assets/icon_m_heroes.bd22f918f1.webp", "icon_m_preview": "assets/icon_m_preview.2588f2f6a3.webp", "icon_m_qi": "assets/icon_m_qi.79b9ed548a.webp", "icon_m_recharge": "assets/icon_m_recharge.dfb505a655.webp", "icon_m_shop": "assets/icon_m_shop.612e8dac09.webp", "icon_m_sign": "assets/icon_m_sign.c598d68d66.webp", "icon_m_task": "assets/icon_m_task.caa5a65253.webp", "icon_m_tower": "assets/icon_m_tower.ce58d8d5e6.webp", "icon_m_train": "assets/icon_m_train.02d9fa4442.webp", "icon_m_up": "assets/icon_m_up.c8e44b76ca.webp", "icon_m_vip": "assets/icon_m_vip.07bbe9cf1e.webp", "icon_nav_city": "assets/icon_nav_city.81eb2f8d1f.webp", "icon_nav_home": "assets/icon_nav_home.941d2d8031.webp", "icon_nav_jianghu": "assets/icon_nav_jianghu.bcdf8acd41.webp", "icon_nav_kungfu": "assets/icon_nav_kungfu.d344d3a68a.webp", "icon_nav_welfare": "assets/icon_nav_welfare.edc6c886aa.webp", "icon_page": "assets/icon_page.55a4dbd8b8.webp", "icon_realm": "assets/icon_realm.ba86ff311c.webp", "icon_relic": "assets/icon_relic.d49b9e21b8.webp", "icon_silver": "assets/icon_silver.c98d0be25b.webp", "icon_speed": "assets/icon_speed.352656d062.webp", "icon_stone": "assets/icon_stone.6778c0ebd8.webp", "icon_ticket": "assets/icon_ticket.7d974c3268.webp", "icon_tie": "assets/icon_tie.5ea1fcf066.webp", "icon_weapon": "assets/icon_weapon.cf4ee1f679.webp", "map_city": "assets/map_city.9be2db1595.webp", "map_guild": "assets/map_guild.0856a7c6b0.webp", "map_home": "assets/map_home.1b0419dfce.webp", "map_jianghu": "assets/map_jianghu.eca65f1b13.webp", "map_kfdesk": "assets/map_kfdesk.19e8682e52.webp", "map_recruit": "assets/map_recruit.293995025d.webp", "mob_bamboo": "assets/mob_bamboo.04cba4ec4b.webp", "mob_bamboo_elite": "assets/mob_bamboo_elite.e661b9e02f.webp", "mob_c1_a": "assets/mob_c1_a.29f27f3caa.webp", "mob_c1_b": "assets/mob_c1_b.01c5d0a5f2.webp", "mob_c1_c": "assets/mob_c1_c.a871f8aaac.webp", "mob_c1_elite": "assets/mob_c1_elite.d3603fe230.webp", "mob_c2_a": "assets/mob_c2_a.5461fb66e5.webp", "mob_c2_b": "assets/mob_c2_b.7d16a69794.webp", "mob_c2_c": "assets/mob_c2_c.803a7f90ab.webp", "mob_c2_elite": "assets/mob_c2_elite.61b120b961.webp", "mob_c3_a": "assets/mob_c3_a.9ee414754f.webp", "mob_c3_b": "assets/mob_c3_b.49cc54de6c.webp", "mob_c3_c": "assets/mob_c3_c.ada982551d.webp", "mob_c3_elite": "assets/mob_c3_elite.0a59755283.webp", "mob_c4_a": "assets/mob_c4_a.61a2186e58.webp", "mob_c4_b": "assets/mob_c4_b.f12ffe7455.webp", "mob_c4_c": "assets/mob_c4_c.897d407425.webp", "mob_c4_elite": "assets/mob_c4_elite.4663001f09.webp", "mob_c5_a": "assets/mob_c5_a.c536865f24.webp", "mob_c5_b": "assets/mob_c5_b.4ffe79b38b.webp", "mob_c5_c": "assets/mob_c5_c.073225c46b.webp", "mob_c5_elite": "assets/mob_c5_elite.32427d5b11.webp", "mob_c6_a": "assets/mob_c6_a.5c3d36154b.webp", "mob_c6_b": "assets/mob_c6_b.4cd6a2758f.webp", "mob_c6_c": "assets/mob_c6_c.f90dbc9b8c.webp", "mob_c6_elite": "assets/mob_c6_elite.d060f37e9a.webp", "mob_ember": "assets/mob_ember.b72acf84b0.webp", "mob_ember_elite": "assets/mob_ember_elite.6e62586c3b.webp", "mob_rock": "assets/mob_rock.876dccae43.webp", "mob_rock_elite": "assets/mob_rock_elite.32df1b11ca.webp", "portrait_cos_jinli": "assets/portrait_cos_jinli.f791b1e3a3.webp", "portrait_cos_liuyun": "assets/portrait_cos_liuyun.df06568d36.webp", "portrait_cos_xuanye": "assets/portrait_cos_xuanye.749a847cbe.webp", "portrait_cos_zhuying": "assets/portrait_cos_zhuying.d08a36ab24.webp", "portrait_fen": "assets/portrait_fen.065dddd549.webp", "portrait_he": "assets/portrait_he.c71637e93e.webp", "portrait_hu": "assets/portrait_hu.e68c9d808e.webp", "portrait_liu": "assets/portrait_liu.477b52068c.webp", "portrait_luan": "assets/portrait_luan.8304615da7.webp", "portrait_mo": "assets/portrait_mo.38ba811b11.webp", "portrait_shuang": "assets/portrait_shuang.31850889e2.webp", "portrait_tie": "assets/portrait_tie.8ffd406b81.webp", "portrait_yao": "assets/portrait_yao.9400b4f543.webp", "portrait_zhu": "assets/portrait_zhu.1b9d5954b7.webp", "portrait_zhu2": "assets/portrait_zhu2.de2177a681.webp", "qbar_0": "assets/qbar_0.8804523307.webp", "qbar_1": "assets/qbar_1.28a16eaf82.webp", "qbar_2": "assets/qbar_2.f879a56165.webp", "qbar_3": "assets/qbar_3.1d3a4ce148.webp", "qbar_4": "assets/qbar_4.0a2a5c1ea6.webp", "qbar_5": "assets/qbar_5.8a57405a2b.webp", "qbar_track": "assets/qbar_track.97d5ac267e.webp", "qframe_0": "assets/qframe_0.0688263480.webp", "qframe_1": "assets/qframe_1.18688704cf.webp", "qframe_2": "assets/qframe_2.d2449d2324.webp", "qframe_3": "assets/qframe_3.2795900df0.webp", "qframe_4": "assets/qframe_4.1abf802ae8.webp", "qframe_5": "assets/qframe_5.95786a7435.webp", "side_cos_jinli": "assets/side_cos_jinli.1dcf0b885b.webp", "side_cos_liuyun": "assets/side_cos_liuyun.0b340f82b9.webp", "side_cos_xuanye": "assets/side_cos_xuanye.33c9b503db.webp", "side_cos_zhuying": "assets/side_cos_zhuying.1e376d123a.webp", "side_fen": "assets/side_fen.f071c93084.webp", "side_he": "assets/side_he.33ae03cd92.webp", "side_hu": "assets/side_hu.dc8467ebe8.webp", "side_liu": "assets/side_liu.ac6a3411b6.webp", "side_luan": "assets/side_luan.7e7fac03a7.webp", "side_mo": "assets/side_mo.31e9b28ebc.webp", "side_shuang": "assets/side_shuang.020bbc2065.webp", "side_tie": "assets/side_tie.6fd505b080.webp", "side_yao": "assets/side_yao.85c10e2ee4.webp", "side_zhu": "assets/side_zhu.9caf1da41d.webp", "side_zhu2": "assets/side_zhu2.2ff5c73663.webp", "ui_avatar_frame": "assets/ui_avatar_frame.919ab23420.webp", "ui_btn_disabled": "assets/ui_btn_disabled.683e0166d7.webp", "ui_btn_primary": "assets/ui_btn_primary.caa086f765.webp", "ui_btn_round": "assets/ui_btn_round.174513c1be.webp", "ui_btn_secondary": "assets/ui_btn_secondary.f9218cab88.webp", "ui_card_back": "assets/ui_card_back.81132a80b2.webp", "ui_card_fen": "assets/ui_card_fen.2e62c5cd7c.webp", "ui_card_frame": "assets/ui_card_frame.9d570fe2fe.webp", "ui_card_luan": "assets/ui_card_luan.7dbd07c2f5.webp", "ui_panel_title": "assets/ui_panel_title.11857fafdd.webp", "ui_red_dot": "assets/ui_red_dot.954e9cfa8a.webp", "ui_result_banner": "assets/ui_result_banner.bade9a2232.webp", "ui_title_banner": "assets/ui_title_banner.107e919e3c.webp", "full_zhu": "assets/full_zhu.038b43d4be.webp", "full_hu": "assets/full_hu.d97ca49b6a.webp", "full_liu": "assets/full_liu.7ed71529bd.webp", "full_mo": "assets/full_mo.b934e340b6.webp", "full_he": "assets/full_he.ca297ff43c.webp", "full_yao": "assets/full_yao.f7167e9aff.webp", "full_tie": "assets/full_tie.4162753cfb.webp", "full_shuang": "assets/full_shuang.fde1f370d0.webp", "full_zhu2": "assets/full_zhu2.d16694f3b2.webp", "full_luan": "assets/full_luan.4e705a36f4.webp", "full_fen": "assets/full_fen.67ff1f1744.webp", "fx_arc0": "assets/fx_arc0.a3e77af61a.webp", "fx_arc1": "assets/fx_arc1.299af4e0f7.webp", "fx_arc2": "assets/fx_arc2.ed0dc8ec4e.webp", "fx_arc3": "assets/fx_arc3.0514d3742f.webp", "fx_gsword": "assets/fx_gsword.5aaf840580.webp", "fx_whirl": "assets/fx_whirl.bc9eb59de7.webp", "fx_blast": "assets/fx_blast.6f53324067.webp", "sk_qi": "assets/sk_qi.973c653985.webp", "sk_whirl": "assets/sk_whirl.9e8ac40026.webp", "sk_blast": "assets/sk_blast.9939e6effb.webp", "sk_sword": "assets/sk_sword.5eaca138fc.webp", "ui_pedestal": "assets/ui_pedestal.0a6e681d02.webp"};
+const ASSETS = {"icon_m_bag": "assets/icon_m_bag.39aaa6cf13.webp", "icon_m_mine": "assets/icon_m_mine.e01f0ba797.webp", "icon_m_realm": "assets/icon_m_realm.f173ae13a0.webp", "icon_m_forge": "assets/icon_m_forge.5f80c326d5.webp", "badge_a": "assets/badge_a.79245727f8.webp", "badge_b": "assets/badge_b.fcd8a53e89.webp", "badge_c": "assets/badge_c.957fba08db.webp", "badge_s": "assets/badge_s.a079acfbe7.webp", "badgeblank_a": "assets/badgeblank_a.656dad739c.webp", "badgeblank_b": "assets/badgeblank_b.78292a8840.webp", "badgeblank_c": "assets/badgeblank_c.1c008c8d20.webp", "badgeblank_s": "assets/badgeblank_s.2be141bace.webp", "bg_bamboo_far": "assets/bg_bamboo_far.0988316333.webp", "bg_bamboo_mid": "assets/bg_bamboo_mid.402ea4a3c2.webp", "bg_bamboo_near": "assets/bg_bamboo_near.5d4bc184e4.webp", "bg_ember_far": "assets/bg_ember_far.d01c68f064.webp", "bg_ember_mid": "assets/bg_ember_mid.3ef6323c6f.webp", "bg_ember_near": "assets/bg_ember_near.fd2f5ca61d.webp", "bg_rock_far": "assets/bg_rock_far.a64d836d15.webp", "bg_rock_mid": "assets/bg_rock_mid.9c10fcabb9.webp", "bg_rock_near": "assets/bg_rock_near.41ad474d00.webp", "bg_tower_far": "assets/bg_tower_far.8855fd8b77.webp", "boss_c1": "assets/boss_c1.1d5f344696.webp", "boss_c2": "assets/boss_c2.0dc46e5f93.webp", "boss_c3": "assets/boss_c3.a754596b7b.webp", "boss_c4": "assets/boss_c4.79bfd75b92.webp", "boss_c5": "assets/boss_c5.09f3b1ed69.webp", "boss_c6": "assets/boss_c6.fd25fe7258.webp", "fr_cos_jinli_cast": "assets/fr_cos_jinli_cast.fbf232fb25.webp", "fr_cos_jinli_charge": "assets/fr_cos_jinli_charge.9c9fb81e42.webp", "fr_cos_jinli_hit": "assets/fr_cos_jinli_hit.fc92de250f.webp", "fr_cos_jinli_idle": "assets/fr_cos_jinli_idle.a7feb99e1f.webp", "fr_cos_jinli_ko": "assets/fr_cos_jinli_ko.54986fffc2.webp", "fr_cos_jinli_recov": "assets/fr_cos_jinli_recov.b5f3f86bf8.webp", "fr_cos_jinli_strike": "assets/fr_cos_jinli_strike.5b0aee75db.webp", "fr_cos_jinli_w1": "assets/fr_cos_jinli_w1.ef9795f800.webp", "fr_cos_jinli_w2": "assets/fr_cos_jinli_w2.b42c70cdac.webp", "fr_cos_jinli_w3": "assets/fr_cos_jinli_w3.5d9081d477.webp", "fr_cos_jinli_w4": "assets/fr_cos_jinli_w4.9bb542e11d.webp", "fr_cos_jinli_wind": "assets/fr_cos_jinli_wind.1c575b6185.webp", "fr_cos_liuyun_cast": "assets/fr_cos_liuyun_cast.7745916b97.webp", "fr_cos_liuyun_charge": "assets/fr_cos_liuyun_charge.404749ac21.webp", "fr_cos_liuyun_hit": "assets/fr_cos_liuyun_hit.9f7d4efe4f.webp", "fr_cos_liuyun_idle": "assets/fr_cos_liuyun_idle.5282ecfc8f.webp", "fr_cos_liuyun_ko": "assets/fr_cos_liuyun_ko.0a447c8abd.webp", "fr_cos_liuyun_recov": "assets/fr_cos_liuyun_recov.c8fcb00362.webp", "fr_cos_liuyun_strike": "assets/fr_cos_liuyun_strike.eb7f7e32ca.webp", "fr_cos_liuyun_w1": "assets/fr_cos_liuyun_w1.877c73ff23.webp", "fr_cos_liuyun_w2": "assets/fr_cos_liuyun_w2.c3727e0365.webp", "fr_cos_liuyun_w3": "assets/fr_cos_liuyun_w3.1a31203f80.webp", "fr_cos_liuyun_w4": "assets/fr_cos_liuyun_w4.36c3bb826e.webp", "fr_cos_liuyun_wind": "assets/fr_cos_liuyun_wind.aae7f8445e.webp", "fr_cos_xuanye_cast": "assets/fr_cos_xuanye_cast.e47314146e.webp", "fr_cos_xuanye_charge": "assets/fr_cos_xuanye_charge.dc0254ffd5.webp", "fr_cos_xuanye_hit": "assets/fr_cos_xuanye_hit.e1b1eea011.webp", "fr_cos_xuanye_idle": "assets/fr_cos_xuanye_idle.ce977c45c4.webp", "fr_cos_xuanye_ko": "assets/fr_cos_xuanye_ko.5166024708.webp", "fr_cos_xuanye_recov": "assets/fr_cos_xuanye_recov.ac10cb5c5d.webp", "fr_cos_xuanye_strike": "assets/fr_cos_xuanye_strike.3f9abb8c1d.webp", "fr_cos_xuanye_w1": "assets/fr_cos_xuanye_w1.f04de6d77e.webp", "fr_cos_xuanye_w2": "assets/fr_cos_xuanye_w2.285ecaa3f4.webp", "fr_cos_xuanye_w3": "assets/fr_cos_xuanye_w3.511697e560.webp", "fr_cos_xuanye_w4": "assets/fr_cos_xuanye_w4.7fdb60cadf.webp", "fr_cos_xuanye_wind": "assets/fr_cos_xuanye_wind.1501b5ae92.webp", "fr_cos_zhuying_cast": "assets/fr_cos_zhuying_cast.5501f14e30.webp", "fr_cos_zhuying_charge": "assets/fr_cos_zhuying_charge.e181b657fa.webp", "fr_cos_zhuying_hit": "assets/fr_cos_zhuying_hit.df3285bb17.webp", "fr_cos_zhuying_idle": "assets/fr_cos_zhuying_idle.c52edd55e3.webp", "fr_cos_zhuying_ko": "assets/fr_cos_zhuying_ko.f6e3fb6392.webp", "fr_cos_zhuying_recov": "assets/fr_cos_zhuying_recov.0f19f9a438.webp", "fr_cos_zhuying_strike": "assets/fr_cos_zhuying_strike.14da982cba.webp", "fr_cos_zhuying_w1": "assets/fr_cos_zhuying_w1.55bb79678d.webp", "fr_cos_zhuying_w2": "assets/fr_cos_zhuying_w2.50d49a710b.webp", "fr_cos_zhuying_w3": "assets/fr_cos_zhuying_w3.3eff102ca4.webp", "fr_cos_zhuying_w4": "assets/fr_cos_zhuying_w4.1b7e37e7dd.webp", "fr_cos_zhuying_wind": "assets/fr_cos_zhuying_wind.273521b9e4.webp", "fr_fen_cast": "assets/fr_fen_cast.13d3b92186.webp", "fr_fen_charge": "assets/fr_fen_charge.94f96d4953.webp", "fr_fen_hit": "assets/fr_fen_hit.da6d59bf05.webp", "fr_fen_idle": "assets/fr_fen_idle.ed7d180e1a.webp", "fr_fen_ko": "assets/fr_fen_ko.98e03a3e84.webp", "fr_fen_recov": "assets/fr_fen_recov.63e0f5e522.webp", "fr_fen_strike": "assets/fr_fen_strike.a5076c0362.webp", "fr_fen_w1": "assets/fr_fen_w1.ccba8d8588.webp", "fr_fen_w2": "assets/fr_fen_w2.d509d6da25.webp", "fr_fen_w3": "assets/fr_fen_w3.5880fa3dd7.webp", "fr_fen_w4": "assets/fr_fen_w4.5d64805317.webp", "fr_fen_wind": "assets/fr_fen_wind.adcd027d1c.webp", "fr_luan_cast": "assets/fr_luan_cast.35f0ffc2a1.webp", "fr_luan_charge": "assets/fr_luan_charge.07bc89a44a.webp", "fr_luan_hit": "assets/fr_luan_hit.65849dc163.webp", "fr_luan_idle": "assets/fr_luan_idle.ebc9e8284a.webp", "fr_luan_ko": "assets/fr_luan_ko.d02083b995.webp", "fr_luan_recov": "assets/fr_luan_recov.b8c1564dd3.webp", "fr_luan_strike": "assets/fr_luan_strike.20d8eac081.webp", "fr_luan_w1": "assets/fr_luan_w1.b8c2e79fe1.webp", "fr_luan_w2": "assets/fr_luan_w2.b62c121cb0.webp", "fr_luan_w3": "assets/fr_luan_w3.5555ef98fe.webp", "fr_luan_w4": "assets/fr_luan_w4.97b63ec172.webp", "fr_luan_wind": "assets/fr_luan_wind.21be6fd766.webp", "fr_zhu_cast": "assets/fr_zhu_cast.20904c59f2.webp", "fr_zhu_charge": "assets/fr_zhu_charge.5084a1b75b.webp", "fr_zhu_hit": "assets/fr_zhu_hit.2cb902e581.webp", "fr_zhu_idle": "assets/fr_zhu_idle.c40322e831.webp", "fr_zhu_ko": "assets/fr_zhu_ko.31d9c3a3a7.webp", "fr_zhu_recov": "assets/fr_zhu_recov.e1e45eda3c.webp", "fr_zhu_strike": "assets/fr_zhu_strike.969d52c890.webp", "fr_zhu_w1": "assets/fr_zhu_w1.78d05c9742.webp", "fr_zhu_w2": "assets/fr_zhu_w2.9aeb912429.webp", "fr_zhu_w3": "assets/fr_zhu_w3.7e45199988.webp", "fr_zhu_w4": "assets/fr_zhu_w4.1168b4f135.webp", "fr_zhu_wind": "assets/fr_zhu_wind.3937b2e717.webp", "fx_crystal": "assets/fx_crystal.4cb43aab82.webp", "fx_flame": "assets/fx_flame.7f94cc3720.webp", "fx_fsword": "assets/fx_fsword.41dd0be9aa.webp", "fx_fwheel": "assets/fx_fwheel.4605cfa71f.webp", "fx_ink0": "assets/fx_ink0.67ed0ed51a.webp", "fx_ink1": "assets/fx_ink1.d352ab59a8.webp", "fx_ink2": "assets/fx_ink2.56a6dfca5c.webp", "fx_qi": "assets/fx_qi.9d836c236f.webp", "fx_ring": "assets/fx_ring.26a58d6041.webp", "fx_spark": "assets/fx_spark.2f53c1431d.webp", "guard_basic": "assets/guard_basic.e11b23d367.webp", "guard_berserk": "assets/guard_berserk.8fa2cc3f1d.webp", "guard_multi": "assets/guard_multi.210182e4a8.webp", "guard_shield": "assets/guard_shield.39c64111fe.webp", "guard_summon": "assets/guard_summon.c6d0ca1b1f.webp", "icon_armor": "assets/icon_armor.1dd8b957e2.webp", "icon_belt": "assets/icon_belt.815b9687c3.webp", "icon_boots": "assets/icon_boots.00cc379732.webp", "icon_box1": "assets/icon_box1.90152c2e90.webp", "icon_box2": "assets/icon_box2.b8811f4efb.webp", "icon_box3": "assets/icon_box3.0da9df833b.webp", "icon_boxO": "assets/icon_boxO.1176106271.webp", "icon_boxP": "assets/icon_boxP.53267ad061.webp", "icon_bun": "assets/icon_bun.a0bfb14d9b.webp", "icon_charm": "assets/icon_charm.7e8c3116aa.webp", "icon_copper": "assets/icon_copper.f8d6b7609f.webp", "icon_crystal": "assets/icon_crystal.92e7e13fc5.webp", "icon_dropRune": "assets/icon_dropRune.6d7acdb3ec.webp", "icon_eq_armor_0_0": "assets/icon_eq_armor_0_0.daba50d2a6.webp", "icon_eq_armor_0_1": "assets/icon_eq_armor_0_1.022c7cfc40.webp", "icon_eq_armor_0_2": "assets/icon_eq_armor_0_2.0d3f08cb26.webp", "icon_eq_armor_1_0": "assets/icon_eq_armor_1_0.83ec716702.webp", "icon_eq_armor_1_1": "assets/icon_eq_armor_1_1.14d3180ad8.webp", "icon_eq_armor_1_2": "assets/icon_eq_armor_1_2.1ee97ffe8b.webp", "icon_eq_armor_2_0": "assets/icon_eq_armor_2_0.e98c2136a6.webp", "icon_eq_armor_2_1": "assets/icon_eq_armor_2_1.b693508656.webp", "icon_eq_armor_2_2": "assets/icon_eq_armor_2_2.80041bde44.webp", "icon_eq_armor_3_0": "assets/icon_eq_armor_3_0.f556cdf1d1.webp", "icon_eq_armor_3_1": "assets/icon_eq_armor_3_1.0631708fb6.webp", "icon_eq_armor_3_2": "assets/icon_eq_armor_3_2.e88ce86b7a.webp", "icon_eq_armor_4_0": "assets/icon_eq_armor_4_0.c3e521b961.webp", "icon_eq_armor_4_1": "assets/icon_eq_armor_4_1.8ea549aa63.webp", "icon_eq_armor_4_2": "assets/icon_eq_armor_4_2.86d147f4d2.webp", "icon_eq_belt_0_0": "assets/icon_eq_belt_0_0.758f494690.webp", "icon_eq_belt_0_1": "assets/icon_eq_belt_0_1.07fe8b043d.webp", "icon_eq_belt_0_2": "assets/icon_eq_belt_0_2.0603c2b2e4.webp", "icon_eq_belt_1_0": "assets/icon_eq_belt_1_0.332c44b68f.webp", "icon_eq_belt_1_1": "assets/icon_eq_belt_1_1.67eaf7383c.webp", "icon_eq_belt_1_2": "assets/icon_eq_belt_1_2.5bba0a1433.webp", "icon_eq_belt_2_0": "assets/icon_eq_belt_2_0.c161ead193.webp", "icon_eq_belt_2_1": "assets/icon_eq_belt_2_1.1885b0f3e5.webp", "icon_eq_belt_2_2": "assets/icon_eq_belt_2_2.50788e860a.webp", "icon_eq_belt_3_0": "assets/icon_eq_belt_3_0.a4655c761c.webp", "icon_eq_belt_3_1": "assets/icon_eq_belt_3_1.f3a2638d9a.webp", "icon_eq_belt_3_2": "assets/icon_eq_belt_3_2.a94dcbc036.webp", "icon_eq_belt_4_0": "assets/icon_eq_belt_4_0.225404d1c0.webp", "icon_eq_belt_4_1": "assets/icon_eq_belt_4_1.e841b0ce0a.webp", "icon_eq_belt_4_2": "assets/icon_eq_belt_4_2.9f0ccb4d9b.webp", "icon_eq_boots_0_0": "assets/icon_eq_boots_0_0.14ff02c5cb.webp", "icon_eq_boots_0_1": "assets/icon_eq_boots_0_1.8d2a71baf2.webp", "icon_eq_boots_0_2": "assets/icon_eq_boots_0_2.146f24e897.webp", "icon_eq_boots_1_0": "assets/icon_eq_boots_1_0.b40d6b178f.webp", "icon_eq_boots_1_1": "assets/icon_eq_boots_1_1.fca9719e4f.webp", "icon_eq_boots_1_2": "assets/icon_eq_boots_1_2.ede540b46a.webp", "icon_eq_boots_2_0": "assets/icon_eq_boots_2_0.5ae0f62986.webp", "icon_eq_boots_2_1": "assets/icon_eq_boots_2_1.51c58b98d5.webp", "icon_eq_boots_2_2": "assets/icon_eq_boots_2_2.f0b5987b10.webp", "icon_eq_boots_3_0": "assets/icon_eq_boots_3_0.994ace6d1f.webp", "icon_eq_boots_3_1": "assets/icon_eq_boots_3_1.4cc330e2f6.webp", "icon_eq_boots_3_2": "assets/icon_eq_boots_3_2.3b25433995.webp", "icon_eq_boots_4_0": "assets/icon_eq_boots_4_0.6ea43973d1.webp", "icon_eq_boots_4_1": "assets/icon_eq_boots_4_1.9e7b9b9827.webp", "icon_eq_boots_4_2": "assets/icon_eq_boots_4_2.934b15119e.webp", "icon_eq_bracer_0_0": "assets/icon_eq_bracer_0_0.f18d30c132.webp", "icon_eq_bracer_0_1": "assets/icon_eq_bracer_0_1.d86d9211a2.webp", "icon_eq_bracer_0_2": "assets/icon_eq_bracer_0_2.ba85787709.webp", "icon_eq_bracer_1_0": "assets/icon_eq_bracer_1_0.92d9b6ae1a.webp", "icon_eq_bracer_1_1": "assets/icon_eq_bracer_1_1.9b17c20fa0.webp", "icon_eq_bracer_1_2": "assets/icon_eq_bracer_1_2.ab77e5dce2.webp", "icon_eq_bracer_2_0": "assets/icon_eq_bracer_2_0.35b6b96693.webp", "icon_eq_bracer_2_1": "assets/icon_eq_bracer_2_1.b38db9a178.webp", "icon_eq_bracer_2_2": "assets/icon_eq_bracer_2_2.f3966a1dfa.webp", "icon_eq_bracer_3_0": "assets/icon_eq_bracer_3_0.a4c24c8c4b.webp", "icon_eq_bracer_3_1": "assets/icon_eq_bracer_3_1.7e225d0912.webp", "icon_eq_bracer_3_2": "assets/icon_eq_bracer_3_2.60e358c2e2.webp", "icon_eq_bracer_4_0": "assets/icon_eq_bracer_4_0.81134d2535.webp", "icon_eq_bracer_4_1": "assets/icon_eq_bracer_4_1.caad4b7e47.webp", "icon_eq_bracer_4_2": "assets/icon_eq_bracer_4_2.bc13f37354.webp", "icon_eq_charm_0_0": "assets/icon_eq_charm_0_0.b01b676a7d.webp", "icon_eq_charm_0_1": "assets/icon_eq_charm_0_1.45a4c995ce.webp", "icon_eq_charm_0_2": "assets/icon_eq_charm_0_2.4c1323d934.webp", "icon_eq_charm_1_0": "assets/icon_eq_charm_1_0.5cd380a619.webp", "icon_eq_charm_1_1": "assets/icon_eq_charm_1_1.41d99b7051.webp", "icon_eq_charm_1_2": "assets/icon_eq_charm_1_2.d8dbf6f3ad.webp", "icon_eq_charm_2_0": "assets/icon_eq_charm_2_0.ecf59333b2.webp", "icon_eq_charm_2_1": "assets/icon_eq_charm_2_1.77a17f8764.webp", "icon_eq_charm_2_2": "assets/icon_eq_charm_2_2.40e8977ea2.webp", "icon_eq_charm_3_0": "assets/icon_eq_charm_3_0.d37ee0fd96.webp", "icon_eq_charm_3_1": "assets/icon_eq_charm_3_1.5545efde84.webp", "icon_eq_charm_3_2": "assets/icon_eq_charm_3_2.743fc0e7e3.webp", "icon_eq_charm_4_0": "assets/icon_eq_charm_4_0.44f9a9aaf4.webp", "icon_eq_charm_4_1": "assets/icon_eq_charm_4_1.32872cffa1.webp", "icon_eq_charm_4_2": "assets/icon_eq_charm_4_2.272ac78258.webp", "icon_eq_cloak_0_0": "assets/icon_eq_cloak_0_0.de46b4b7af.webp", "icon_eq_cloak_0_1": "assets/icon_eq_cloak_0_1.55232fb074.webp", "icon_eq_cloak_0_2": "assets/icon_eq_cloak_0_2.1d545fc73d.webp", "icon_eq_cloak_1_0": "assets/icon_eq_cloak_1_0.21e7a09e69.webp", "icon_eq_cloak_1_1": "assets/icon_eq_cloak_1_1.08cbbbd141.webp", "icon_eq_cloak_1_2": "assets/icon_eq_cloak_1_2.089a367484.webp", "icon_eq_cloak_2_0": "assets/icon_eq_cloak_2_0.4707e4e6c2.webp", "icon_eq_cloak_2_1": "assets/icon_eq_cloak_2_1.7d4f6da880.webp", "icon_eq_cloak_2_2": "assets/icon_eq_cloak_2_2.0ec985ac45.webp", "icon_eq_cloak_3_0": "assets/icon_eq_cloak_3_0.60b4791093.webp", "icon_eq_cloak_3_1": "assets/icon_eq_cloak_3_1.d35bab3443.webp", "icon_eq_cloak_3_2": "assets/icon_eq_cloak_3_2.d9bb31fd36.webp", "icon_eq_cloak_4_0": "assets/icon_eq_cloak_4_0.1c8b60b2c4.webp", "icon_eq_cloak_4_1": "assets/icon_eq_cloak_4_1.1cccd81f17.webp", "icon_eq_cloak_4_2": "assets/icon_eq_cloak_4_2.cbf54889ff.webp", "icon_eq_head_0_0": "assets/icon_eq_head_0_0.41b3d21355.webp", "icon_eq_head_0_1": "assets/icon_eq_head_0_1.1c3816705e.webp", "icon_eq_head_0_2": "assets/icon_eq_head_0_2.fe6e4aa602.webp", "icon_eq_head_1_0": "assets/icon_eq_head_1_0.81132938df.webp", "icon_eq_head_1_1": "assets/icon_eq_head_1_1.9033b0da2c.webp", "icon_eq_head_1_2": "assets/icon_eq_head_1_2.e407ea657b.webp", "icon_eq_head_2_0": "assets/icon_eq_head_2_0.e7fa8d370e.webp", "icon_eq_head_2_1": "assets/icon_eq_head_2_1.88791e9a66.webp", "icon_eq_head_2_2": "assets/icon_eq_head_2_2.7c360a1e3b.webp", "icon_eq_head_3_0": "assets/icon_eq_head_3_0.89fa0695e5.webp", "icon_eq_head_3_1": "assets/icon_eq_head_3_1.6582587677.webp", "icon_eq_head_3_2": "assets/icon_eq_head_3_2.358f2ec12e.webp", "icon_eq_head_4_0": "assets/icon_eq_head_4_0.70b3b86346.webp", "icon_eq_head_4_1": "assets/icon_eq_head_4_1.7be902c7b1.webp", "icon_eq_head_4_2": "assets/icon_eq_head_4_2.e1cd3ff6a5.webp", "icon_eq_lingbao_0_0": "assets/icon_eq_lingbao_0_0.8a2137c302.webp", "icon_eq_lingbao_0_1": "assets/icon_eq_lingbao_0_1.d2dfc2b9ac.webp", "icon_eq_lingbao_0_2": "assets/icon_eq_lingbao_0_2.9fce37c30f.webp", "icon_eq_lingbao_1_0": "assets/icon_eq_lingbao_1_0.7098c53c91.webp", "icon_eq_lingbao_1_1": "assets/icon_eq_lingbao_1_1.4e14ac6708.webp", "icon_eq_lingbao_1_2": "assets/icon_eq_lingbao_1_2.ae00f534c9.webp", "icon_eq_lingbao_2_0": "assets/icon_eq_lingbao_2_0.bff32d2afa.webp", "icon_eq_lingbao_2_1": "assets/icon_eq_lingbao_2_1.9a10c67673.webp", "icon_eq_lingbao_2_2": "assets/icon_eq_lingbao_2_2.6432f03ad5.webp", "icon_eq_lingbao_3_0": "assets/icon_eq_lingbao_3_0.3316ab495d.webp", "icon_eq_lingbao_3_1": "assets/icon_eq_lingbao_3_1.949803cb20.webp", "icon_eq_lingbao_3_2": "assets/icon_eq_lingbao_3_2.182fc4d389.webp", "icon_eq_lingbao_4_0": "assets/icon_eq_lingbao_4_0.cbf6a3a057.webp", "icon_eq_lingbao_4_1": "assets/icon_eq_lingbao_4_1.7fb125a498.webp", "icon_eq_lingbao_4_2": "assets/icon_eq_lingbao_4_2.c7e4a40eb0.webp", "icon_eq_neck_0_0": "assets/icon_eq_neck_0_0.34f43c9df3.webp", "icon_eq_neck_0_1": "assets/icon_eq_neck_0_1.2e3759e988.webp", "icon_eq_neck_0_2": "assets/icon_eq_neck_0_2.6146a8b152.webp", "icon_eq_neck_1_0": "assets/icon_eq_neck_1_0.39866f47eb.webp", "icon_eq_neck_1_1": "assets/icon_eq_neck_1_1.202f7b1523.webp", "icon_eq_neck_1_2": "assets/icon_eq_neck_1_2.b7c9b8ddc2.webp", "icon_eq_neck_2_0": "assets/icon_eq_neck_2_0.c90125eae1.webp", "icon_eq_neck_2_1": "assets/icon_eq_neck_2_1.df5e43ed47.webp", "icon_eq_neck_2_2": "assets/icon_eq_neck_2_2.0e651ec9c7.webp", "icon_eq_neck_3_0": "assets/icon_eq_neck_3_0.9fdffdfaf6.webp", "icon_eq_neck_3_1": "assets/icon_eq_neck_3_1.0b1d84f112.webp", "icon_eq_neck_3_2": "assets/icon_eq_neck_3_2.03f8035134.webp", "icon_eq_neck_4_0": "assets/icon_eq_neck_4_0.7e900ab9e3.webp", "icon_eq_neck_4_1": "assets/icon_eq_neck_4_1.e32c96e9c9.webp", "icon_eq_neck_4_2": "assets/icon_eq_neck_4_2.36c5f1cb7f.webp", "icon_eq_pants_0_0": "assets/icon_eq_pants_0_0.9d509c8910.webp", "icon_eq_pants_0_1": "assets/icon_eq_pants_0_1.91474c0fcf.webp", "icon_eq_pants_0_2": "assets/icon_eq_pants_0_2.eb89fc89d1.webp", "icon_eq_pants_1_0": "assets/icon_eq_pants_1_0.1e446d682d.webp", "icon_eq_pants_1_1": "assets/icon_eq_pants_1_1.883a0cf0fc.webp", "icon_eq_pants_1_2": "assets/icon_eq_pants_1_2.7a7c9862f6.webp", "icon_eq_pants_2_0": "assets/icon_eq_pants_2_0.74bc3934f9.webp", "icon_eq_pants_2_1": "assets/icon_eq_pants_2_1.fe9c78cca8.webp", "icon_eq_pants_2_2": "assets/icon_eq_pants_2_2.6cb7d449a3.webp", "icon_eq_pants_3_0": "assets/icon_eq_pants_3_0.7775f11d3b.webp", "icon_eq_pants_3_1": "assets/icon_eq_pants_3_1.a6e33ce3df.webp", "icon_eq_pants_3_2": "assets/icon_eq_pants_3_2.1ca84c00f2.webp", "icon_eq_pants_4_0": "assets/icon_eq_pants_4_0.921417e16c.webp", "icon_eq_pants_4_1": "assets/icon_eq_pants_4_1.cc8be86e4e.webp", "icon_eq_pants_4_2": "assets/icon_eq_pants_4_2.859ad6f45d.webp", "icon_eq_ring_0_0": "assets/icon_eq_ring_0_0.9172a2e682.webp", "icon_eq_ring_0_1": "assets/icon_eq_ring_0_1.9bdc0b195f.webp", "icon_eq_ring_0_2": "assets/icon_eq_ring_0_2.83e295bf90.webp", "icon_eq_ring_1_0": "assets/icon_eq_ring_1_0.aa037d7bbc.webp", "icon_eq_ring_1_1": "assets/icon_eq_ring_1_1.372ebcadec.webp", "icon_eq_ring_1_2": "assets/icon_eq_ring_1_2.de1ab58da1.webp", "icon_eq_ring_2_0": "assets/icon_eq_ring_2_0.6e7a489edc.webp", "icon_eq_ring_2_1": "assets/icon_eq_ring_2_1.98bbe19dc3.webp", "icon_eq_ring_2_2": "assets/icon_eq_ring_2_2.933b92fcd7.webp", "icon_eq_ring_3_0": "assets/icon_eq_ring_3_0.89c1748c85.webp", "icon_eq_ring_3_1": "assets/icon_eq_ring_3_1.778fdeaa4d.webp", "icon_eq_ring_3_2": "assets/icon_eq_ring_3_2.88674ae591.webp", "icon_eq_ring_4_0": "assets/icon_eq_ring_4_0.ccdef360b4.webp", "icon_eq_ring_4_1": "assets/icon_eq_ring_4_1.d0e681f113.webp", "icon_eq_ring_4_2": "assets/icon_eq_ring_4_2.558319979c.webp", "icon_eq_shoulder_0_0": "assets/icon_eq_shoulder_0_0.33d0045c71.webp", "icon_eq_shoulder_0_1": "assets/icon_eq_shoulder_0_1.8b26a45868.webp", "icon_eq_shoulder_0_2": "assets/icon_eq_shoulder_0_2.dfd7d8cc73.webp", "icon_eq_shoulder_1_0": "assets/icon_eq_shoulder_1_0.03ab70a799.webp", "icon_eq_shoulder_1_1": "assets/icon_eq_shoulder_1_1.27fd6c6481.webp", "icon_eq_shoulder_1_2": "assets/icon_eq_shoulder_1_2.6e85e66a01.webp", "icon_eq_shoulder_2_0": "assets/icon_eq_shoulder_2_0.665f01f4e6.webp", "icon_eq_shoulder_2_1": "assets/icon_eq_shoulder_2_1.5e660edd26.webp", "icon_eq_shoulder_2_2": "assets/icon_eq_shoulder_2_2.4c5924baa2.webp", "icon_eq_shoulder_3_0": "assets/icon_eq_shoulder_3_0.c0e57fced9.webp", "icon_eq_shoulder_3_1": "assets/icon_eq_shoulder_3_1.49bc8f0c14.webp", "icon_eq_shoulder_3_2": "assets/icon_eq_shoulder_3_2.33da1b0ece.webp", "icon_eq_shoulder_4_0": "assets/icon_eq_shoulder_4_0.32fbfb9505.webp", "icon_eq_shoulder_4_1": "assets/icon_eq_shoulder_4_1.843dfb8755.webp", "icon_eq_shoulder_4_2": "assets/icon_eq_shoulder_4_2.8990fde722.webp", "icon_eq_weapon_0_0": "assets/icon_eq_weapon_0_0.50f5ffe08e.webp", "icon_eq_weapon_0_1": "assets/icon_eq_weapon_0_1.beabca6f99.webp", "icon_eq_weapon_0_2": "assets/icon_eq_weapon_0_2.e9fcac0262.webp", "icon_eq_weapon_1_0": "assets/icon_eq_weapon_1_0.b3b96dc382.webp", "icon_eq_weapon_1_1": "assets/icon_eq_weapon_1_1.ee6b474fc6.webp", "icon_eq_weapon_1_2": "assets/icon_eq_weapon_1_2.33388826ae.webp", "icon_eq_weapon_2_0": "assets/icon_eq_weapon_2_0.de51f10f18.webp", "icon_eq_weapon_2_1": "assets/icon_eq_weapon_2_1.0d3f3ff462.webp", "icon_eq_weapon_2_2": "assets/icon_eq_weapon_2_2.72cb2b4b44.webp", "icon_eq_weapon_3_0": "assets/icon_eq_weapon_3_0.9212166380.webp", "icon_eq_weapon_3_1": "assets/icon_eq_weapon_3_1.afca539f0a.webp", "icon_eq_weapon_3_2": "assets/icon_eq_weapon_3_2.c042e5b274.webp", "icon_eq_weapon_4_0": "assets/icon_eq_weapon_4_0.5766a9e16b.webp", "icon_eq_weapon_4_1": "assets/icon_eq_weapon_4_1.3712bd6d4b.webp", "icon_eq_weapon_4_2": "assets/icon_eq_weapon_4_2.c00516b8a6.webp", "icon_essence": "assets/icon_essence.34576a3d10.webp", "icon_gc": "assets/icon_gc.ecc4998273.webp", "icon_head": "assets/icon_head.2a0d88f229.webp", "icon_iron": "assets/icon_iron.12eb0e6846.webp", "icon_kf_base": "assets/icon_kf_base.23398551d2.webp", "icon_kf_ext1": "assets/icon_kf_ext1.91faeb0edd.webp", "icon_kf_ext2": "assets/icon_kf_ext2.94308aef3b.webp", "icon_kf_heart": "assets/icon_kf_heart.515557bb6a.webp", "icon_kf_move": "assets/icon_kf_move.9fc470f13b.webp", "icon_kf_ult": "assets/icon_kf_ult.2ebe533c87.webp", "icon_m_battle": "assets/icon_m_battle.2d1b28abcd.webp", "icon_m_drum": "assets/icon_m_drum.9378215871.webp", "icon_m_formation": "assets/icon_m_formation.a9ff4733ec.webp", "icon_m_friend": "assets/icon_m_friend.765a1fd4aa.webp", "icon_m_fund": "assets/icon_m_fund.70577b4d75.webp", "icon_m_heroes": "assets/icon_m_heroes.bd22f918f1.webp", "icon_m_preview": "assets/icon_m_preview.2588f2f6a3.webp", "icon_m_qi": "assets/icon_m_qi.79b9ed548a.webp", "icon_m_recharge": "assets/icon_m_recharge.dfb505a655.webp", "icon_m_shop": "assets/icon_m_shop.612e8dac09.webp", "icon_m_sign": "assets/icon_m_sign.c598d68d66.webp", "icon_m_task": "assets/icon_m_task.caa5a65253.webp", "icon_m_tower": "assets/icon_m_tower.ce58d8d5e6.webp", "icon_m_train": "assets/icon_m_train.02d9fa4442.webp", "icon_m_up": "assets/icon_m_up.c8e44b76ca.webp", "icon_m_vip": "assets/icon_m_vip.07bbe9cf1e.webp", "icon_nav_city": "assets/icon_nav_city.81eb2f8d1f.webp", "icon_nav_home": "assets/icon_nav_home.941d2d8031.webp", "icon_nav_jianghu": "assets/icon_nav_jianghu.bcdf8acd41.webp", "icon_nav_kungfu": "assets/icon_nav_kungfu.d344d3a68a.webp", "icon_nav_welfare": "assets/icon_nav_welfare.edc6c886aa.webp", "icon_page": "assets/icon_page.55a4dbd8b8.webp", "icon_realm": "assets/icon_realm.ba86ff311c.webp", "icon_relic": "assets/icon_relic.d49b9e21b8.webp", "icon_silver": "assets/icon_silver.c98d0be25b.webp", "icon_speed": "assets/icon_speed.352656d062.webp", "icon_stone": "assets/icon_stone.6778c0ebd8.webp", "icon_ticket": "assets/icon_ticket.7d974c3268.webp", "icon_tie": "assets/icon_tie.5ea1fcf066.webp", "icon_weapon": "assets/icon_weapon.cf4ee1f679.webp", "map_city": "assets/map_city.9be2db1595.webp", "map_guild": "assets/map_guild.0856a7c6b0.webp", "map_home": "assets/map_home.1b0419dfce.webp", "map_jianghu": "assets/map_jianghu.eca65f1b13.webp", "map_kfdesk": "assets/map_kfdesk.19e8682e52.webp", "map_recruit": "assets/map_recruit.293995025d.webp", "mob_bamboo": "assets/mob_bamboo.04cba4ec4b.webp", "mob_bamboo_elite": "assets/mob_bamboo_elite.e661b9e02f.webp", "mob_c1_a": "assets/mob_c1_a.29f27f3caa.webp", "mob_c1_b": "assets/mob_c1_b.01c5d0a5f2.webp", "mob_c1_c": "assets/mob_c1_c.a871f8aaac.webp", "mob_c1_elite": "assets/mob_c1_elite.d3603fe230.webp", "mob_c2_a": "assets/mob_c2_a.5461fb66e5.webp", "mob_c2_b": "assets/mob_c2_b.7d16a69794.webp", "mob_c2_c": "assets/mob_c2_c.803a7f90ab.webp", "mob_c2_elite": "assets/mob_c2_elite.61b120b961.webp", "mob_c3_a": "assets/mob_c3_a.9ee414754f.webp", "mob_c3_b": "assets/mob_c3_b.49cc54de6c.webp", "mob_c3_c": "assets/mob_c3_c.ada982551d.webp", "mob_c3_elite": "assets/mob_c3_elite.0a59755283.webp", "mob_c4_a": "assets/mob_c4_a.61a2186e58.webp", "mob_c4_b": "assets/mob_c4_b.f12ffe7455.webp", "mob_c4_c": "assets/mob_c4_c.897d407425.webp", "mob_c4_elite": "assets/mob_c4_elite.4663001f09.webp", "mob_c5_a": "assets/mob_c5_a.c536865f24.webp", "mob_c5_b": "assets/mob_c5_b.4ffe79b38b.webp", "mob_c5_c": "assets/mob_c5_c.073225c46b.webp", "mob_c5_elite": "assets/mob_c5_elite.32427d5b11.webp", "mob_c6_a": "assets/mob_c6_a.5c3d36154b.webp", "mob_c6_b": "assets/mob_c6_b.4cd6a2758f.webp", "mob_c6_c": "assets/mob_c6_c.f90dbc9b8c.webp", "mob_c6_elite": "assets/mob_c6_elite.d060f37e9a.webp", "mob_ember": "assets/mob_ember.b72acf84b0.webp", "mob_ember_elite": "assets/mob_ember_elite.6e62586c3b.webp", "mob_rock": "assets/mob_rock.876dccae43.webp", "mob_rock_elite": "assets/mob_rock_elite.32df1b11ca.webp", "portrait_cos_jinli": "assets/portrait_cos_jinli.f791b1e3a3.webp", "portrait_cos_liuyun": "assets/portrait_cos_liuyun.df06568d36.webp", "portrait_cos_xuanye": "assets/portrait_cos_xuanye.749a847cbe.webp", "portrait_cos_zhuying": "assets/portrait_cos_zhuying.d08a36ab24.webp", "portrait_fen": "assets/portrait_fen.065dddd549.webp", "portrait_he": "assets/portrait_he.c71637e93e.webp", "portrait_hu": "assets/portrait_hu.e68c9d808e.webp", "portrait_liu": "assets/portrait_liu.477b52068c.webp", "portrait_luan": "assets/portrait_luan.8304615da7.webp", "portrait_mo": "assets/portrait_mo.38ba811b11.webp", "portrait_shuang": "assets/portrait_shuang.31850889e2.webp", "portrait_tie": "assets/portrait_tie.8ffd406b81.webp", "portrait_yao": "assets/portrait_yao.9400b4f543.webp", "portrait_zhu": "assets/portrait_zhu.1b9d5954b7.webp", "portrait_zhu2": "assets/portrait_zhu2.de2177a681.webp", "qbar_0": "assets/qbar_0.8804523307.webp", "qbar_1": "assets/qbar_1.28a16eaf82.webp", "qbar_2": "assets/qbar_2.f879a56165.webp", "qbar_3": "assets/qbar_3.1d3a4ce148.webp", "qbar_4": "assets/qbar_4.0a2a5c1ea6.webp", "qbar_5": "assets/qbar_5.8a57405a2b.webp", "qbar_track": "assets/qbar_track.97d5ac267e.webp", "qframe_0": "assets/qframe_0.0688263480.webp", "qframe_1": "assets/qframe_1.18688704cf.webp", "qframe_2": "assets/qframe_2.d2449d2324.webp", "qframe_3": "assets/qframe_3.2795900df0.webp", "qframe_4": "assets/qframe_4.1abf802ae8.webp", "qframe_5": "assets/qframe_5.95786a7435.webp", "side_cos_jinli": "assets/side_cos_jinli.1dcf0b885b.webp", "side_cos_liuyun": "assets/side_cos_liuyun.0b340f82b9.webp", "side_cos_xuanye": "assets/side_cos_xuanye.33c9b503db.webp", "side_cos_zhuying": "assets/side_cos_zhuying.1e376d123a.webp", "side_fen": "assets/side_fen.f071c93084.webp", "side_he": "assets/side_he.33ae03cd92.webp", "side_hu": "assets/side_hu.dc8467ebe8.webp", "side_liu": "assets/side_liu.ac6a3411b6.webp", "side_luan": "assets/side_luan.7e7fac03a7.webp", "side_mo": "assets/side_mo.31e9b28ebc.webp", "side_shuang": "assets/side_shuang.020bbc2065.webp", "side_tie": "assets/side_tie.6fd505b080.webp", "side_yao": "assets/side_yao.85c10e2ee4.webp", "side_zhu": "assets/side_zhu.9caf1da41d.webp", "side_zhu2": "assets/side_zhu2.2ff5c73663.webp", "ui_avatar_frame": "assets/ui_avatar_frame.919ab23420.webp", "ui_btn_disabled": "assets/ui_btn_disabled.683e0166d7.webp", "ui_btn_primary": "assets/ui_btn_primary.caa086f765.webp", "ui_btn_round": "assets/ui_btn_round.174513c1be.webp", "ui_btn_secondary": "assets/ui_btn_secondary.f9218cab88.webp", "ui_card_back": "assets/ui_card_back.81132a80b2.webp", "ui_card_fen": "assets/ui_card_fen.2e62c5cd7c.webp", "ui_card_frame": "assets/ui_card_frame.9d570fe2fe.webp", "ui_card_luan": "assets/ui_card_luan.7dbd07c2f5.webp", "ui_panel_title": "assets/ui_panel_title.11857fafdd.webp", "ui_red_dot": "assets/ui_red_dot.954e9cfa8a.webp", "ui_result_banner": "assets/ui_result_banner.bade9a2232.webp", "ui_title_banner": "assets/ui_title_banner.107e919e3c.webp", "full_zhu": "assets/full_zhu.038b43d4be.webp", "full_hu": "assets/full_hu.d97ca49b6a.webp", "full_liu": "assets/full_liu.7ed71529bd.webp", "full_mo": "assets/full_mo.b934e340b6.webp", "full_he": "assets/full_he.ca297ff43c.webp", "full_yao": "assets/full_yao.f7167e9aff.webp", "full_tie": "assets/full_tie.4162753cfb.webp", "full_shuang": "assets/full_shuang.fde1f370d0.webp", "full_zhu2": "assets/full_zhu2.d16694f3b2.webp", "full_luan": "assets/full_luan.4e705a36f4.webp", "full_fen": "assets/full_fen.67ff1f1744.webp", "fx_arc0": "assets/fx_arc0.a3e77af61a.webp", "fx_arc1": "assets/fx_arc1.299af4e0f7.webp", "fx_arc2": "assets/fx_arc2.ed0dc8ec4e.webp", "fx_arc3": "assets/fx_arc3.0514d3742f.webp", "fx_gsword": "assets/fx_gsword.5aaf840580.webp", "fx_whirl": "assets/fx_whirl.bc9eb59de7.webp", "fx_blast": "assets/fx_blast.6f53324067.webp", "sk_qi": "assets/sk_qi.973c653985.webp", "sk_whirl": "assets/sk_whirl.9e8ac40026.webp", "sk_blast": "assets/sk_blast.9939e6effb.webp", "sk_sword": "assets/sk_sword.5eaca138fc.webp", "ui_pedestal": "assets/ui_pedestal.0a6e681d02.webp", "icon_soul": "assets/icon_soul.df227a1f15.webp", "gem_q1": "assets/gem_q1.29d7307b50.webp", "gem_q2": "assets/gem_q2.c5619bd9eb.webp", "gem_q3": "assets/gem_q3.dc59a7a60a.webp", "gem_q4": "assets/gem_q4.4942752756.webp", "gem_q5": "assets/gem_q5.5904dd7241.webp", "bg_inn35": "assets/bg_inn35.a340a60088.webp", "mk_train": "assets/mk_train.abbb6decf6.webp", "mk_star": "assets/mk_star.0734f98e46.webp", "mk_guild": "assets/mk_guild.76f548d4b8.webp", "mk_treasure": "assets/mk_treasure.b02208f5d6.webp", "mk_escort": "assets/mk_escort.37e8a2dc73.webp", "mk_shop": "assets/mk_shop.94dd9bd220.webp", "mk_trial": "assets/mk_trial.3c39c96f97.webp", "mk_tower": "assets/mk_tower.37060df436.webp", "mk_bamboo": "assets/mk_bamboo.2ca0ba87ba.webp", "mk_arena": "assets/mk_arena.9b05f65e5f.webp", "mk_inn": "assets/mk_inn.37482fc33a.webp", "mk_bounty": "assets/mk_bounty.737730501a.webp", "ui_sign": "assets/ui_sign.11e0ff5042.webp", "ui_lockb": "assets/ui_lockb.b996ea477d.webp", "ge35_0": "assets/ge35_0.1b3212ae9d.webp", "ge35_1": "assets/ge35_1.6c814aef60.webp", "ge35_2": "assets/ge35_2.85117a56f2.webp", "ge35_3": "assets/ge35_3.11e013e760.webp", "ge35_4": "assets/ge35_4.55eec79588.webp", "ge35_5": "assets/ge35_5.bbecea7498.webp", "ge35_6": "assets/ge35_6.43dc954dc1.webp", "ge35_7": "assets/ge35_7.2532e4b646.webp", "ge35_8": "assets/ge35_8.4de04eeaad.webp", "ge35_9": "assets/ge35_9.9283fde41c.webp", "wx_suishi": "assets/wx_suishi.5dc8a65fe9.webp", "wx_tuna": "assets/wx_tuna.7be04b03f1.webp", "wx_liuxing": "assets/wx_liuxing.32717fe661.webp", "wx_tiebu": "assets/wx_tiebu.349cb88947.webp", "wx_hexiao": "assets/wx_hexiao.082fee56a8.webp", "wx_liuyun": "assets/wx_liuyun.8901e7c311.webp", "wx_dusha": "assets/wx_dusha.c259c6d635.webp", "wx_hanbing": "assets/wx_hanbing.ea5cf267f1.webp", "wx_jinglei": "assets/wx_jinglei.13812c2bed.webp", "wx_jinzhong": "assets/wx_jinzhong.db34cd0f7e.webp", "wx_huichun": "assets/wx_huichun.312ae74768.webp", "wx_luoying": "assets/wx_luoying.a25b300243.webp", "wx_canglong": "assets/wx_canglong.2c46cfd76f.webp", "wx_taixu": "assets/wx_taixu.13808e654f.webp", "wx_xuanbing": "assets/wx_xuanbing.21bdc989b5.webp", "wx_xuesha": "assets/wx_xuesha.e9270c9050.webp", "wx_wanjian": "assets/wx_wanjian.b6196a2812.webp", "wx_xinghe": "assets/wx_xinghe.385f5008b5.webp", "wx_hunyuan": "assets/wx_hunyuan.ea78142d54.webp", "wx_fengming": "assets/wx_fengming.8571728469.webp", "icon_g_equip": "assets/icon_g_equip.03f1de3215.webp", "icon_g_enh": "assets/icon_g_enh.fd40b06978.webp", "icon_g_ref": "assets/icon_g_ref.03802c1233.webp", "icon_g_gem": "assets/icon_g_gem.75591a0bec.webp", "icon_g_rank": "assets/icon_g_rank.8190c33c6b.webp", "icon_g_set": "assets/icon_g_set.3d1f6202db.webp", "icon_g_kf": "assets/icon_g_kf.fccde28ad4.webp", "icon_g_hero": "assets/icon_g_hero.fe17e185f6.webp", "icon_g_bond": "assets/icon_g_bond.6cba19bff7.webp", "icon_g_cos": "assets/icon_g_cos.068b6e8170.webp", "icon_g_lb": "assets/icon_g_lb.0790e889e9.webp", "icon_g_realm": "assets/icon_g_realm.759a6e5335.webp", "icon_g_mer": "assets/icon_g_mer.7a7f4204be.webp", "icon_g_pts": "assets/icon_g_pts.2a4ecbe94d.webp", "icon_g_star": "assets/icon_g_star.72ec3c169c.webp", "icon_g_wx": "assets/icon_g_wx.434ff91c89.webp", "icon_wxling": "assets/icon_wxling.ab3ebc9c34.webp", "icon_wxpage": "assets/icon_wxpage.1d154a0a48.webp", "icon_cangjing": "assets/icon_cangjing.145378664a.webp", "icon_preset": "assets/icon_preset.20c6916365.webp", "icon_tr_iron": "assets/icon_tr_iron.2b9dc4e5cd.webp", "icon_tr_rage": "assets/icon_tr_rage.8af8c7904f.webp", "icon_tr_poison": "assets/icon_tr_poison.e525685105.webp", "icon_tr_summon": "assets/icon_tr_summon.9d879544cc.webp", "icon_tr_burst": "assets/icon_tr_burst.59d2c793c2.webp", "icon_mql": "assets/icon_mql.3e1553412c.webp", "icon_gem_atk": "assets/icon_gem_atk.cf68640077.webp", "icon_gem_def": "assets/icon_gem_def.24390d7edc.webp", "icon_gem_hp": "assets/icon_gem_hp.c38a475a21.webp", "bg_tower_mid": "assets/bg_tower_mid.e17deb8f34.webp", "bg_tower_near": "assets/bg_tower_near.568bae8cd8.webp", "bg_tower2_far": "assets/bg_tower2_far.c8b84b69df.webp", "bg_tower2_mid": "assets/bg_tower2_mid.5f0b2ffae3.webp", "bg_tower2_near": "assets/bg_tower2_near.9032647743.webp", "bg_tower3_far": "assets/bg_tower3_far.4f6c9370f2.webp", "bg_tower3_mid": "assets/bg_tower3_mid.f8b1d27217.webp", "bg_tower3_near": "assets/bg_tower3_near.e3e8b45421.webp", "ui_soulgate": "assets/ui_soulgate.eca34f69f2.webp", "ui_towerbar": "assets/ui_towerbar.3f3dc0ce50.webp", "ui_ring": "assets/ui_ring.ef57b8069f.webp", "fx_soulgate_swirl": "assets/fx_soulgate_swirl.8219a8929a.webp", "icon_bag": "assets/icon_bag.e48788aa62.webp", "icon_bolt": "assets/icon_bolt.d86b4bb23d.webp", "icon_jade": "assets/icon_jade.8c6a40c2bc.webp", "icon_lantern": "assets/icon_lantern.a97a284df9.webp", "icon_lock": "assets/icon_lock.59243b5fe0.webp", "icon_lotus": "assets/icon_lotus.a17d641fa4.webp", "icon_pick": "assets/icon_pick.ea106c365f.webp", "icon_reflect": "assets/icon_reflect.4298f29f59.webp", "icon_scroll": "assets/icon_scroll.e21416f998.webp", "icon_shard": "assets/icon_shard.ef809b47bf.webp", "icon_star": "assets/icon_star.4136dfdab7.webp", "icon_swordx": "assets/icon_swordx.de160e45a5.webp", "icon_warn": "assets/icon_warn.c51eac782d.webp", "icon_shop": "assets/icon_shop.f67935f3ec.webp", "icon_rename": "assets/icon_rename.cec4720d3a.webp", "icon_mqf": "assets/icon_mqf.33af9437e4.webp", "icon_cos": "assets/icon_cos.ffa664c3e4.webp", "icon_gshop": "assets/icon_gshop.7cf5ad1140.webp", "icon_tower": "assets/icon_tower.c4849420fc.webp", "ui_soldout": "assets/ui_soldout.1e756d70ea.webp", "ui_inkflag": "assets/ui_inkflag.0cc7726ee4.webp", "fx_tele_charge": "assets/fx_tele_charge.d2df82bb3a.webp", "fx_tele_shield": "assets/fx_tele_shield.a241395c0d.webp", "fx_tele_slam": "assets/fx_tele_slam.d836c096ff.webp", "fx_tele_summon": "assets/fx_tele_summon.d5532c9348.webp", "fx_tele_volley": "assets/fx_tele_volley.f746454b9f.webp", "ui_boss_intel_scroll": "assets/ui_boss_intel_scroll.f448e45fdb.webp", "icon_guild_merit": "assets/icon_guild_merit.7a17e99fbc.webp", "icon_random_name": "assets/icon_random_name.4251da319c.webp", "icon_reset_moon": "assets/icon_reset_moon.877fb43dd4.webp", "icon_rest": "assets/icon_rest.85e543ad53.webp", "icon_sound_off": "assets/icon_sound_off.3e84196b25.webp", "icon_sound_on": "assets/icon_sound_on.9df4d04d9f.webp", "icon_star_reward": "assets/icon_star_reward.6f56cfd5f8.webp", "icon_tag": "assets/icon_tag.69d4896698.webp", "icon_tie_gold": "assets/icon_tie_gold.67320a49b0.webp", "fx_tele_icefall": "assets/fx_tele_icefall.02721642e9.webp", "fx_tele_blades": "assets/fx_tele_blades.a9494b645d.webp", "fx_tele_enrage": "assets/fx_tele_enrage.1af1cbdd11.webp", "sch_jian": "assets/sch_jian.46850e1da8.webp", "sch_jian_48": "assets/sch_jian_48.a4389c0331.webp", "sch_zhang": "assets/sch_zhang.ad0386cacd.webp", "sch_zhang_48": "assets/sch_zhang_48.e39b7579ac.webp", "sch_qi": "assets/sch_qi.f325237c1b.webp", "sch_qi_48": "assets/sch_qi_48.f12e945364.webp", "ui_card_corner": "assets/ui_card_corner.29e603f28b.webp", "boss_mo81": "assets/boss_mo81.f1e03b5f75.webp", "boss_mo91": "assets/boss_mo91.2fb1ce342d.webp", "ico_sound_on": "assets/ico_sound_on.9df4d04d9f.webp", "ico_sound_off": "assets/ico_sound_off.3e84196b25.webp", "mob_c9_a": "assets/mob_c9_a.0280989e68.webp", "mob_c9_b": "assets/mob_c9_b.0368b5c4f4.webp", "mob_c9_c": "assets/mob_c9_c.4a6092da1e.webp", "mob_c9_d": "assets/mob_c9_d.28c65c8fa7.webp", "mob_c9_elite": "assets/mob_c9_elite.e5aa088623.webp", "mob_c10_a": "assets/mob_c10_a.25bd2053a3.webp", "mob_c10_b": "assets/mob_c10_b.41a3c88cb9.webp", "mob_c10_c": "assets/mob_c10_c.6cfcc4c4c1.webp", "mob_c10_d": "assets/mob_c10_d.f39ccc4d58.webp", "mob_c10_elite": "assets/mob_c10_elite.d145783eaf.webp"};
 const ASSET_SIZE = {"badge_a": [168, 168], "badge_b": [168, 168], "badge_c": [168, 168], "badge_s": [168, 168], "badgeblank_a": [168, 168], "badgeblank_b": [168, 168], "badgeblank_c": [168, 168], "badgeblank_s": [168, 168], "bg_bamboo_far": [1280, 720], "bg_bamboo_mid": [1280, 720], "bg_bamboo_near": [1200, 346], "bg_ember_far": [1280, 720], "bg_ember_mid": [1733, 720], "bg_ember_near": [1200, 349], "bg_rock_far": [1280, 720], "bg_rock_mid": [1280, 720], "bg_rock_near": [1200, 225], "bg_tower_far": [1280, 720], "boss_c1": [271, 350], "boss_c2": [368, 350], "boss_c3": [326, 350], "boss_c4": [464, 350], "boss_c5": [209, 350], "boss_c6": [330, 350], "fr_cos_jinli_cast": [194, 217], "fr_cos_jinli_charge": [168, 217], "fr_cos_jinli_hit": [118, 217], "fr_cos_jinli_idle": [117, 217], "fr_cos_jinli_ko": [174, 217], "fr_cos_jinli_recov": [180, 217], "fr_cos_jinli_strike": [207, 217], "fr_cos_jinli_w1": [115, 217], "fr_cos_jinli_w2": [117, 217], "fr_cos_jinli_w3": [112, 217], "fr_cos_jinli_w4": [122, 217], "fr_cos_jinli_wind": [144, 217], "fr_cos_liuyun_cast": [184, 217], "fr_cos_liuyun_charge": [167, 217], "fr_cos_liuyun_hit": [138, 217], "fr_cos_liuyun_idle": [134, 217], "fr_cos_liuyun_ko": [158, 217], "fr_cos_liuyun_recov": [187, 217], "fr_cos_liuyun_strike": [216, 217], "fr_cos_liuyun_w1": [132, 217], "fr_cos_liuyun_w2": [130, 217], "fr_cos_liuyun_w3": [140, 217], "fr_cos_liuyun_w4": [135, 217], "fr_cos_liuyun_wind": [156, 217], "fr_cos_xuanye_cast": [164, 217], "fr_cos_xuanye_charge": [156, 217], "fr_cos_xuanye_hit": [122, 217], "fr_cos_xuanye_idle": [124, 217], "fr_cos_xuanye_ko": [167, 217], "fr_cos_xuanye_recov": [240, 217], "fr_cos_xuanye_strike": [192, 217], "fr_cos_xuanye_w1": [121, 217], "fr_cos_xuanye_w2": [122, 217], "fr_cos_xuanye_w3": [118, 217], "fr_cos_xuanye_w4": [118, 217], "fr_cos_xuanye_wind": [166, 217], "fr_cos_zhuying_cast": [171, 217], "fr_cos_zhuying_charge": [125, 217], "fr_cos_zhuying_hit": [108, 217], "fr_cos_zhuying_idle": [118, 217], "fr_cos_zhuying_ko": [140, 217], "fr_cos_zhuying_recov": [181, 217], "fr_cos_zhuying_strike": [194, 217], "fr_cos_zhuying_w1": [108, 217], "fr_cos_zhuying_w2": [109, 217], "fr_cos_zhuying_w3": [108, 217], "fr_cos_zhuying_w4": [104, 217], "fr_cos_zhuying_wind": [128, 217], "fr_fen_cast": [315, 331], "fr_fen_charge": [202, 331], "fr_fen_hit": [151, 331], "fr_fen_idle": [147, 331], "fr_fen_ko": [154, 331], "fr_fen_recov": [219, 331], "fr_fen_strike": [229, 331], "fr_fen_w1": [153, 331], "fr_fen_w2": [153, 331], "fr_fen_w3": [148, 331], "fr_fen_w4": [148, 331], "fr_fen_wind": [163, 331], "fr_luan_cast": [144, 235], "fr_luan_charge": [160, 235], "fr_luan_hit": [140, 235], "fr_luan_idle": [137, 235], "fr_luan_ko": [137, 235], "fr_luan_recov": [148, 235], "fr_luan_strike": [174, 235], "fr_luan_w1": [122, 235], "fr_luan_w2": [132, 235], "fr_luan_w3": [131, 235], "fr_luan_w4": [134, 235], "fr_luan_wind": [135, 235], "fr_zhu_cast": [177, 220], "fr_zhu_charge": [184, 220], "fr_zhu_hit": [197, 220], "fr_zhu_idle": [163, 220], "fr_zhu_ko": [147, 220], "fr_zhu_recov": [179, 220], "fr_zhu_strike": [229, 220], "fr_zhu_w1": [157, 220], "fr_zhu_w2": [158, 220], "fr_zhu_w3": [158, 220], "fr_zhu_w4": [138, 220], "fr_zhu_wind": [180, 220], "fx_crystal": [86, 128], "fx_flame": [220, 191], "fx_fsword": [220, 146], "fx_fwheel": [220, 194], "fx_ink0": [213, 220], "fx_ink1": [201, 220], "fx_ink2": [213, 220], "fx_qi": [220, 198], "fx_ring": [220, 177], "fx_spark": [220, 219], "guard_basic": [278, 307], "guard_berserk": [253, 328], "guard_multi": [266, 343], "guard_shield": [243, 303], "guard_summon": [265, 300], "icon_armor": [96, 96], "icon_belt": [96, 96], "icon_boots": [96, 96], "icon_box1": [96, 96], "icon_box2": [96, 96], "icon_box3": [96, 96], "icon_boxO": [96, 96], "icon_boxP": [96, 96], "icon_bun": [96, 96], "icon_charm": [96, 96], "icon_copper": [96, 96], "icon_crystal": [96, 96], "icon_dropRune": [96, 96], "icon_eq_armor_0_0": [96, 91], "icon_eq_armor_0_1": [67, 96], "icon_eq_armor_0_2": [89, 96], "icon_eq_armor_1_0": [92, 96], "icon_eq_armor_1_1": [86, 96], "icon_eq_armor_1_2": [85, 96], "icon_eq_armor_2_0": [93, 96], "icon_eq_armor_2_1": [73, 96], "icon_eq_armor_2_2": [74, 96], "icon_eq_armor_3_0": [80, 96], "icon_eq_armor_3_1": [79, 96], "icon_eq_armor_3_2": [77, 96], "icon_eq_armor_4_0": [96, 89], "icon_eq_armor_4_1": [96, 87], "icon_eq_armor_4_2": [96, 85], "icon_eq_belt_0_0": [96, 68], "icon_eq_belt_0_1": [96, 82], "icon_eq_belt_0_2": [96, 58], "icon_eq_belt_1_0": [96, 89], "icon_eq_belt_1_1": [96, 59], "icon_eq_belt_1_2": [96, 76], "icon_eq_belt_2_0": [96, 64], "icon_eq_belt_2_1": [96, 62], "icon_eq_belt_2_2": [96, 91], "icon_eq_belt_3_0": [96, 93], "icon_eq_belt_3_1": [93, 96], "icon_eq_belt_3_2": [96, 94], "icon_eq_belt_4_0": [96, 67], "icon_eq_belt_4_1": [96, 88], "icon_eq_belt_4_2": [96, 62], "icon_eq_boots_0_0": [96, 67], "icon_eq_boots_0_1": [96, 65], "icon_eq_boots_0_2": [96, 79], "icon_eq_boots_1_0": [96, 68], "icon_eq_boots_1_1": [96, 85], "icon_eq_boots_1_2": [96, 80], "icon_eq_boots_2_0": [95, 96], "icon_eq_boots_2_1": [96, 81], "icon_eq_boots_2_2": [96, 80], "icon_eq_boots_3_0": [87, 96], "icon_eq_boots_3_1": [96, 80], "icon_eq_boots_3_2": [85, 96], "icon_eq_boots_4_0": [96, 77], "icon_eq_boots_4_1": [96, 73], "icon_eq_boots_4_2": [96, 80], "icon_eq_bracer_0_0": [96, 66], "icon_eq_bracer_0_1": [96, 67], "icon_eq_bracer_0_2": [96, 69], "icon_eq_bracer_1_0": [96, 77], "icon_eq_bracer_1_1": [96, 79], "icon_eq_bracer_1_2": [96, 79], "icon_eq_bracer_2_0": [90, 96], "icon_eq_bracer_2_1": [96, 79], "icon_eq_bracer_2_2": [96, 79], "icon_eq_bracer_3_0": [91, 96], "icon_eq_bracer_3_1": [93, 96], "icon_eq_bracer_3_2": [92, 96], "icon_eq_bracer_4_0": [96, 74], "icon_eq_bracer_4_1": [96, 77], "icon_eq_bracer_4_2": [96, 76], "icon_eq_charm_0_0": [64, 96], "icon_eq_charm_0_1": [63, 96], "icon_eq_charm_0_2": [58, 96], "icon_eq_charm_1_0": [59, 96], "icon_eq_charm_1_1": [56, 96], "icon_eq_charm_1_2": [59, 96], "icon_eq_charm_2_0": [59, 96], "icon_eq_charm_2_1": [61, 96], "icon_eq_charm_2_2": [59, 96], "icon_eq_charm_3_0": [71, 96], "icon_eq_charm_3_1": [70, 96], "icon_eq_charm_3_2": [73, 96], "icon_eq_charm_4_0": [86, 96], "icon_eq_charm_4_1": [82, 96], "icon_eq_charm_4_2": [85, 96], "icon_eq_cloak_0_0": [89, 96], "icon_eq_cloak_0_1": [70, 96], "icon_eq_cloak_0_2": [70, 96], "icon_eq_cloak_1_0": [92, 96], "icon_eq_cloak_1_1": [79, 96], "icon_eq_cloak_1_2": [79, 96], "icon_eq_cloak_2_0": [92, 96], "icon_eq_cloak_2_1": [72, 96], "icon_eq_cloak_2_2": [96, 89], "icon_eq_cloak_3_0": [86, 96], "icon_eq_cloak_3_1": [73, 96], "icon_eq_cloak_3_2": [85, 96], "icon_eq_cloak_4_0": [96, 91], "icon_eq_cloak_4_1": [96, 89], "icon_eq_cloak_4_2": [96, 89], "icon_eq_head_0_0": [96, 62], "icon_eq_head_0_1": [89, 96], "icon_eq_head_0_2": [96, 68], "icon_eq_head_1_0": [86, 96], "icon_eq_head_1_1": [84, 96], "icon_eq_head_1_2": [96, 52], "icon_eq_head_2_0": [96, 70], "icon_eq_head_2_1": [66, 96], "icon_eq_head_2_2": [62, 96], "icon_eq_head_3_0": [87, 96], "icon_eq_head_3_1": [62, 96], "icon_eq_head_3_2": [92, 96], "icon_eq_head_4_0": [96, 80], "icon_eq_head_4_1": [96, 92], "icon_eq_head_4_2": [96, 77], "icon_eq_lingbao_0_0": [68, 96], "icon_eq_lingbao_0_1": [70, 96], "icon_eq_lingbao_0_2": [92, 96], "icon_eq_lingbao_1_0": [70, 96], "icon_eq_lingbao_1_1": [61, 96], "icon_eq_lingbao_1_2": [96, 94], "icon_eq_lingbao_2_0": [81, 96], "icon_eq_lingbao_2_1": [95, 96], "icon_eq_lingbao_2_2": [68, 96], "icon_eq_lingbao_3_0": [76, 96], "icon_eq_lingbao_3_1": [82, 96], "icon_eq_lingbao_3_2": [74, 96], "icon_eq_lingbao_4_0": [96, 95], "icon_eq_lingbao_4_1": [95, 96], "icon_eq_lingbao_4_2": [89, 96], "icon_eq_neck_0_0": [94, 96], "icon_eq_neck_0_1": [92, 96], "icon_eq_neck_0_2": [96, 76], "icon_eq_neck_1_0": [96, 96], "icon_eq_neck_1_1": [94, 96], "icon_eq_neck_1_2": [92, 96], "icon_eq_neck_2_0": [73, 96], "icon_eq_neck_2_1": [86, 96], "icon_eq_neck_2_2": [96, 91], "icon_eq_neck_3_0": [80, 96], "icon_eq_neck_3_1": [87, 96], "icon_eq_neck_3_2": [84, 96], "icon_eq_neck_4_0": [96, 95], "icon_eq_neck_4_1": [96, 85], "icon_eq_neck_4_2": [96, 86], "icon_eq_pants_0_0": [66, 96], "icon_eq_pants_0_1": [65, 96], "icon_eq_pants_0_2": [67, 96], "icon_eq_pants_1_0": [65, 96], "icon_eq_pants_1_1": [65, 96], "icon_eq_pants_1_2": [66, 96], "icon_eq_pants_2_0": [61, 96], "icon_eq_pants_2_1": [59, 96], "icon_eq_pants_2_2": [58, 96], "icon_eq_pants_3_0": [71, 96], "icon_eq_pants_3_1": [72, 96], "icon_eq_pants_3_2": [79, 96], "icon_eq_pants_4_0": [79, 96], "icon_eq_pants_4_1": [84, 96], "icon_eq_pants_4_2": [95, 96], "icon_eq_ring_0_0": [95, 96], "icon_eq_ring_0_1": [94, 96], "icon_eq_ring_0_2": [96, 96], "icon_eq_ring_1_0": [94, 96], "icon_eq_ring_1_1": [93, 96], "icon_eq_ring_1_2": [94, 96], "icon_eq_ring_2_0": [67, 96], "icon_eq_ring_2_1": [66, 96], "icon_eq_ring_2_2": [62, 96], "icon_eq_ring_3_0": [78, 96], "icon_eq_ring_3_1": [79, 96], "icon_eq_ring_3_2": [80, 96], "icon_eq_ring_4_0": [96, 92], "icon_eq_ring_4_1": [96, 92], "icon_eq_ring_4_2": [96, 88], "icon_eq_shoulder_0_0": [96, 79], "icon_eq_shoulder_0_1": [96, 84], "icon_eq_shoulder_0_2": [96, 64], "icon_eq_shoulder_1_0": [96, 53], "icon_eq_shoulder_1_1": [96, 86], "icon_eq_shoulder_1_2": [96, 64], "icon_eq_shoulder_2_0": [96, 91], "icon_eq_shoulder_2_1": [96, 84], "icon_eq_shoulder_2_2": [96, 93], "icon_eq_shoulder_3_0": [94, 96], "icon_eq_shoulder_3_1": [92, 96], "icon_eq_shoulder_3_2": [92, 96], "icon_eq_shoulder_4_0": [96, 73], "icon_eq_shoulder_4_1": [96, 85], "icon_eq_shoulder_4_2": [96, 76], "icon_eq_weapon_0_0": [92, 96], "icon_eq_weapon_0_1": [96, 82], "icon_eq_weapon_0_2": [96, 94], "icon_eq_weapon_1_0": [96, 89], "icon_eq_weapon_1_1": [96, 79], "icon_eq_weapon_1_2": [96, 83], "icon_eq_weapon_2_0": [94, 96], "icon_eq_weapon_2_1": [85, 96], "icon_eq_weapon_2_2": [78, 96], "icon_eq_weapon_3_0": [80, 96], "icon_eq_weapon_3_1": [80, 96], "icon_eq_weapon_3_2": [78, 96], "icon_eq_weapon_4_0": [96, 91], "icon_eq_weapon_4_1": [96, 94], "icon_eq_weapon_4_2": [96, 90], "icon_essence": [96, 96], "icon_gc": [96, 96], "icon_head": [96, 96], "icon_iron": [96, 96], "icon_kf_base": [95, 96], "icon_kf_ext1": [95, 96], "icon_kf_ext2": [94, 96], "icon_kf_heart": [94, 96], "icon_kf_move": [95, 96], "icon_kf_ult": [93, 96], "icon_m_battle": [94, 96], "icon_m_drum": [93, 96], "icon_m_formation": [95, 96], "icon_m_friend": [94, 96], "icon_m_fund": [95, 96], "icon_m_heroes": [95, 96], "icon_m_preview": [94, 96], "icon_m_qi": [93, 96], "icon_m_recharge": [94, 96], "icon_m_shop": [94, 96], "icon_m_sign": [95, 96], "icon_m_task": [95, 96], "icon_m_tower": [94, 96], "icon_m_train": [95, 96], "icon_m_up": [94, 96], "icon_m_vip": [96, 96], "icon_m_bag": [96, 96], "icon_m_mine": [96, 96], "icon_m_realm": [96, 96], "icon_m_forge": [96, 96], "icon_nav_city": [96, 96], "icon_nav_home": [96, 96], "icon_nav_jianghu": [96, 96], "icon_nav_kungfu": [96, 96], "icon_nav_welfare": [96, 96], "icon_page": [96, 96], "icon_realm": [96, 96], "icon_relic": [96, 96], "icon_silver": [96, 96], "icon_speed": [96, 96], "icon_stone": [96, 96], "icon_ticket": [96, 96], "icon_tie": [96, 96], "icon_weapon": [96, 96], "map_city": [720, 1280], "map_guild": [720, 1280], "map_home": [720, 1280], "map_jianghu": [720, 1280], "map_kfdesk": [720, 405], "map_recruit": [720, 1280], "mob_bamboo": [195, 260], "mob_bamboo_elite": [317, 320], "mob_c1_a": [114, 208], "mob_c1_b": [154, 208], "mob_c1_c": [207, 208], "mob_c1_elite": [371, 272], "mob_c2_a": [179, 208], "mob_c2_b": [275, 208], "mob_c2_c": [204, 208], "mob_c2_elite": [318, 272], "mob_c3_a": [226, 208], "mob_c3_b": [273, 208], "mob_c3_c": [256, 208], "mob_c3_elite": [330, 272], "mob_c4_a": [234, 208], "mob_c4_b": [158, 208], "mob_c4_c": [186, 208], "mob_c4_elite": [252, 272], "mob_c5_a": [230, 208], "mob_c5_b": [222, 208], "mob_c5_c": [122, 208], "mob_c5_elite": [334, 272], "mob_c6_a": [140, 208], "mob_c6_b": [154, 208], "mob_c6_c": [172, 208], "mob_c6_elite": [274, 272], "mob_ember": [210, 260], "mob_ember_elite": [320, 305], "mob_rock": [242, 260], "mob_rock_elite": [317, 320], "portrait_cos_jinli": [157, 168], "portrait_cos_liuyun": [157, 168], "portrait_cos_xuanye": [157, 168], "portrait_cos_zhuying": [157, 168], "portrait_fen": [157, 168], "portrait_he": [157, 168], "portrait_hu": [157, 168], "portrait_liu": [157, 168], "portrait_luan": [157, 168], "portrait_mo": [157, 168], "portrait_shuang": [157, 168], "portrait_tie": [157, 168], "portrait_yao": [157, 168], "portrait_zhu": [157, 168], "portrait_zhu2": [157, 168], "qbar_0": [240, 26], "qbar_1": [240, 26], "qbar_2": [240, 26], "qbar_3": [240, 26], "qbar_4": [240, 26], "qbar_5": [240, 26], "qbar_track": [240, 26], "qframe_0": [112, 112], "qframe_1": [112, 112], "qframe_2": [112, 112], "qframe_3": [112, 112], "qframe_4": [112, 112], "qframe_5": [112, 112], "side_cos_jinli": [157, 311], "side_cos_liuyun": [157, 311], "side_cos_xuanye": [167, 311], "side_cos_zhuying": [148, 311], "side_fen": [227, 312], "side_he": [214, 319], "side_hu": [231, 330], "side_liu": [232, 289], "side_luan": [237, 312], "side_mo": [313, 306], "side_shuang": [272, 333], "side_tie": [276, 318], "side_yao": [335, 311], "side_zhu": [256, 307], "side_zhu2": [274, 315], "ui_avatar_frame": [256, 274], "ui_btn_disabled": [360, 183], "ui_btn_primary": [360, 184], "ui_btn_round": [128, 128], "ui_btn_secondary": [360, 185], "ui_card_back": [234, 360], "ui_card_fen": [270, 360], "ui_card_frame": [360, 360], "ui_card_luan": [270, 360], "ui_panel_title": [356, 360], "ui_red_dot": [40, 40], "ui_result_banner": [360, 127], "ui_title_banner": [360, 92], "full_zhu": [504, 720], "full_hu": [463, 720], "full_liu": [500, 720], "full_mo": [574, 720], "full_he": [497, 720], "full_yao": [575, 720], "full_tie": [544, 720], "full_shuang": [555, 720], "full_zhu2": [537, 720], "full_luan": [537, 720], "full_fen": [525, 720], "fx_arc0": [256, 256], "fx_arc1": [256, 256], "fx_arc2": [256, 256], "fx_arc3": [256, 256], "fx_gsword": [288, 512], "fx_whirl": [288, 384], "fx_blast": [384, 384], "sk_qi": [128, 128], "sk_whirl": [128, 128], "sk_blast": [128, 128], "sk_sword": [128, 128], "ui_pedestal": [420, 264]};
-const ASSET_INFO = {"side_zhu": {"facing": "right"}, "side_hu": {"facing": "right"}, "side_liu": {"facing": "right"}, "side_mo": {"facing": "right"}, "side_he": {"facing": "right"}, "side_yao": {"facing": "right"}, "side_tie": {"facing": "right"}, "side_shuang": {"facing": "right"}, "side_zhu2": {"facing": "right"}, "side_luan": {"facing": "right"}, "side_fen": {"facing": "right"}, "side_cos_liuyun": {"facing": "right"}, "side_cos_xuanye": {"facing": "right"}, "side_cos_zhuying": {"facing": "right"}, "side_cos_jinli": {"facing": "right"}, "portrait_zhu": {}, "portrait_hu": {}, "portrait_liu": {}, "portrait_mo": {}, "portrait_he": {}, "portrait_yao": {}, "portrait_tie": {}, "portrait_shuang": {}, "portrait_zhu2": {}, "portrait_luan": {}, "portrait_fen": {}, "portrait_cos_liuyun": {}, "portrait_cos_xuanye": {}, "portrait_cos_zhuying": {}, "portrait_cos_jinli": {}, "mob_bamboo": {"facing": "left"}, "mob_bamboo_elite": {"facing": "left"}, "mob_rock": {"facing": "left"}, "mob_rock_elite": {"facing": "left"}, "mob_ember": {"facing": "left"}, "mob_ember_elite": {"facing": "left"}, "fx_crystal": {}, "guard_basic": {"facing": "left"}, "guard_shield": {"facing": "left"}, "guard_summon": {"facing": "left"}, "guard_berserk": {"facing": "left"}, "guard_multi": {"facing": "left"}, "mob_c1_a": {"facing": "left"}, "mob_c1_b": {"facing": "left"}, "mob_c1_c": {"facing": "left"}, "mob_c1_elite": {"facing": "left"}, "boss_c1": {"facing": "left"}, "mob_c2_a": {"facing": "left"}, "mob_c2_b": {"facing": "left"}, "mob_c2_c": {"facing": "left"}, "mob_c2_elite": {"facing": "left"}, "boss_c2": {"facing": "left"}, "mob_c3_a": {"facing": "left"}, "mob_c3_b": {"facing": "left"}, "mob_c3_c": {"facing": "left"}, "mob_c3_elite": {"facing": "left"}, "boss_c3": {"facing": "left"}, "mob_c4_a": {"facing": "left"}, "mob_c4_b": {"facing": "left"}, "mob_c4_c": {"facing": "left"}, "mob_c4_elite": {"facing": "left"}, "boss_c4": {"facing": "left"}, "mob_c5_a": {"facing": "left"}, "mob_c5_b": {"facing": "left"}, "mob_c5_c": {"facing": "left"}, "mob_c5_elite": {"facing": "left"}, "boss_c5": {"facing": "left"}, "mob_c6_a": {"facing": "left"}, "mob_c6_b": {"facing": "left"}, "mob_c6_c": {"facing": "left"}, "mob_c6_elite": {"facing": "left"}, "boss_c6": {"facing": "left"}, "bg_bamboo_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_bamboo_mid": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_bamboo_near": {"tileWidth": 1271, "height": 367, "size": [1920, 1080]}, "bg_rock_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_rock_mid": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_rock_near": {"tileWidth": 1253, "height": 235, "size": [1920, 1080]}, "bg_ember_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_ember_mid": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_ember_near": {"tileWidth": 1440, "height": 419, "size": [1920, 1080]}, "bg_tower_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "map_home": {}, "map_city": {}, "map_jianghu": {}, "map_guild": {}, "map_recruit": {}, "map_kfdesk": {}, "icon_copper": {}, "icon_silver": {}, "icon_bun": {}, "icon_page": {}, "icon_tie": {}, "icon_speed": {}, "icon_ticket": {}, "icon_iron": {}, "icon_essence": {}, "icon_stone": {}, "icon_dropRune": {}, "icon_gc": {}, "icon_weapon": {}, "icon_head": {}, "icon_armor": {}, "icon_belt": {}, "icon_boots": {}, "icon_charm": {}, "icon_box1": {}, "icon_box2": {}, "icon_boxP": {}, "icon_box3": {}, "icon_boxO": {}, "icon_crystal": {}, "icon_relic": {}, "icon_realm": {}, "icon_eq_weapon_0_0": {}, "icon_eq_weapon_0_1": {}, "icon_eq_weapon_0_2": {}, "icon_eq_weapon_1_0": {}, "icon_eq_weapon_1_1": {}, "icon_eq_weapon_1_2": {}, "icon_eq_weapon_2_0": {}, "icon_eq_weapon_2_1": {}, "icon_eq_weapon_2_2": {}, "icon_eq_weapon_3_0": {}, "icon_eq_weapon_3_1": {}, "icon_eq_weapon_3_2": {}, "icon_eq_weapon_4_0": {}, "icon_eq_weapon_4_1": {}, "icon_eq_weapon_4_2": {}, "icon_eq_head_0_0": {}, "icon_eq_head_0_1": {}, "icon_eq_head_0_2": {}, "icon_eq_head_1_0": {}, "icon_eq_head_1_1": {}, "icon_eq_head_1_2": {}, "icon_eq_head_2_0": {}, "icon_eq_head_2_1": {}, "icon_eq_head_2_2": {}, "icon_eq_head_3_0": {}, "icon_eq_head_3_1": {}, "icon_eq_head_3_2": {}, "icon_eq_head_4_0": {}, "icon_eq_head_4_1": {}, "icon_eq_head_4_2": {}, "icon_eq_armor_0_0": {}, "icon_eq_armor_0_1": {}, "icon_eq_armor_0_2": {}, "icon_eq_armor_1_0": {}, "icon_eq_armor_1_1": {}, "icon_eq_armor_1_2": {}, "icon_eq_armor_2_0": {}, "icon_eq_armor_2_1": {}, "icon_eq_armor_2_2": {}, "icon_eq_armor_3_0": {}, "icon_eq_armor_3_1": {}, "icon_eq_armor_3_2": {}, "icon_eq_armor_4_0": {}, "icon_eq_armor_4_1": {}, "icon_eq_armor_4_2": {}, "icon_eq_belt_0_0": {}, "icon_eq_belt_0_1": {}, "icon_eq_belt_0_2": {}, "icon_eq_belt_1_0": {}, "icon_eq_belt_1_1": {}, "icon_eq_belt_1_2": {}, "icon_eq_belt_2_0": {}, "icon_eq_belt_2_1": {}, "icon_eq_belt_2_2": {}, "icon_eq_belt_3_0": {}, "icon_eq_belt_3_1": {}, "icon_eq_belt_3_2": {}, "icon_eq_belt_4_0": {}, "icon_eq_belt_4_1": {}, "icon_eq_belt_4_2": {}, "icon_eq_boots_0_0": {}, "icon_eq_boots_0_1": {}, "icon_eq_boots_0_2": {}, "icon_eq_boots_1_0": {}, "icon_eq_boots_1_1": {}, "icon_eq_boots_1_2": {}, "icon_eq_boots_2_0": {}, "icon_eq_boots_2_1": {}, "icon_eq_boots_2_2": {}, "icon_eq_boots_3_0": {}, "icon_eq_boots_3_1": {}, "icon_eq_boots_3_2": {}, "icon_eq_boots_4_0": {}, "icon_eq_boots_4_1": {}, "icon_eq_boots_4_2": {}, "icon_eq_charm_0_0": {}, "icon_eq_charm_0_1": {}, "icon_eq_charm_0_2": {}, "icon_eq_charm_1_0": {}, "icon_eq_charm_1_1": {}, "icon_eq_charm_1_2": {}, "icon_eq_charm_2_0": {}, "icon_eq_charm_2_1": {}, "icon_eq_charm_2_2": {}, "icon_eq_charm_3_0": {}, "icon_eq_charm_3_1": {}, "icon_eq_charm_3_2": {}, "icon_eq_charm_4_0": {}, "icon_eq_charm_4_1": {}, "icon_eq_charm_4_2": {}, "icon_nav_home": {}, "icon_nav_kungfu": {}, "icon_nav_jianghu": {}, "icon_nav_city": {}, "icon_nav_welfare": {}, "icon_eq_shoulder_0_0": {}, "icon_eq_shoulder_0_1": {}, "icon_eq_shoulder_0_2": {}, "icon_eq_shoulder_1_0": {}, "icon_eq_shoulder_1_1": {}, "icon_eq_shoulder_1_2": {}, "icon_eq_shoulder_2_0": {}, "icon_eq_shoulder_2_1": {}, "icon_eq_shoulder_2_2": {}, "icon_eq_shoulder_3_0": {}, "icon_eq_shoulder_3_1": {}, "icon_eq_shoulder_3_2": {}, "icon_eq_shoulder_4_0": {}, "icon_eq_shoulder_4_1": {}, "icon_eq_shoulder_4_2": {}, "icon_eq_bracer_0_0": {}, "icon_eq_bracer_0_1": {}, "icon_eq_bracer_0_2": {}, "icon_eq_bracer_1_0": {}, "icon_eq_bracer_1_1": {}, "icon_eq_bracer_1_2": {}, "icon_eq_bracer_2_0": {}, "icon_eq_bracer_2_1": {}, "icon_eq_bracer_2_2": {}, "icon_eq_bracer_3_0": {}, "icon_eq_bracer_3_1": {}, "icon_eq_bracer_3_2": {}, "icon_eq_bracer_4_0": {}, "icon_eq_bracer_4_1": {}, "icon_eq_bracer_4_2": {}, "icon_eq_pants_0_0": {}, "icon_eq_pants_0_1": {}, "icon_eq_pants_0_2": {}, "icon_eq_pants_1_0": {}, "icon_eq_pants_1_1": {}, "icon_eq_pants_1_2": {}, "icon_eq_pants_2_0": {}, "icon_eq_pants_2_1": {}, "icon_eq_pants_2_2": {}, "icon_eq_pants_3_0": {}, "icon_eq_pants_3_1": {}, "icon_eq_pants_3_2": {}, "icon_eq_pants_4_0": {}, "icon_eq_pants_4_1": {}, "icon_eq_pants_4_2": {}, "icon_eq_ring_0_0": {}, "icon_eq_ring_0_1": {}, "icon_eq_ring_0_2": {}, "icon_eq_ring_1_0": {}, "icon_eq_ring_1_1": {}, "icon_eq_ring_1_2": {}, "icon_eq_ring_2_0": {}, "icon_eq_ring_2_1": {}, "icon_eq_ring_2_2": {}, "icon_eq_ring_3_0": {}, "icon_eq_ring_3_1": {}, "icon_eq_ring_3_2": {}, "icon_eq_ring_4_0": {}, "icon_eq_ring_4_1": {}, "icon_eq_ring_4_2": {}, "icon_eq_neck_0_0": {}, "icon_eq_neck_0_1": {}, "icon_eq_neck_0_2": {}, "icon_eq_neck_1_0": {}, "icon_eq_neck_1_1": {}, "icon_eq_neck_1_2": {}, "icon_eq_neck_2_0": {}, "icon_eq_neck_2_1": {}, "icon_eq_neck_2_2": {}, "icon_eq_neck_3_0": {}, "icon_eq_neck_3_1": {}, "icon_eq_neck_3_2": {}, "icon_eq_neck_4_0": {}, "icon_eq_neck_4_1": {}, "icon_eq_neck_4_2": {}, "icon_eq_cloak_0_0": {}, "icon_eq_cloak_0_1": {}, "icon_eq_cloak_0_2": {}, "icon_eq_cloak_1_0": {}, "icon_eq_cloak_1_1": {}, "icon_eq_cloak_1_2": {}, "icon_eq_cloak_2_0": {}, "icon_eq_cloak_2_1": {}, "icon_eq_cloak_2_2": {}, "icon_eq_cloak_3_0": {}, "icon_eq_cloak_3_1": {}, "icon_eq_cloak_3_2": {}, "icon_eq_cloak_4_0": {}, "icon_eq_cloak_4_1": {}, "icon_eq_cloak_4_2": {}, "icon_eq_lingbao_0_0": {}, "icon_eq_lingbao_0_1": {}, "icon_eq_lingbao_0_2": {}, "icon_eq_lingbao_1_0": {}, "icon_eq_lingbao_1_1": {}, "icon_eq_lingbao_1_2": {}, "icon_eq_lingbao_2_0": {}, "icon_eq_lingbao_2_1": {}, "icon_eq_lingbao_2_2": {}, "icon_eq_lingbao_3_0": {}, "icon_eq_lingbao_3_1": {}, "icon_eq_lingbao_3_2": {}, "icon_eq_lingbao_4_0": {}, "icon_eq_lingbao_4_1": {}, "icon_eq_lingbao_4_2": {}, "icon_m_vip": {}, "icon_m_sign": {}, "icon_m_task": {}, "icon_m_fund": {}, "icon_m_train": {}, "icon_m_shop": {}, "icon_m_friend": {}, "icon_m_preview": {}, "icon_m_heroes": {}, "icon_m_recharge": {}, "icon_m_formation": {}, "icon_m_tower": {}, "icon_m_battle": {}, "icon_m_qi": {}, "icon_m_up": {}, "icon_m_drum": {}, "icon_kf_base": {}, "icon_kf_move": {}, "icon_kf_ext1": {}, "icon_kf_ext2": {}, "icon_kf_ult": {}, "icon_kf_heart": {}, "ui_panel_title": {"slice": {"left": 115, "top": 145, "right": 115, "bottom": 116}, "size": [480, 485]}, "ui_card_frame": {"slice": {"left": 115, "top": 115, "right": 115, "bottom": 115}, "size": [480, 480]}, "ui_btn_primary": {"slice": {"left": 77, "top": 82, "right": 77, "bottom": 82}, "size": [360, 184]}, "ui_btn_secondary": {"slice": {"left": 77, "top": 83, "right": 77, "bottom": 83}, "size": [360, 185]}, "ui_btn_disabled": {"slice": {"left": 76, "top": 82, "right": 76, "bottom": 82}, "size": [360, 183]}, "ui_btn_round": {"slice": null, "size": [128, 128]}, "ui_avatar_frame": {"slice": null, "size": [256, 274]}, "ui_red_dot": {"slice": null, "size": [40, 40]}, "ui_title_banner": {"slice": {"left": 120, "right": 120, "top": 0, "bottom": 0}, "size": [600, 154]}, "ui_result_banner": {"slice": null, "size": [720, 254]}, "badge_s": {}, "badgeblank_s": {}, "badge_a": {}, "badgeblank_a": {}, "badge_b": {}, "badgeblank_b": {}, "badge_c": {}, "badgeblank_c": {}, "ui_card_back": {"slice": null, "size": [300, 0]}, "ui_card_luan": {"slice": null, "size": [480, 640]}, "ui_card_fen": {"slice": null, "size": [480, 640]}, "fr_zhu_idle": {}, "fr_zhu_w1": {}, "fr_zhu_w2": {}, "fr_zhu_w3": {}, "fr_zhu_w4": {}, "fr_zhu_hit": {}, "fr_zhu_wind": {}, "fr_zhu_strike": {}, "fr_zhu_recov": {}, "fr_zhu_charge": {}, "fr_zhu_cast": {}, "fr_zhu_ko": {}, "fr_cos_liuyun_idle": {}, "fr_cos_liuyun_w1": {}, "fr_cos_liuyun_w2": {}, "fr_cos_liuyun_w3": {}, "fr_cos_liuyun_w4": {}, "fr_cos_liuyun_hit": {}, "fr_cos_liuyun_wind": {}, "fr_cos_liuyun_strike": {}, "fr_cos_liuyun_recov": {}, "fr_cos_liuyun_charge": {}, "fr_cos_liuyun_cast": {}, "fr_cos_liuyun_ko": {}, "fr_cos_xuanye_idle": {}, "fr_cos_xuanye_w1": {}, "fr_cos_xuanye_w2": {}, "fr_cos_xuanye_w3": {}, "fr_cos_xuanye_w4": {}, "fr_cos_xuanye_hit": {}, "fr_cos_xuanye_wind": {}, "fr_cos_xuanye_strike": {}, "fr_cos_xuanye_recov": {}, "fr_cos_xuanye_charge": {}, "fr_cos_xuanye_cast": {}, "fr_cos_xuanye_ko": {}, "fr_cos_zhuying_idle": {}, "fr_cos_zhuying_w1": {}, "fr_cos_zhuying_w2": {}, "fr_cos_zhuying_w3": {}, "fr_cos_zhuying_w4": {}, "fr_cos_zhuying_hit": {}, "fr_cos_zhuying_wind": {}, "fr_cos_zhuying_strike": {}, "fr_cos_zhuying_recov": {}, "fr_cos_zhuying_charge": {}, "fr_cos_zhuying_cast": {}, "fr_cos_zhuying_ko": {}, "fr_cos_jinli_idle": {}, "fr_cos_jinli_w1": {}, "fr_cos_jinli_w2": {}, "fr_cos_jinli_w3": {}, "fr_cos_jinli_w4": {}, "fr_cos_jinli_hit": {}, "fr_cos_jinli_wind": {}, "fr_cos_jinli_strike": {}, "fr_cos_jinli_recov": {}, "fr_cos_jinli_charge": {}, "fr_cos_jinli_cast": {}, "fr_cos_jinli_ko": {}, "fr_luan_idle": {}, "fr_luan_w1": {}, "fr_luan_w2": {}, "fr_luan_w3": {}, "fr_luan_w4": {}, "fr_luan_hit": {}, "fr_luan_wind": {}, "fr_luan_strike": {}, "fr_luan_recov": {}, "fr_luan_charge": {}, "fr_luan_cast": {}, "fr_luan_ko": {}, "fr_fen_idle": {}, "fr_fen_w1": {}, "fr_fen_w2": {}, "fr_fen_w3": {}, "fr_fen_w4": {}, "fr_fen_hit": {}, "fr_fen_wind": {}, "fr_fen_strike": {}, "fr_fen_recov": {}, "fr_fen_charge": {}, "fr_fen_cast": {}, "fr_fen_ko": {}, "fx_qi": {}, "fx_flame": {}, "fx_fsword": {}, "fx_fwheel": {}, "fx_spark": {}, "fx_ring": {}, "fx_ink0": {}, "fx_ink1": {}, "fx_ink2": {}, "qframe_0": {}, "qframe_1": {}, "qframe_2": {}, "qframe_3": {}, "qframe_4": {}, "qframe_5": {}, "qbar_0": {}, "qbar_1": {}, "qbar_2": {}, "qbar_3": {}, "qbar_4": {}, "qbar_5": {}, "qbar_track": {}, "full_zhu": {}, "full_hu": {}, "full_liu": {}, "full_mo": {}, "full_he": {}, "full_yao": {}, "full_tie": {}, "full_shuang": {}, "full_zhu2": {}, "full_luan": {}, "full_fen": {}, "fx_arc0": {}, "fx_arc1": {}, "fx_arc2": {}, "fx_arc3": {}, "fx_gsword": {}, "fx_whirl": {}, "fx_blast": {}, "sk_qi": {}, "sk_whirl": {}, "sk_blast": {}, "sk_sword": {}, "ui_pedestal": {}};
+const ASSET_INFO = {"side_zhu": {"facing": "right"}, "side_hu": {"facing": "right"}, "side_liu": {"facing": "right"}, "side_mo": {"facing": "right"}, "side_he": {"facing": "right"}, "side_yao": {"facing": "right"}, "side_tie": {"facing": "right"}, "side_shuang": {"facing": "right"}, "side_zhu2": {"facing": "right"}, "side_luan": {"facing": "right"}, "side_fen": {"facing": "right"}, "side_cos_liuyun": {"facing": "right"}, "side_cos_xuanye": {"facing": "right"}, "side_cos_zhuying": {"facing": "right"}, "side_cos_jinli": {"facing": "right"}, "portrait_zhu": {}, "portrait_hu": {}, "portrait_liu": {}, "portrait_mo": {}, "portrait_he": {}, "portrait_yao": {}, "portrait_tie": {}, "portrait_shuang": {}, "portrait_zhu2": {}, "portrait_luan": {}, "portrait_fen": {}, "portrait_cos_liuyun": {}, "portrait_cos_xuanye": {}, "portrait_cos_zhuying": {}, "portrait_cos_jinli": {}, "mob_bamboo": {"facing": "left"}, "mob_bamboo_elite": {"facing": "left"}, "mob_rock": {"facing": "left"}, "mob_rock_elite": {"facing": "left"}, "mob_ember": {"facing": "left"}, "mob_ember_elite": {"facing": "left"}, "fx_crystal": {}, "guard_basic": {"facing": "left"}, "guard_shield": {"facing": "left"}, "guard_summon": {"facing": "left"}, "guard_berserk": {"facing": "left"}, "guard_multi": {"facing": "left"}, "mob_c1_a": {"facing": "left"}, "mob_c1_b": {"facing": "left"}, "mob_c1_c": {"facing": "left"}, "mob_c1_elite": {"facing": "left"}, "boss_c1": {"facing": "left"}, "mob_c2_a": {"facing": "left"}, "mob_c2_b": {"facing": "left"}, "mob_c2_c": {"facing": "left"}, "mob_c2_elite": {"facing": "left"}, "boss_c2": {"facing": "left"}, "mob_c3_a": {"facing": "left"}, "mob_c3_b": {"facing": "left"}, "mob_c3_c": {"facing": "left"}, "mob_c3_elite": {"facing": "left"}, "boss_c3": {"facing": "left"}, "mob_c4_a": {"facing": "left"}, "mob_c4_b": {"facing": "left"}, "mob_c4_c": {"facing": "left"}, "mob_c4_elite": {"facing": "left"}, "boss_c4": {"facing": "left"}, "mob_c5_a": {"facing": "left"}, "mob_c5_b": {"facing": "left"}, "mob_c5_c": {"facing": "left"}, "mob_c5_elite": {"facing": "left"}, "boss_c5": {"facing": "left"}, "mob_c6_a": {"facing": "left"}, "mob_c6_b": {"facing": "left"}, "mob_c6_c": {"facing": "left"}, "mob_c6_elite": {"facing": "left"}, "boss_c6": {"facing": "left"}, "bg_bamboo_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_bamboo_mid": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_bamboo_near": {"tileWidth": 1271, "height": 367, "size": [1920, 1080]}, "bg_rock_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_rock_mid": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_rock_near": {"tileWidth": 1253, "height": 235, "size": [1920, 1080]}, "bg_ember_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_ember_mid": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "bg_ember_near": {"tileWidth": 1440, "height": 419, "size": [1920, 1080]}, "bg_tower_far": {"tileWidth": null, "height": null, "size": [1920, 1080]}, "map_home": {}, "map_city": {}, "map_jianghu": {}, "map_guild": {}, "map_recruit": {}, "map_kfdesk": {}, "icon_copper": {}, "icon_silver": {}, "icon_bun": {}, "icon_page": {}, "icon_tie": {}, "icon_speed": {}, "icon_ticket": {}, "icon_iron": {}, "icon_essence": {}, "icon_stone": {}, "icon_dropRune": {}, "icon_gc": {}, "icon_weapon": {}, "icon_head": {}, "icon_armor": {}, "icon_belt": {}, "icon_boots": {}, "icon_charm": {}, "icon_box1": {}, "icon_box2": {}, "icon_boxP": {}, "icon_box3": {}, "icon_boxO": {}, "icon_crystal": {}, "icon_relic": {}, "icon_realm": {}, "icon_eq_weapon_0_0": {}, "icon_eq_weapon_0_1": {}, "icon_eq_weapon_0_2": {}, "icon_eq_weapon_1_0": {}, "icon_eq_weapon_1_1": {}, "icon_eq_weapon_1_2": {}, "icon_eq_weapon_2_0": {}, "icon_eq_weapon_2_1": {}, "icon_eq_weapon_2_2": {}, "icon_eq_weapon_3_0": {}, "icon_eq_weapon_3_1": {}, "icon_eq_weapon_3_2": {}, "icon_eq_weapon_4_0": {}, "icon_eq_weapon_4_1": {}, "icon_eq_weapon_4_2": {}, "icon_eq_head_0_0": {}, "icon_eq_head_0_1": {}, "icon_eq_head_0_2": {}, "icon_eq_head_1_0": {}, "icon_eq_head_1_1": {}, "icon_eq_head_1_2": {}, "icon_eq_head_2_0": {}, "icon_eq_head_2_1": {}, "icon_eq_head_2_2": {}, "icon_eq_head_3_0": {}, "icon_eq_head_3_1": {}, "icon_eq_head_3_2": {}, "icon_eq_head_4_0": {}, "icon_eq_head_4_1": {}, "icon_eq_head_4_2": {}, "icon_eq_armor_0_0": {}, "icon_eq_armor_0_1": {}, "icon_eq_armor_0_2": {}, "icon_eq_armor_1_0": {}, "icon_eq_armor_1_1": {}, "icon_eq_armor_1_2": {}, "icon_eq_armor_2_0": {}, "icon_eq_armor_2_1": {}, "icon_eq_armor_2_2": {}, "icon_eq_armor_3_0": {}, "icon_eq_armor_3_1": {}, "icon_eq_armor_3_2": {}, "icon_eq_armor_4_0": {}, "icon_eq_armor_4_1": {}, "icon_eq_armor_4_2": {}, "icon_eq_belt_0_0": {}, "icon_eq_belt_0_1": {}, "icon_eq_belt_0_2": {}, "icon_eq_belt_1_0": {}, "icon_eq_belt_1_1": {}, "icon_eq_belt_1_2": {}, "icon_eq_belt_2_0": {}, "icon_eq_belt_2_1": {}, "icon_eq_belt_2_2": {}, "icon_eq_belt_3_0": {}, "icon_eq_belt_3_1": {}, "icon_eq_belt_3_2": {}, "icon_eq_belt_4_0": {}, "icon_eq_belt_4_1": {}, "icon_eq_belt_4_2": {}, "icon_eq_boots_0_0": {}, "icon_eq_boots_0_1": {}, "icon_eq_boots_0_2": {}, "icon_eq_boots_1_0": {}, "icon_eq_boots_1_1": {}, "icon_eq_boots_1_2": {}, "icon_eq_boots_2_0": {}, "icon_eq_boots_2_1": {}, "icon_eq_boots_2_2": {}, "icon_eq_boots_3_0": {}, "icon_eq_boots_3_1": {}, "icon_eq_boots_3_2": {}, "icon_eq_boots_4_0": {}, "icon_eq_boots_4_1": {}, "icon_eq_boots_4_2": {}, "icon_eq_charm_0_0": {}, "icon_eq_charm_0_1": {}, "icon_eq_charm_0_2": {}, "icon_eq_charm_1_0": {}, "icon_eq_charm_1_1": {}, "icon_eq_charm_1_2": {}, "icon_eq_charm_2_0": {}, "icon_eq_charm_2_1": {}, "icon_eq_charm_2_2": {}, "icon_eq_charm_3_0": {}, "icon_eq_charm_3_1": {}, "icon_eq_charm_3_2": {}, "icon_eq_charm_4_0": {}, "icon_eq_charm_4_1": {}, "icon_eq_charm_4_2": {}, "icon_nav_home": {}, "icon_nav_kungfu": {}, "icon_nav_jianghu": {}, "icon_nav_city": {}, "icon_nav_welfare": {}, "icon_eq_shoulder_0_0": {}, "icon_eq_shoulder_0_1": {}, "icon_eq_shoulder_0_2": {}, "icon_eq_shoulder_1_0": {}, "icon_eq_shoulder_1_1": {}, "icon_eq_shoulder_1_2": {}, "icon_eq_shoulder_2_0": {}, "icon_eq_shoulder_2_1": {}, "icon_eq_shoulder_2_2": {}, "icon_eq_shoulder_3_0": {}, "icon_eq_shoulder_3_1": {}, "icon_eq_shoulder_3_2": {}, "icon_eq_shoulder_4_0": {}, "icon_eq_shoulder_4_1": {}, "icon_eq_shoulder_4_2": {}, "icon_eq_bracer_0_0": {}, "icon_eq_bracer_0_1": {}, "icon_eq_bracer_0_2": {}, "icon_eq_bracer_1_0": {}, "icon_eq_bracer_1_1": {}, "icon_eq_bracer_1_2": {}, "icon_eq_bracer_2_0": {}, "icon_eq_bracer_2_1": {}, "icon_eq_bracer_2_2": {}, "icon_eq_bracer_3_0": {}, "icon_eq_bracer_3_1": {}, "icon_eq_bracer_3_2": {}, "icon_eq_bracer_4_0": {}, "icon_eq_bracer_4_1": {}, "icon_eq_bracer_4_2": {}, "icon_eq_pants_0_0": {}, "icon_eq_pants_0_1": {}, "icon_eq_pants_0_2": {}, "icon_eq_pants_1_0": {}, "icon_eq_pants_1_1": {}, "icon_eq_pants_1_2": {}, "icon_eq_pants_2_0": {}, "icon_eq_pants_2_1": {}, "icon_eq_pants_2_2": {}, "icon_eq_pants_3_0": {}, "icon_eq_pants_3_1": {}, "icon_eq_pants_3_2": {}, "icon_eq_pants_4_0": {}, "icon_eq_pants_4_1": {}, "icon_eq_pants_4_2": {}, "icon_eq_ring_0_0": {}, "icon_eq_ring_0_1": {}, "icon_eq_ring_0_2": {}, "icon_eq_ring_1_0": {}, "icon_eq_ring_1_1": {}, "icon_eq_ring_1_2": {}, "icon_eq_ring_2_0": {}, "icon_eq_ring_2_1": {}, "icon_eq_ring_2_2": {}, "icon_eq_ring_3_0": {}, "icon_eq_ring_3_1": {}, "icon_eq_ring_3_2": {}, "icon_eq_ring_4_0": {}, "icon_eq_ring_4_1": {}, "icon_eq_ring_4_2": {}, "icon_eq_neck_0_0": {}, "icon_eq_neck_0_1": {}, "icon_eq_neck_0_2": {}, "icon_eq_neck_1_0": {}, "icon_eq_neck_1_1": {}, "icon_eq_neck_1_2": {}, "icon_eq_neck_2_0": {}, "icon_eq_neck_2_1": {}, "icon_eq_neck_2_2": {}, "icon_eq_neck_3_0": {}, "icon_eq_neck_3_1": {}, "icon_eq_neck_3_2": {}, "icon_eq_neck_4_0": {}, "icon_eq_neck_4_1": {}, "icon_eq_neck_4_2": {}, "icon_eq_cloak_0_0": {}, "icon_eq_cloak_0_1": {}, "icon_eq_cloak_0_2": {}, "icon_eq_cloak_1_0": {}, "icon_eq_cloak_1_1": {}, "icon_eq_cloak_1_2": {}, "icon_eq_cloak_2_0": {}, "icon_eq_cloak_2_1": {}, "icon_eq_cloak_2_2": {}, "icon_eq_cloak_3_0": {}, "icon_eq_cloak_3_1": {}, "icon_eq_cloak_3_2": {}, "icon_eq_cloak_4_0": {}, "icon_eq_cloak_4_1": {}, "icon_eq_cloak_4_2": {}, "icon_eq_lingbao_0_0": {}, "icon_eq_lingbao_0_1": {}, "icon_eq_lingbao_0_2": {}, "icon_eq_lingbao_1_0": {}, "icon_eq_lingbao_1_1": {}, "icon_eq_lingbao_1_2": {}, "icon_eq_lingbao_2_0": {}, "icon_eq_lingbao_2_1": {}, "icon_eq_lingbao_2_2": {}, "icon_eq_lingbao_3_0": {}, "icon_eq_lingbao_3_1": {}, "icon_eq_lingbao_3_2": {}, "icon_eq_lingbao_4_0": {}, "icon_eq_lingbao_4_1": {}, "icon_eq_lingbao_4_2": {}, "icon_m_vip": {}, "icon_m_sign": {}, "icon_m_task": {}, "icon_m_fund": {}, "icon_m_train": {}, "icon_m_shop": {}, "icon_m_friend": {}, "icon_m_preview": {}, "icon_m_heroes": {}, "icon_m_recharge": {}, "icon_m_formation": {}, "icon_m_tower": {}, "icon_m_battle": {}, "icon_m_qi": {}, "icon_m_up": {}, "icon_m_drum": {}, "icon_kf_base": {}, "icon_kf_move": {}, "icon_kf_ext1": {}, "icon_kf_ext2": {}, "icon_kf_ult": {}, "icon_kf_heart": {}, "ui_panel_title": {"slice": {"left": 115, "top": 145, "right": 115, "bottom": 116}, "size": [480, 485]}, "ui_card_frame": {"slice": {"left": 115, "top": 115, "right": 115, "bottom": 115}, "size": [480, 480]}, "ui_btn_primary": {"slice": {"left": 77, "top": 82, "right": 77, "bottom": 82}, "size": [360, 184]}, "ui_btn_secondary": {"slice": {"left": 77, "top": 83, "right": 77, "bottom": 83}, "size": [360, 185]}, "ui_btn_disabled": {"slice": {"left": 76, "top": 82, "right": 76, "bottom": 82}, "size": [360, 183]}, "ui_btn_round": {"slice": null, "size": [128, 128]}, "ui_avatar_frame": {"slice": null, "size": [256, 274]}, "ui_red_dot": {"slice": null, "size": [40, 40]}, "ui_title_banner": {"slice": {"left": 120, "right": 120, "top": 0, "bottom": 0}, "size": [600, 154]}, "ui_result_banner": {"slice": null, "size": [720, 254]}, "badge_s": {}, "badgeblank_s": {}, "badge_a": {}, "badgeblank_a": {}, "badge_b": {}, "badgeblank_b": {}, "badge_c": {}, "badgeblank_c": {}, "ui_card_back": {"slice": null, "size": [300, 0]}, "ui_card_luan": {"slice": null, "size": [480, 640]}, "ui_card_fen": {"slice": null, "size": [480, 640]}, "fr_zhu_idle": {}, "fr_zhu_w1": {}, "fr_zhu_w2": {}, "fr_zhu_w3": {}, "fr_zhu_w4": {}, "fr_zhu_hit": {}, "fr_zhu_wind": {}, "fr_zhu_strike": {}, "fr_zhu_recov": {}, "fr_zhu_charge": {}, "fr_zhu_cast": {}, "fr_zhu_ko": {}, "fr_cos_liuyun_idle": {}, "fr_cos_liuyun_w1": {}, "fr_cos_liuyun_w2": {}, "fr_cos_liuyun_w3": {}, "fr_cos_liuyun_w4": {}, "fr_cos_liuyun_hit": {}, "fr_cos_liuyun_wind": {}, "fr_cos_liuyun_strike": {}, "fr_cos_liuyun_recov": {}, "fr_cos_liuyun_charge": {}, "fr_cos_liuyun_cast": {}, "fr_cos_liuyun_ko": {}, "fr_cos_xuanye_idle": {}, "fr_cos_xuanye_w1": {}, "fr_cos_xuanye_w2": {}, "fr_cos_xuanye_w3": {}, "fr_cos_xuanye_w4": {}, "fr_cos_xuanye_hit": {}, "fr_cos_xuanye_wind": {}, "fr_cos_xuanye_strike": {}, "fr_cos_xuanye_recov": {}, "fr_cos_xuanye_charge": {}, "fr_cos_xuanye_cast": {}, "fr_cos_xuanye_ko": {}, "fr_cos_zhuying_idle": {}, "fr_cos_zhuying_w1": {}, "fr_cos_zhuying_w2": {}, "fr_cos_zhuying_w3": {}, "fr_cos_zhuying_w4": {}, "fr_cos_zhuying_hit": {}, "fr_cos_zhuying_wind": {}, "fr_cos_zhuying_strike": {}, "fr_cos_zhuying_recov": {}, "fr_cos_zhuying_charge": {}, "fr_cos_zhuying_cast": {}, "fr_cos_zhuying_ko": {}, "fr_cos_jinli_idle": {}, "fr_cos_jinli_w1": {}, "fr_cos_jinli_w2": {}, "fr_cos_jinli_w3": {}, "fr_cos_jinli_w4": {}, "fr_cos_jinli_hit": {}, "fr_cos_jinli_wind": {}, "fr_cos_jinli_strike": {}, "fr_cos_jinli_recov": {}, "fr_cos_jinli_charge": {}, "fr_cos_jinli_cast": {}, "fr_cos_jinli_ko": {}, "fr_luan_idle": {}, "fr_luan_w1": {}, "fr_luan_w2": {}, "fr_luan_w3": {}, "fr_luan_w4": {}, "fr_luan_hit": {}, "fr_luan_wind": {}, "fr_luan_strike": {}, "fr_luan_recov": {}, "fr_luan_charge": {}, "fr_luan_cast": {}, "fr_luan_ko": {}, "fr_fen_idle": {}, "fr_fen_w1": {}, "fr_fen_w2": {}, "fr_fen_w3": {}, "fr_fen_w4": {}, "fr_fen_hit": {}, "fr_fen_wind": {}, "fr_fen_strike": {}, "fr_fen_recov": {}, "fr_fen_charge": {}, "fr_fen_cast": {}, "fr_fen_ko": {}, "fx_qi": {}, "fx_flame": {}, "fx_fsword": {}, "fx_fwheel": {}, "fx_spark": {}, "fx_ring": {}, "fx_ink0": {}, "fx_ink1": {}, "fx_ink2": {}, "qframe_0": {}, "qframe_1": {}, "qframe_2": {}, "qframe_3": {}, "qframe_4": {}, "qframe_5": {}, "qbar_0": {}, "qbar_1": {}, "qbar_2": {}, "qbar_3": {}, "qbar_4": {}, "qbar_5": {}, "qbar_track": {}, "full_zhu": {}, "full_hu": {}, "full_liu": {}, "full_mo": {}, "full_he": {}, "full_yao": {}, "full_tie": {}, "full_shuang": {}, "full_zhu2": {}, "full_luan": {}, "full_fen": {}, "fx_arc0": {}, "fx_arc1": {}, "fx_arc2": {}, "fx_arc3": {}, "fx_gsword": {}, "fx_whirl": {}, "fx_blast": {}, "sk_qi": {}, "sk_whirl": {}, "sk_blast": {}, "sk_sword": {}, "ui_pedestal": {}, "boss_mo81": {"facing": "left"}, "boss_mo91": {"facing": "left"}, "mob_c9_a": {"facing": "left"}, "mob_c9_b": {"facing": "left"}, "mob_c9_c": {"facing": "left"}, "mob_c9_d": {"facing": "left"}, "mob_c9_elite": {"facing": "left"}, "mob_c10_a": {"facing": "left"}, "mob_c10_b": {"facing": "left"}, "mob_c10_c": {"facing": "left"}, "mob_c10_d": {"facing": "left"}, "mob_c10_elite": {"facing": "left"}};
 const ASSET_PENDING = [];
-
-/* v3.5 追加圖：魂器試煉圖示、品質寶石、客棧橫幅 */
-Object.assign(ASSETS, {"icon_soul": "assets/icon_soul.df227a1f15.webp", "gem_q1": "assets/gem_q1.29d7307b50.webp", "gem_q2": "assets/gem_q2.c5619bd9eb.webp", "gem_q3": "assets/gem_q3.dc59a7a60a.webp", "gem_q4": "assets/gem_q4.4942752756.webp", "gem_q5": "assets/gem_q5.5904dd7241.webp", "bg_inn35": "assets/bg_inn35.a340a60088.webp"});
 
 /* 自動產生：tools/ground.py（背景地面線＋精靈腳底留白）*/
 const GROUND = {"themes": {"bamboo": {"horizon": 0.552, "feet": 0.702, "midTop": 0.3528, "midBot": 0.9069}, "rock": {"horizon": 0.2178, "feet": 0.2678, "midTop": 0.5097, "midBot": 0.8139}, "ember": {"horizon": 0.0115, "feet": 0.0815, "midTop": 0.5819, "midBot": 0.8861}, "tower": {"horizon": 0.2178, "feet": 0.2678, "midTop": 0.5097, "midBot": 0.8139}}, "sprites": {"guard_basic": 0.0, "guard_berserk": 0.0, "guard_multi": 0.0, "guard_shield": 0.0, "guard_summon": 0.0, "mob_bamboo": 0.0, "mob_bamboo_elite": 0.0, "mob_ember": 0.0, "mob_ember_elite": 0.0, "mob_rock": 0.0, "mob_rock_elite": 0.0, "side_he": 0.0, "side_hu": 0.0, "side_liu": 0.0, "side_mo": 0.0, "side_shuang": 0.0, "side_tie": 0.0, "side_yao": 0.0, "side_zhu": 0.0, "side_zhu2": 0.0}};
+
+/* 唯一asset詮釋在manifest.json；build於此串入完整URL表，避免手抄第二份。 */
+var V14_ASSETS = {"v14_bg_c1_battle": "assets/v14_bg_c1_battle.68a7e58088.webp", "v14_assist_liu": "assets/v14_assist_liu.b19e988679.webp", "v14_hero_zhu": "assets/v14_hero_zhu.7dda98ab2a.webp", "v14_shadow_hero": "assets/v14_shadow_hero.d0b60d4d28.webp", "v14_shadow_boss": "assets/v14_shadow_boss.3ce2292361.webp", "v14_tele": "assets/v14_tele.04a7e0c3b2.webp", "v14_slash": "assets/v14_slash.c0fcdda5a7.webp", "v14_medal_ready": "assets/v14_medal_ready.b79aba6393.webp", "v14_medal_trigger": "assets/v14_medal_trigger.96f0b70e7e.webp", "v14_medal_cool": "assets/v14_medal_cool.87f150e6c0.webp", "v14_hp_idle": "assets/v14_hp_idle.78b51aceb3.webp", "v14_hp_wind": "assets/v14_hp_wind.4dc1c76fc2.webp", "v14_hero_atk_raise": "assets/v14_hero_atk_raise.b6ed89fca4.webp", "v14_hero_atk_contact": "assets/v14_hero_atk_contact.a05658f665.webp", "v14_hero_atk_recover": "assets/v14_hero_atk_recover.faac879561.webp", "v14_hp_empty": "assets/v14_hp_empty.e31097cbb9.webp", "v14ui_wood_panel": "assets/v14ui_wood_panel.9d570fe2fe.webp", "v14ui_avatar_frame": "assets/v14ui_avatar_frame.919ab23420.webp", "v14ui_skill_round_frame": "assets/v14ui_skill_round_frame.174513c1be.webp", "v14ui_avatar_zhu": "assets/v14ui_avatar_zhu.9caf1da41d.webp", "v14ui_avatar_liu": "assets/v14ui_avatar_liu.ac6a3411b6.webp", "v14ui_avatar_mo": "assets/v14ui_avatar_mo.31e9b28ebc.webp", "v14ui_icon_copper": "assets/v14ui_icon_copper.f8d6b7609f.webp", "v14ui_icon_silver": "assets/v14ui_icon_silver.c98d0be25b.webp", "v14ui_icon_bun": "assets/v14ui_icon_bun.a0bfb14d9b.webp", "v14ui_nav_home": "assets/v14ui_nav_home.941d2d8031.webp", "v14ui_nav_tasks": "assets/v14ui_nav_tasks.e21416f998.webp", "v14ui_nav_battle": "assets/v14ui_nav_battle.d344d3a68a.webp", "v14ui_nav_character": "assets/v14ui_nav_character.81eb2f8d1f.webp", "v14ui_nav_welfare": "assets/v14ui_nav_welfare.edc6c886aa.webp", "v14_occluder_hero_tuft": "assets/v14_occluder_hero_tuft.c127c3a0e3.webp", "v14_occluder_hero_rock": "assets/v14_occluder_hero_rock.b5035354da.webp", "v14_occluder_boss_grass_line": "assets/v14_occluder_boss_grass_line.ee89dbff04.webp", "v14_occluder_boss_ledge_tuft": "assets/v14_occluder_boss_ledge_tuft.d03a7b1bcf.webp", "v14_hero_zhu_clean": "assets/v14_hero_zhu_clean.f9a592f78b.png", "v14_bg": "assets/v14_bg.68a7e58088.webp", "v14_boss_idle": "assets/v14_boss_idle.0e094a3e77.webp", "v14_boss_wind": "assets/v14_boss_wind.8e5c2e4c3d.webp"};
+Object.assign(ASSETS,V14_ASSETS);
 
 /* =====================================================================
  * 核心系統（對應 Unity Manager）：SaveManager / EconomyManager / HeroManager /
@@ -9238,12 +9239,6 @@ const EV35 = {
   document.head.appendChild(st);
 })();
 
-/* v3.5 地圖標記：金框圓徽（每棟建築獨立插畫）、懸掛牌匾、鎖章 */
-Object.assign(ASSETS, {"mk_train": "assets/mk_train.abbb6decf6.webp", "mk_star": "assets/mk_star.0734f98e46.webp", "mk_guild": "assets/mk_guild.76f548d4b8.webp", "mk_treasure": "assets/mk_treasure.b02208f5d6.webp", "mk_escort": "assets/mk_escort.37e8a2dc73.webp", "mk_shop": "assets/mk_shop.94dd9bd220.webp", "mk_trial": "assets/mk_trial.3c39c96f97.webp", "mk_tower": "assets/mk_tower.37060df436.webp", "mk_bamboo": "assets/mk_bamboo.2ca0ba87ba.webp", "mk_arena": "assets/mk_arena.9b05f65e5f.webp", "mk_inn": "assets/mk_inn.37482fc33a.webp", "mk_bounty": "assets/mk_bounty.737730501a.webp", "ui_sign": "assets/ui_sign.11e0ff5042.webp", "ui_lockb": "assets/ui_lockb.b996ea477d.webp"});
-
-/* v3.5 幫徽：10 枚金框琺瑯圓徽（原創插畫） */
-Object.assign(ASSETS, {"ge35_0": "assets/ge35_0.1b3212ae9d.webp", "ge35_1": "assets/ge35_1.6c814aef60.webp", "ge35_2": "assets/ge35_2.85117a56f2.webp", "ge35_3": "assets/ge35_3.11e013e760.webp", "ge35_4": "assets/ge35_4.55eec79588.webp", "ge35_5": "assets/ge35_5.bbecea7498.webp", "ge35_6": "assets/ge35_6.43dc954dc1.webp", "ge35_7": "assets/ge35_7.2532e4b646.webp", "ge35_8": "assets/ge35_8.4de04eeaad.webp", "ge35_9": "assets/ge35_9.9283fde41c.webp"});
-
 /* ===== v3.5 功能開放排程＋新玩法（竹林幽谷／鏢局／尋寶閣／星曜台／論劍台／渡口懸賞）＋統一地圖標記 =====
  * 開服天數 = 自建檔起算（本機）；上線版應改由伺服器時間決定【伺服器權威】 */
 (function () {
@@ -9939,12 +9934,6 @@ const BTX = {
   const b0 = HS.banner.bind(HS);
   HS.banner = function (t) { b0(t); const el = document.getElementById('hbanner'); if (el) el.classList.toggle('boss36', /首領|妖帝|王|BOSS|挑戰/.test(String(t))); };
 })();
-
-/* v3.6 武學圖示：金環圓徽（每門武學獨立插畫） */
-Object.assign(ASSETS, {"wx_suishi": "assets/wx_suishi.5dc8a65fe9.webp", "wx_tuna": "assets/wx_tuna.7be04b03f1.webp", "wx_liuxing": "assets/wx_liuxing.32717fe661.webp", "wx_tiebu": "assets/wx_tiebu.349cb88947.webp", "wx_hexiao": "assets/wx_hexiao.082fee56a8.webp", "wx_liuyun": "assets/wx_liuyun.8901e7c311.webp", "wx_dusha": "assets/wx_dusha.c259c6d635.webp", "wx_hanbing": "assets/wx_hanbing.ea5cf267f1.webp", "wx_jinglei": "assets/wx_jinglei.13812c2bed.webp", "wx_jinzhong": "assets/wx_jinzhong.db34cd0f7e.webp", "wx_huichun": "assets/wx_huichun.312ae74768.webp", "wx_luoying": "assets/wx_luoying.a25b300243.webp", "wx_canglong": "assets/wx_canglong.2c46cfd76f.webp", "wx_taixu": "assets/wx_taixu.13808e654f.webp", "wx_xuanbing": "assets/wx_xuanbing.21bdc989b5.webp", "wx_xuesha": "assets/wx_xuesha.e9270c9050.webp", "wx_wanjian": "assets/wx_wanjian.b6196a2812.webp", "wx_xinghe": "assets/wx_xinghe.385f5008b5.webp", "wx_hunyuan": "assets/wx_hunyuan.ea78142d54.webp", "wx_fengming": "assets/wx_fengming.8571728469.webp"});
-
-/* v3.6 變強面板統一 Q 版圖示（玉綠底金框圓徽）＋武學道具／首領特性圖示 */
-Object.assign(ASSETS, {"icon_g_equip": "assets/icon_g_equip.03f1de3215.webp", "icon_g_enh": "assets/icon_g_enh.fd40b06978.webp", "icon_g_ref": "assets/icon_g_ref.03802c1233.webp", "icon_g_gem": "assets/icon_g_gem.75591a0bec.webp", "icon_g_rank": "assets/icon_g_rank.8190c33c6b.webp", "icon_g_set": "assets/icon_g_set.3d1f6202db.webp", "icon_g_kf": "assets/icon_g_kf.fccde28ad4.webp", "icon_g_hero": "assets/icon_g_hero.fe17e185f6.webp", "icon_g_bond": "assets/icon_g_bond.6cba19bff7.webp", "icon_g_cos": "assets/icon_g_cos.068b6e8170.webp", "icon_g_lb": "assets/icon_g_lb.0790e889e9.webp", "icon_g_realm": "assets/icon_g_realm.759a6e5335.webp", "icon_g_mer": "assets/icon_g_mer.7a7f4204be.webp", "icon_g_pts": "assets/icon_g_pts.2a4ecbe94d.webp", "icon_g_star": "assets/icon_g_star.72ec3c169c.webp", "icon_g_wx": "assets/icon_g_wx.434ff91c89.webp", "icon_wxling": "assets/icon_wxling.ab3ebc9c34.webp", "icon_wxpage": "assets/icon_wxpage.1d154a0a48.webp", "icon_cangjing": "assets/icon_cangjing.145378664a.webp", "icon_preset": "assets/icon_preset.20c6916365.webp", "icon_tr_iron": "assets/icon_tr_iron.2b9dc4e5cd.webp", "icon_tr_rage": "assets/icon_tr_rage.8af8c7904f.webp", "icon_tr_poison": "assets/icon_tr_poison.e525685105.webp", "icon_tr_summon": "assets/icon_tr_summon.9d879544cc.webp", "icon_tr_burst": "assets/icon_tr_burst.59d2c793c2.webp"});
 
 /* v3.6 武學系統：四格自由搭配 · 升級／突破／藏經閣 · 流派套裝＋俠客／時裝契合 · 首領特性與克制 · 配置方案 · 變強圖示重繪
    所有數值皆為【建議調整】，理由見 說明.md「v3.6」段。 */
@@ -11767,26 +11756,9 @@ UiPort.dropLvModal = function () {
   const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 })();
 
-/* v3.7.1 名器令與三種寶石的獨立 Q 版圖示（原創） */
-Object.assign(ASSETS, {"icon_mql": "assets/icon_mql.3e1553412c.webp", "icon_gem_atk": "assets/icon_gem_atk.cf68640077.webp", "icon_gem_def": "assets/icon_gem_def.24390d7edc.webp", "icon_gem_hp": "assets/icon_gem_hp.c38a475a21.webp"});
-
 /* 第七、八章妖物與首領、黃沙／蜃海遠景、修煉屬性與介面 Q 版圖示（青鋒美術 2026-10-24 交件，原創） */
 Object.assign(ASSETS, {"mob_c7_a": "assets/mob_c7_a.854e099809.webp", "mob_c7_b": "assets/mob_c7_b.038c7e9687.webp", "mob_c7_c": "assets/mob_c7_c.d96e279c6e.webp", "mob_c7_d": "assets/mob_c7_d.ae13e520cc.webp", "boss_c7": "assets/boss_c7.0690c9505f.webp", "mob_c7_elite": "assets/mob_c7_elite.dfb50a03bb.webp", "mob_c8_a": "assets/mob_c8_a.f1a9d851fa.webp", "mob_c8_b": "assets/mob_c8_b.727049ecf4.webp", "mob_c8_c": "assets/mob_c8_c.0c0d96f94c.webp", "mob_c8_d": "assets/mob_c8_d.4290605dab.webp", "boss_c8": "assets/boss_c8.5a9e1b0279.webp", "mob_c8_elite": "assets/mob_c8_elite.a6670d554d.webp", "bg_sand_far": "assets/bg_sand_far.ae6325b9ea.webp", "bg_sea_far": "assets/bg_sea_far.d4e6f9f716.webp", "icon_atk": "assets/icon_atk.73610cc5f6.webp", "icon_def": "assets/icon_def.e6b8e662c1.webp", "icon_hp": "assets/icon_hp.b843901969.webp", "icon_crit": "assets/icon_crit.e7421861bf.webp", "icon_extra": "assets/icon_extra.78fb62c9cd.webp", "icon_gear": "assets/icon_gear.ba52040a2c.webp", "icon_crown": "assets/icon_crown.726cee6a71.webp", "icon_check": "assets/icon_check.e9ec312699.webp", "icon_exp": "assets/icon_exp.dc8a3e7403.webp", "icon_play": "assets/icon_play.baf1a64c31.webp", "icon_diamond": "assets/icon_diamond.a0af009c3f.webp"});
 Object.assign(ASSET_INFO, {"mob_c7_a": {"facing": "left"}, "mob_c7_b": {"facing": "left"}, "mob_c7_c": {"facing": "left"}, "mob_c7_d": {"facing": "left"}, "boss_c7": {"facing": "left"}, "mob_c7_elite": {"facing": "left"}, "mob_c8_a": {"facing": "left"}, "mob_c8_b": {"facing": "left"}, "mob_c8_c": {"facing": "left"}, "mob_c8_d": {"facing": "left"}, "boss_c8": {"facing": "left"}, "mob_c8_elite": {"facing": "left"}});
-
-/* v3.9 10/25 青鋒美術交付：試煉之塔五位守關首領、三套塔層場景、魂門 UI、補缺 Q 版圖示（原創） */
-Object.assign(ASSETS, {"guard_basic": "assets/guard_basic.e11b23d367.webp", "guard_shield": "assets/guard_shield.39c64111fe.webp", "guard_summon": "assets/guard_summon.c6d0ca1b1f.webp", "guard_berserk": "assets/guard_berserk.8fa2cc3f1d.webp", "guard_multi": "assets/guard_multi.210182e4a8.webp", "bg_tower_far": "assets/bg_tower_far.8855fd8b77.webp", "bg_tower_mid": "assets/bg_tower_mid.e17deb8f34.webp", "bg_tower_near": "assets/bg_tower_near.568bae8cd8.webp", "bg_tower2_far": "assets/bg_tower2_far.c8b84b69df.webp", "bg_tower2_mid": "assets/bg_tower2_mid.5f0b2ffae3.webp", "bg_tower2_near": "assets/bg_tower2_near.9032647743.webp", "bg_tower3_far": "assets/bg_tower3_far.4f6c9370f2.webp", "bg_tower3_mid": "assets/bg_tower3_mid.f8b1d27217.webp", "bg_tower3_near": "assets/bg_tower3_near.e3e8b45421.webp", "ui_soulgate": "assets/ui_soulgate.eca34f69f2.webp", "ui_towerbar": "assets/ui_towerbar.3f3dc0ce50.webp", "ui_ring": "assets/ui_ring.ef57b8069f.webp", "fx_soulgate_swirl": "assets/fx_soulgate_swirl.8219a8929a.webp", "icon_bag": "assets/icon_bag.e48788aa62.webp", "icon_bolt": "assets/icon_bolt.d86b4bb23d.webp", "icon_jade": "assets/icon_jade.8c6a40c2bc.webp", "icon_lantern": "assets/icon_lantern.a97a284df9.webp", "icon_lock": "assets/icon_lock.59243b5fe0.webp", "icon_lotus": "assets/icon_lotus.a17d641fa4.webp", "icon_pick": "assets/icon_pick.ea106c365f.webp", "icon_reflect": "assets/icon_reflect.4298f29f59.webp", "icon_scroll": "assets/icon_scroll.e21416f998.webp", "icon_shard": "assets/icon_shard.ef809b47bf.webp", "icon_star": "assets/icon_star.4136dfdab7.webp", "icon_swordx": "assets/icon_swordx.de160e45a5.webp", "icon_warn": "assets/icon_warn.c51eac782d.webp", "icon_shop": "assets/icon_shop.f67935f3ec.webp", "icon_rename": "assets/icon_rename.cec4720d3a.webp", "icon_mqf": "assets/icon_mqf.33af9437e4.webp", "icon_cos": "assets/icon_cos.ffa664c3e4.webp", "icon_gshop": "assets/icon_gshop.7cf5ad1140.webp", "icon_tower": "assets/icon_tower.c4849420fc.webp", "ui_soldout": "assets/ui_soldout.1e756d70ea.webp", "ui_inkflag": "assets/ui_inkflag.0cc7726ee4.webp"});
-Object.assign(ASSET_INFO, {guard_basic:{facing:'left'},guard_shield:{facing:'left'},guard_summon:{facing:'left'},guard_berserk:{facing:'left'},guard_multi:{facing:'left'}});
-
-/* v3.11 10/27 青鋒美術交付：五張首領招式預警貼花、首領情報卷軸框、取代 emoji 的 9 個正式圖示（96px 版；程式替換由工程接手） */
-Object.assign(ASSETS, {"fx_tele_charge": "assets/fx_tele_charge.d2df82bb3a.webp", "fx_tele_shield": "assets/fx_tele_shield.a241395c0d.webp", "fx_tele_slam": "assets/fx_tele_slam.d836c096ff.webp", "fx_tele_summon": "assets/fx_tele_summon.d5532c9348.webp", "fx_tele_volley": "assets/fx_tele_volley.f746454b9f.webp", "ui_boss_intel_scroll": "assets/ui_boss_intel_scroll.f448e45fdb.webp", "icon_guild_merit": "assets/icon_guild_merit.7a17e99fbc.webp", "icon_random_name": "assets/icon_random_name.4251da319c.webp", "icon_reset_moon": "assets/icon_reset_moon.877fb43dd4.webp", "icon_rest": "assets/icon_rest.85e543ad53.webp", "icon_sound_off": "assets/icon_sound_off.8e44e7251e.webp", "icon_sound_on": "assets/icon_sound_on.9a129a6529.webp", "icon_star_reward": "assets/icon_star_reward.6f56cfd5f8.webp", "icon_tag": "assets/icon_tag.69d4896698.webp", "icon_tie_gold": "assets/icon_tie_gold.67320a49b0.webp"});
-
-/* v3.11.3 10/28 青鋒美術交付：首領預警貼花補完 icefall／blades／enrage（P2） */
-Object.assign(ASSETS, {"fx_tele_icefall": "assets/fx_tele_icefall.02721642e9.webp", "fx_tele_blades": "assets/fx_tele_blades.a9494b645d.webp", "fx_tele_enrage": "assets/fx_tele_enrage.1af1cbdd11.webp"});
-
-/* v3.11.4：流派徽記 sch_*、81／91 層首領、音效鑼架（覆寫 icon_sound_*）；來源 incoming/2026-10-28＋2026-10-29 */
-Object.assign(ASSETS, {"sch_jian": "assets/sch_jian.46850e1da8.webp","sch_jian_48": "assets/sch_jian_48.a4389c0331.webp","sch_zhang": "assets/sch_zhang.ad0386cacd.webp","sch_zhang_48": "assets/sch_zhang_48.e39b7579ac.webp","sch_qi": "assets/sch_qi.f325237c1b.webp","sch_qi_48": "assets/sch_qi_48.f12e945364.webp","ui_card_corner": "assets/ui_card_corner.29e603f28b.webp","boss_mo81": "assets/boss_mo81.f1e03b5f75.webp","boss_mo91": "assets/boss_mo91.2fb1ce342d.webp","icon_sound_on": "assets/icon_sound_on.9df4d04d9f.webp","icon_sound_off": "assets/icon_sound_off.3e84196b25.webp","ico_sound_on": "assets/ico_sound_on.9df4d04d9f.webp","ico_sound_off": "assets/ico_sound_off.3e84196b25.webp"});
-Object.assign(ASSET_INFO, {"boss_mo81":{"facing":"left"},"boss_mo91":{"facing":"left"}});
 
 /* =====================================================================
  * v3.8 第七、八章：黃沙驛路／蜃海潮宮（原創）＋ 61 層後難度曲線、等級上限 100
@@ -11833,13 +11805,6 @@ Object.assign(ASSET_INFO, {"boss_mo81":{"facing":"left"},"boss_mo91":{"facing":"
     return r;
   };
 })();
-
-/* 第九章墨淵小怪／精英（青鋒美術 2026-10-30 交件；會議 10/30 建版；原創） */
-Object.assign(ASSETS, {"mob_c9_a": "assets/mob_c9_a.0280989e68.webp", "mob_c9_b": "assets/mob_c9_b.0368b5c4f4.webp", "mob_c9_c": "assets/mob_c9_c.4a6092da1e.webp", "mob_c9_d": "assets/mob_c9_d.28c65c8fa7.webp", "mob_c9_elite": "assets/mob_c9_elite.e5aa088623.webp"});
-Object.assign(ASSET_INFO, {"mob_c9_a": {"facing": "left"}, "mob_c9_b": {"facing": "left"}, "mob_c9_c": {"facing": "left"}, "mob_c9_d": {"facing": "left"}, "mob_c9_elite": {"facing": "left"}});
-/* v3.12.1：第十章裂硯深牢小怪／精英（青鋒美術 2026-10-31 交件；art_check 6/6；原創） */
-Object.assign(ASSETS, {"mob_c10_a": "assets/mob_c10_a.25bd2053a3.webp", "mob_c10_b": "assets/mob_c10_b.41a3c88cb9.webp", "mob_c10_c": "assets/mob_c10_c.6cfcc4c4c1.webp", "mob_c10_d": "assets/mob_c10_d.f39ccc4d58.webp", "mob_c10_elite": "assets/mob_c10_elite.d145783eaf.webp"});
-Object.assign(ASSET_INFO, {"mob_c10_a": {"facing": "left"}, "mob_c10_b": {"facing": "left"}, "mob_c10_c": {"facing": "left"}, "mob_c10_d": {"facing": "left"}, "mob_c10_elite": {"facing": "left"}});
 
 /* v3.11.4：第九／十章（81／91 層專屬首領 boss_mo81／boss_mo91）
  * v3.12.0：c9 專屬小怪／精英（美術 2026-10-30）；缺鍵退回 c8
@@ -12461,6 +12426,686 @@ Object.assign(ASSET_INFO, {"mob_c10_a": {"facing": "left"}, "mob_c10_b": {"facin
   if (ASSETS.ui_soldout) document.documentElement.style.setProperty('--stamp-soldout', `url(${ASSETS.ui_soldout})`);
 })();
 
+/* 由split_assets在資產完成後植入唯一JSON。 */
+var V14_MANIFEST = {
+  "version": 2,
+  "assets": {
+    "v14_bg_c1_battle": "img:v14_bg_c1_battle.webp",
+    "v14_assist_liu": "img:v14_assist_liu.webp",
+    "v14_hero_zhu": "img:v14_hero_zhu.webp",
+    "v14_shadow_hero": "img:v14_shadow_hero.webp",
+    "v14_shadow_boss": "img:v14_shadow_boss.webp",
+    "v14_tele": "img:v14_c1_boss_ground_crack.webp",
+    "v14_slash": "img:v14_slash.webp",
+    "v14_medal_ready": "img:v14_assist_ready.webp",
+    "v14_medal_trigger": "img:v14_assist_trigger.webp",
+    "v14_medal_cool": "img:v14_assist_cool.webp",
+    "v14_hp_idle": "img:v14_hp_idle.webp",
+    "v14_hp_wind": "img:v14_hp_wind.webp",
+    "v14_hero_atk_raise": "img:hero_zhu_atk_1.webp",
+    "v14_hero_atk_contact": "img:hero_zhu_atk_2.webp",
+    "v14_hero_atk_recover": "img:hero_zhu_atk_3.webp",
+    "v14_hp_empty": "img:v14_hp_empty.webp",
+    "v14ui_wood_panel": "img:ui_card_frame.webp",
+    "v14ui_avatar_frame": "img:ui_avatar_frame.webp",
+    "v14ui_skill_round_frame": "img:ui_btn_round.webp",
+    "v14ui_avatar_zhu": "img:side_zhu.webp",
+    "v14ui_avatar_liu": "img:side_liu.webp",
+    "v14ui_avatar_mo": "img:side_mo.webp",
+    "v14ui_icon_copper": "img:icon_copper.webp",
+    "v14ui_icon_silver": "img:icon_silver.webp",
+    "v14ui_icon_bun": "img:icon_bun.webp",
+    "v14ui_nav_home": "img:icon_nav_home.webp",
+    "v14ui_nav_tasks": "img:icon_scroll.webp",
+    "v14ui_nav_battle": "img:icon_nav_kungfu.webp",
+    "v14ui_nav_character": "img:icon_nav_city.webp",
+    "v14ui_nav_welfare": "img:icon_nav_welfare.webp",
+    "v14_occluder_hero_tuft": "img:v14_occluder_hero_tuft.webp",
+    "v14_occluder_hero_rock": "img:v14_occluder_hero_rock.webp",
+    "v14_occluder_boss_grass_line": "img:v14_occluder_boss_grass_line.webp",
+    "v14_occluder_boss_ledge_tuft": "img:v14_occluder_boss_ledge_tuft.webp",
+    "v14_hero_zhu_clean": "img:v14_hero_zhu_no_stand.png"
+  },
+  "boss": {
+    "foot": [
+      230,
+      449
+    ],
+    "shadowKey": "v14_shadow_boss",
+    "shadowSize": [
+      214,
+      40
+    ],
+    "safeGap": 12,
+    "maxGroundShift": 100,
+    "oxygen": "alpha>=15; top>=hp-frame-bottom; fit from available depth; v8 world foot Y at least 540 (space4 path) so 390 lands on ground without changing scale",
+    "poses": {
+      "idle": {
+        "key": "v14_boss_idle",
+        "asset": "img:v14_c1v3f2_idle_512.webp",
+        "size": [
+          512,
+          512
+        ],
+        "foot": [
+          256,
+          480
+        ]
+      },
+      "wind": {
+        "key": "v14_boss_wind",
+        "asset": "img:v14_c1v3f2_windup_512.webp",
+        "size": [
+          512,
+          512
+        ],
+        "foot": [
+          256,
+          480
+        ]
+      }
+    },
+    "alphaThreshold": 15,
+    "heroDepth": 183.5,
+    "targetAlphaHeight": 264,
+    "sourceAlpha": {
+      "idle": [
+        48,
+        71,
+        441,
+        480
+      ],
+      "wind": [
+        64,
+        70,
+        423,
+        480
+      ]
+    },
+    "heightPolicy": "390 alpha height264; 375 cousine fit depth to hp rule",
+    "minWorldFootY": 540
+  },
+  "background": {
+    "key": "v14_bg",
+    "size": [
+      390,
+      844
+    ],
+    "asset": "img:v14_bg_c1_battle.webp"
+  },
+  "ui": {
+    "placeholder": true,
+    "note": "美術ui_wood未交；沿用現有卷軸／框／portrait，程式只排版、數字與clip，不畫icon。",
+    "resources": {
+      "rect": [
+        8,
+        59,
+        374,
+        54
+      ],
+      "panelKey": "v14ui_wood_panel",
+      "avatarKey": "v14ui_avatar_zhu",
+      "avatarFrameKey": "v14ui_avatar_frame",
+      "slots": [
+        {
+          "x": 80,
+          "key": "v14ui_icon_copper",
+          "value": "copper"
+        },
+        {
+          "x": 171,
+          "key": "v14ui_icon_silver",
+          "value": "silver"
+        },
+        {
+          "x": 264,
+          "key": "v14ui_icon_bun",
+          "value": "bun"
+        }
+      ]
+    },
+    "skills": {
+      "rect": [
+        7,
+        686,
+        376,
+        87
+      ],
+      "panelKey": "v14ui_wood_panel",
+      "buttonFrameKey": "v14ui_skill_round_frame",
+      "actions": [
+        {
+          "label": "技能槽．待配置",
+          "type": "leader",
+          "iconKey": "v14ui_avatar_zhu",
+          "pending": true
+        }
+      ],
+      "pendingLabel": "技能槽．待配置",
+      "assistPlan": "HS current, portrait/text crossfade; no new AI"
+    },
+    "navigation": {
+      "rect": [
+        7,
+        770,
+        376,
+        66
+      ],
+      "panelKey": "v14ui_wood_panel",
+      "actions": [
+        {
+          "label": "首頁",
+          "iconKey": "v14ui_nav_home",
+          "route": "home"
+        },
+        {
+          "label": "任務",
+          "iconKey": "v14ui_nav_tasks",
+          "route": "tasks"
+        },
+        {
+          "label": "戰鬥",
+          "iconKey": "v14ui_nav_battle",
+          "route": "home",
+          "active": true
+        },
+        {
+          "label": "角色",
+          "iconKey": "v14ui_nav_character",
+          "route": "heroes"
+        },
+        {
+          "label": "福利",
+          "iconKey": "v14ui_nav_welfare",
+          "route": "welfare"
+        }
+      ]
+    },
+    "topGap": 6,
+    "bottomGap": 12,
+    "panelGap": 10,
+    "heroClearance": 8,
+    "hpGap": 12
+  },
+  "hp": {
+    "relativeTop": 66,
+    "cleanRed": {
+      "x": 162,
+      "y": 34,
+      "width": 1,
+      "height": 8
+    },
+    "cleanSlot": {
+      "x": 59,
+      "y": 34,
+      "width": 1,
+      "height": 8
+    },
+    "cleanPanel": {
+      "color": "#3a2c1e",
+      "height": 29,
+      "policy": "one opaque single trough: fillY−8 through fillBottom+8 inclusive; original external frame untouched"
+    },
+    "note": "v5整槽／紅條消去二道內唇，保留外框及原素材米白trail，比例仍由HS HP快照，不寫回戰鬥。"
+  },
+  "hero": {
+    "foot": [
+      95,
+      594
+    ],
+    "idleOnly390": true,
+    "note": "390 m.hero.idle固定(95,594)；375與其他foot沿用通用規則；不覆蓋HS戰鬥／時間。",
+    "height": 145,
+    "sourceSize": [
+      103,
+      160
+    ],
+    "attackHeight": 152,
+    "shadow": {
+      "color": "#3a2410",
+      "alpha": 0.5,
+      "width": 86,
+      "height": 22,
+      "composite": "multiply"
+    },
+    "idleKey": "v14_hero_zhu_clean",
+    "sourceAlpha": {
+      "top": 0,
+      "bottom": 1078,
+      "left": 2,
+      "right": 698
+    },
+    "attackBlueDisc": false
+  },
+  "v6": {
+    "choice": "B",
+    "heroHeightScale": 0.90625,
+    "occluderScale": 0.88,
+    "layerOrder": [
+      "background",
+      "groundCrack",
+      "bossShadow",
+      "boss",
+      "bossOccluderGrass",
+      "bossOccluderLedge",
+      "heroShadow",
+      "hero",
+      "heroOccluderHeroTuft",
+      "heroOccluderRockEmpty"
+    ],
+    "accepted": "王底略貼上感、裂紋偏細已接受，不另外修磨。",
+    "occluderTypes": {
+      "v14_occluder_boss_grass_line": "boss",
+      "v14_occluder_boss_ledge_tuft": "boss",
+      "v14_occluder_hero_tuft": "hero",
+      "v14_occluder_hero_rock": "hero"
+    },
+    "retiredSources": {
+      "v14_boss_idle": "img:v14_boss_idle.webp",
+      "v14_boss_wind": "img:v14_boss_windup.webp",
+      "v14_tele": "img:v14_telegraph.webp"
+    }
+  },
+  "telegraph": {
+    "anchorFoot": [
+      95,
+      594
+    ],
+    "width": 160,
+    "verticalMargin": 4,
+    "alphaBounds": [
+      1,
+      2,
+      110,
+      27
+    ],
+    "actualSize": [
+      110,
+      28
+    ],
+    "minClearance": 4,
+    "footerGap": 2,
+    "passes": 2
+  },
+  "occluders": {
+    "scale": 0.88,
+    "heroRockOffset": [
+      0,
+      0
+    ],
+    "offsets": {
+      "v14_occluder_boss_grass_line": [
+        -140,
+        -24
+      ],
+      "v14_occluder_boss_ledge_tuft": [
+        60,
+        -26
+      ],
+      "v14_occluder_hero_tuft": [
+        7,
+        -7
+      ],
+      "v14_occluder_hero_rock": [
+        0,
+        0
+      ]
+    },
+    "note": "shift anchor from no-UI hero[115,735]/boss[230,540] to B hero[95,594]/boss[230,449]; v8: world foot Y >=540 (space4 小路/崖緣) without changing foot[1] so scale stays v7; 375 already at world ~598; sizes from source image ×0.88",
+    "scaleQuery": "bottom/right exclusive = alpha15 [9,7,230,40],[1,1,67,44],[0,0,18,12],[none]"
+  }
+}
+;
+
+
+const V14_SPEC = Object.freeze({
+  width:390,
+  height:844,
+  duration:6,
+  fps:15,
+  manifest:globalThis.V14_MANIFEST,
+  hero:{"footX":95,"footY":745,"footRatio":0.52,"width":103,"height":160},
+  medal:{"x":213,"y":732,"width":166,"height":96},
+  hp:{"x":21,"y":10,"fillX":29,"fillY":32,"fillRight":330,"fillBottom":44},
+  hits:[14/15,1.6,34/15],
+  assetKeys:Object.keys(V14_ASSETS).sort(),
+  assetSizes:{[V14_MANIFEST.background.key]:V14_MANIFEST.background.size,"v14_hero_atk_raise":[98,164],"v14_hero_atk_contact":[127,152],"v14_hero_atk_recover":[119,150],"v14_bg":[390,844],"v14_hero_zhu":[103,160],"v14_hero_zhu_clean":[698,1082],"v14_boss_idle":V14_MANIFEST.boss.poses.idle.size,"v14_boss_wind":V14_MANIFEST.boss.poses.wind.size,"v14_shadow_hero":[86,22],"v14_shadow_boss":[214,40],"v14_tele":[110,28],"v14_slash":[176,102],"v14_assist_liu":[123,179],"v14_medal_ready":[166,96],"v14_medal_trigger":[166,96],"v14_medal_cool":[166,96],"v14_hp_idle":[350,60],"v14_hp_wind":[350,60],"v14_hp_empty":[350,60],...Object.fromEntries(Object.keys(V14_MANIFEST.occluders.offsets).map(k=>[k,k==="v14_occluder_boss_grass_line"?[250,42]:k==="v14_occluder_boss_ledge_tuft"?[68,45]:k==="v14_occluder_hero_tuft"?[18,12]:[50,60]]))}
+});
+
+/* 全部由manifest的foot／size／asset決定，沒有舊王像素常數。alpha threshold屬於素材接口。 */
+function V14BossCompose(renderer,loader=(k)=>ART.im[k],threshold){
+  const mf=(renderer.manifest||V14_SPEC.manifest).boss,g=renderer.layout;
+  const hpWorld=V14_SPEC.hp.y+g.hpTop+60-g.hudGroundDY,heroFootWorld=g.heroFootY/g.s-g.hudGroundDY;
+  const maxShift=Math.max(0,Math.min(mf.maxGroundShift,heroFootWorld-mf.heroDepth-mf.foot[1]));
+  function alpha(p){
+    const im=loader(p.key);if(!im)throw Error('V14 missing boss asset '+p.key);
+    const w=im.width,h=im.height,cv=document.createElement('canvas');cv.width=w;cv.height=h,c=cv.getContext('2d');c.drawImage(im,0,0);
+    const a=c.getImageData(0,0,w,h).data,cut=threshold==null?mf.alphaThreshold:threshold;
+    let x0=w,y0=h,x1=-1,y1=-1;
+    for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(a[(y*w+x)*4+3]>=cut){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);}
+    return {left:x0/(w/p.size[0]),right:(x1+1)/(w/p.size[0]),top:y0/(h/p.size[1]),bottom:(y1+1)/(h/p.size[1])};
+  }
+  const metrics=['idle','wind'].map(role=>{const p=mf.poses[role],a=alpha(p),sy=role==='idle'?1.012:1;return {role,pose:p,alpha:a,sy};});
+  const needed=Math.max(...metrics.map(m=>hpWorld+mf.safeGap-mf.foot[1]+(m.pose.size[1]-m.alpha.top)*m.sy));
+  const shift=Math.max(0,Math.min(maxShift,needed));
+  const scale=Math.max(.01,Math.floor(Math.min(1,...metrics.map(m=>(mf.foot[1]+shift-hpWorld-mf.safeGap)/((m.pose.size[1]-m.alpha.top)*m.sy)))*1000000)/1000000);
+  const boxes=metrics.map(m=>({role:m.role,top:mf.foot[1]+shift-(m.pose.size[1]-m.alpha.top)*m.sy*scale,bottom:mf.foot[1]+shift+(m.alpha.bottom-m.pose.size[1])*scale,left:mf.foot[0]+(m.alpha.left-m.pose.foot[0])*scale,right:mf.foot[0]+(m.alpha.right-m.pose.foot[0])*scale}));
+  g.bossLayout={scale,shift,shiftX:Math.max(0,-Math.min(...boxes.map(b=>b.left)),Math.max(...boxes.map(b=>b.right))-g.width/g.s),hpBottom:(V14_SPEC.hp.y+g.hpTop+60)*g.s,bounds:boxes.map(b=>({...b,top:(b.top+g.hudGroundDY)*g.s,bottom:(b.bottom+g.hudGroundDY)*g.s,left:b.left*g.s,right:b.right*g.s}))};
+  return g.bossLayout;
+}
+
+const V14_HERO_FEET=Object.freeze({
+  idle:{key:'v14_hero_zhu',foot:[103*.52,160]},
+  approach:{key:'v14_hero_zhu',foot:[103*.52,160]},
+  raise:{key:'v14_hero_atk_raise',foot:[52,164]}, // 取自核定anchors.json
+  contact:{key:'v14_hero_atk_contact',foot:[49,152]},
+  recover:{key:'v14_hero_atk_recover',foot:[47,150]}
+});
+const V14_HERO_POSE=(getImage,phase)=>{
+  const f=V14_HERO_FEET[phase];if(!f)return null;
+  // approach/contact延續原接口，剩下raise/recover共用同個resolve。
+  return {image:getImage(f.key),key:f.key,foot:f.foot.slice()};
+};
+
+/* BATTLE-V14：可注入時間的呈現model，沒有寫回戰鬥／存檔的API。 */
+const V14_CLAMP=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const V14_SMOOTH=x=>{x=V14_CLAMP(x);return x*x*(3-2*x);};
+
+class BattleV14Model {
+  constructor(cfg={}){this.cfg={assistEvery:6.5,assistStay:1.1,transition:.72,hitEvery:.5,bossTele:.85,...cfg};}
+  latest(hits,t){let index=-1,at=-Infinity;for(let i=0;i<hits.length;i++)if(hits[i].at<=t&&hits[i].at>=at){index=i;at=hits[i].at;}return {index,at};}
+  white(t,at){
+    const age=t-at;if(!(age>=0)||age>=3/V14_SPEC.fps)return null;
+    const frame=Math.floor(age*V14_SPEC.fps+1e-8);return frame<3?{frame,alpha:frame<2?.62:.28,age}:null;
+  }
+  heroMotion(t,at){
+    /* v1.5: u=(t-(hit-.60))/.98; ratio=.5/.98。新幀phase專用u不依舊live sin窗。 */
+    const u=(t-at)/.5+.61;
+    // .98 s原始週期→.5 s，比較仍在原u：不於already compressed t再套用(original hit reference).
+    let dx=0,dy=0,phase='idle';
+    if(Number.isFinite(at)&&u>=0&&u<1){
+      const travel=u<.58?V14_SMOOTH(u/.58):u<.74?1:1-V14_SMOOTH((u-.74)/.26);
+      /* 原地小前衝，不跨步、不離地。 */
+      dx=24*travel;dy=0;
+      phase=u>=.36&&u<.53?'raise':u>=.53&&u<.68?'contact':u>=.68&&u<.84?'recover':'approach';
+    }
+    return {dx,dy,lean:0,sx:1,sy:1,phase};
+  }
+
+  healthTrail(t,hits){
+    const h=this.latest(hits,t);if(h.index<0)return 1;
+    const hit=hits[h.index],hp=hit.hp;
+    const prev=Number.isFinite(hit.prevHp)?hit.prevHp:h.index?hits[h.index-1].hp:1;
+    return V14_CLAMP(hp+(prev-hp)*(1-V14_SMOOTH((t-h.at-.19)/.34)));
+  }
+  replay(t){
+    t=V14_CLAMP(Number(t)||0,0,V14_SPEC.duration);
+    const hits=V14_SPEC.hits.map((at,i)=>({at,hp:1-(i+1)*.13})),h=this.latest(hits,t),hp=h.index<0?1:hits[h.index].hp;
+    const age=Math.max(0,t-2.82),active=t>=2.82&&t<4.32,progress=V14_SMOOTH(age/.50);
+    return {mode:'replay',t,hp,trail:this.healthTrail(t,hits),white:this.white(t,h.at),slashAge:t-h.at,showSlash:true,
+      hero:this.heroMotion(t,h.at,false),boss:true,wind:active,tele:{active,phase:active?(age>1.0?'release':'charge'):'idle',progress,alpha:.35+.50*progress+.1*Math.sin(9*t),width:170+80*progress},
+      assist:this.assistView({id:'liu',avatar:'v14_assist_liu',name:'柳兒',skill:'柳岸春回',age:Math.max(0,t-4.78),active:t>=4.78&&t<5.66,every:6.5})};
+  }
+  assistView(a){
+    if(!a)return null;
+    /* 直接吃正式jump.t，不存第二套輪替／event狀態；HS保有6.5秒唯一時鐘。 */
+    const active=!!a.active,age=Number(a.age)||0;
+    return {id:a.id,avatar:a.avatar,name:a.name,skill:a.skill,active,
+      phase:active&&age<.32?'trigger':'ready',slide:active?V14_SMOOTH(age/.32):0,
+      fade:active?V14_CLAMP((this.cfg.assistStay+.3-age)/.3):1,
+      transition:V14_SMOOTH(age/this.cfg.transition),every:a.every,remaining:a.remaining};
+  }
+  live(s){
+    if(!s||!Number.isFinite(s.t))throw new TypeError('BattleV14Model.live: snapshot required');
+    const hits=s.hitHistory||[],h=this.latest(hits,s.t),hp=V14_CLAMP(s.hpRatio==null?1:s.hpRatio),tele=s.tele||{active:false,t:0,dur:this.cfg.bossTele};
+    return {mode:'live',t:s.t,hp,trail:hits.length?this.healthTrail(s.t,hits):hp,white:this.white(s.t,h.at),mobs:s.mobs||[],
+      hero:this.heroMotion(s.t,h.at,true),boss:!!s.boss,wind:!!tele.active,tele,heroFlash:!!s.heroFlash,slashAge:s.t-h.at,showSlash:h.index%2!==0,lastHit:h.index,
+      /* 命中當下脚底95+24，斧刃偏移105-49／117-152：固定在(175,710)。 */
+      slashOrigin:{x:175,y:710},
+      assist:this.assistView(s.assist)};
+  }
+}
+/* Mob interface accepts unpacked standard ART.get(key). No sprite => no placeholder. */
+class BattleV14MobAdapter {
+  constructor(getImage){this.getImage=getImage;}
+  at(e){return e&&e.hp>0&&this.getImage(e.key)?e:null;}
+}
+
+/* BATTLE-V14：只貼已交付素材＋生成alpha/varcol；不畫替代圖示。 */
+/* CSS pixel UI幾何只算一次，場內foot及DOM buttons共用；不是圖示生成器。 */
+function V14UILayout(g,ui){
+  const panel=(rect,maxHeight)=>{const x=rect[0],width=Math.min(rect[2],g.width-x*2);return {x,width,height:maxHeight};};
+  const navigation=panel(ui.navigation.rect,ui.navigation.rect[3]);
+  navigation.y=g.height-g.safeBottom-ui.bottomGap-navigation.height;
+  const skills=panel(ui.skills.rect,ui.skills.rect[3]);skills.y=navigation.y-ui.panelGap-skills.height;
+  const resources=panel(ui.resources.rect,ui.resources.rect[3]);resources.y=g.safeTop+ui.topGap;
+  return {placeholder:ui.placeholder,resources,skills,navigation,safeBottom:g.safeBottom,bottomGap:ui.bottomGap,panelGap:ui.panelGap};
+}
+class BattleV14Renderer {
+  constructor(canvas,getImage,manifest=V14_SPEC.manifest){
+    this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.getImage=getImage;this.manifest=manifest;
+    this.cache=new Map();this.layout=null;this.ready=false;this.mobs=new BattleV14MobAdapter(getImage);
+    /* 每個phase只用獨立資產表；不讀／回寫戰鬥CD、命中或新legacy鍵。 */
+    this.resolveHeroPose=phase=>{const clean=this.manifest.v6&&phase==='idle'?this.img(this.manifest.hero.idleKey):null;if(clean)return{image:clean,key:this.manifest.hero.idleKey,foot:[this.manifest.hero.sourceAlpha.right*.52,this.manifest.hero.sourceAlpha.bottom]};return V14_HERO_POSE(getImage,phase);};
+    // 測試及美術換王只走manifest；不是變造正式HS的team/roster。
+    this.manifestPose=phase=>{const b=this.manifest.boss,p=b.poses[phase],im=this.img(p.key);return im?{...p,image:im}:null;};
+  }
+  img(key){const im=this.getImage(key);if(!im||im.complete===false||(!im.naturalWidth&&!im.width))return null;return im;}
+  assets(){return V14_SPEC.assetKeys.reduce((n,k)=>n+(this.img(k)?1:0),0);}
+  resize(r){
+    if(!r||!r.width||!r.height)return;
+    this.dpr=Math.min(3,window.devicePixelRatio||1);
+    this.canvas.width=Math.round(r.width*this.dpr);this.canvas.height=Math.round(r.height*this.dpr);
+    this.layout={width:r.width,height:r.height,s:r.width/390,hpTop:0,medalY:732,bossLayout:null};
+  }
+  hasSprite(key){return !!this.img(key);}
+  lit(im,key){
+    if(this.cache.has(key))return this.cache.get(key);
+    const cv=document.createElement('canvas');cv.width=im.width;cv.height=im.height;const c=cv.getContext('2d');
+    c.drawImage(im,0,0);c.globalCompositeOperation='source-atop';c.globalAlpha=.07;c.fillStyle='#d1fadb';c.globalCompositeOperation='screen';c.fillRect(0,0,cv.width,cv.height);
+    this.cache.set(key,cv);return cv;
+  }
+  flash(im,key,level){
+    const cachekey=key+':white:'+level;if(this.cache.has(cachekey))return this.cache.get(cachekey);
+    const cv=document.createElement('canvas');cv.width=im.width;cv.height=im.height;const c=cv.getContext('2d');c.drawImage(im,0,0);
+    c.globalCompositeOperation='source-atop';c.globalAlpha=level;c.fillStyle='#fffaec';c.fillRect(0,0,cv.width,cv.height);
+    /* 跟ART原始alpha完全一致；不包一個白矩形。 */
+    this.cache.set(cachekey,cv);return cv;
+  }
+  tiledStrip(key,cacheKey,source){
+    if(this.cache.has(cacheKey))return this.cache.get(cacheKey);
+    const c=document.createElement('canvas'),ctx=c.getContext('2d'),im=this.img(key);c.width=301;c.height=12;
+    for(let x=0;x<301;x++)ctx.drawImage(im,source.x,source.y,1,source.height,x,2,1,8);
+    this.cache.set(cacheKey,c);return c;
+  }
+  redStrip(key){return this.tiledStrip(key,'hp:clean:red:v5:'+key,this.manifest.hp.cleanRed);}
+  slotStrip(){const key='hp:clean:flat:v5:'+this.manifest.hp.cleanPanel.color;if(this.cache.has(key))return this.cache.get(key);const c=document.createElement('canvas');c.width=V14_SPEC.hp.fillRight-V14_SPEC.hp.fillX;c.height=this.manifest.hp.cleanPanel.height;const ctx=c.getContext('2d');ctx.fillStyle=this.manifest.hp.cleanPanel.color;ctx.fillRect(0,0,c.width,c.height);this.cache.set(key,c);return c;}
+  lagStrip(){const c=document.createElement('canvas');c.width=V14_SPEC.hp.fillRight-V14_SPEC.hp.fillX;c.height=8;const ctx=c.getContext('2d');ctx.drawImage(this.slotStrip(),0,0);ctx.fillStyle='#eee2b3';ctx.fillRect(0,2,c.width,8);return c;}
+  health(m){
+    const s=V14_SPEC.hp,slot=s.fillRight-s.fillX,h=s.fillBottom-s.fillY,panel=s.fillY-8;
+    const bar=this.hpbar||(this.hpbar=document.createElement('canvas'));bar.width=350;bar.height=60;
+    const c=bar.getContext('2d');c.clearRect(0,0,350,60);c.drawImage(this.img('v14_hp_empty'),0,0);
+    /* One flat approved slot, one red bar. Clear before replacing the alpha235 source. */
+    c.clearRect(s.fillX,panel,slot,this.manifest.hp.cleanPanel.height);c.drawImage(this.slotStrip(),s.fillX,panel);
+    const hw=slot*m.hp,tw=Math.max(hw,slot*m.trail),left=s.fillX+hw;
+    const lag=this.lagStrip();c.save();c.beginPath();c.rect(left,s.fillY,Math.max(0,Math.ceil(tw)-Math.ceil(hw)),h);c.clip();c.drawImage(lag,left,s.fillY);c.restore();
+    const red=this.redStrip(m.wind?'v14_hp_wind':'v14_hp_idle');c.save();c.beginPath();c.rect(s.fillX,s.fillY,Math.max(0,Math.ceil(hw)),h);c.clip();c.drawImage(red,s.fillX,s.fillY);c.restore();
+    this.hpFill={left:s.fillX,right:s.fillX+hw,width:hw,expected:slot*m.hp,slot,trailEnd:s.fillX+tw};this.lastHpGeometry={x:s.x+s.fillX,y:s.y+this.layout.hpTop+s.fillY,width:hw,height:h};
+    c.textAlign='right';c.font='bold 12px sans-serif';c.fillStyle='#fff8e1';c.strokeStyle='#3b221a';c.lineWidth=3;const txt=Math.ceil(m.hp*100)+'%';c.strokeText(txt,321,18);c.fillText(txt,321,18);this.ctx.drawImage(bar,s.x,s.y+this.layout.hpTop);
+  }
+
+  drawHero(m,footx,footy){
+    const c=this.ctx,p=m.hero,resolved=this.resolveHeroPose(p.phase)||this.resolveHeroPose('idle');
+    const hero=resolved.image;
+    if(!hero)throw new Error('V14 missing hero pose '+p.phase);
+    c.save();c.translate(footx,footy);
+    if(p.phase==='idle'||p.phase==='approach'){c.rotate(p.lean*Math.PI/180);c.scale(p.sx,p.sy);}
+    const scale=this.manifest.hero.height/(resolved.key===this.manifest.hero.idleKey?this.manifest.hero.sourceAlpha.bottom:(resolved.key==='v14_hero_zhu'?160:152));if(scale!==1)c.scale(scale,scale);
+    c.drawImage(this.lit(hero,'hero:'+resolved.key),-resolved.foot[0],-resolved.foot[1]);c.restore();
+    /* anchors.json沒有斧刃點：127x152揮下原幀實測銀刃下端=(105,117)，脚底=(49,152)。 */
+    const axe=resolved.key==='v14_hero_atk_contact'?{x:footx+105-resolved.foot[0],y:footy+117-resolved.foot[1]}:{x:footx+23,y:footy-35};
+    this.lastHero={phase:p.phase,key:resolved.key,foot:resolved.foot.slice(),x:footx,y:footy,groundY:(footy+this.layout.hudGroundDY)*this.layout.s};
+    this.lastAxe=axe;
+  }
+  fitImage(key,im,x,y,w,h,cut=15){
+    if(!im)return;const k='fit:'+key+':'+w+'x'+h;if(this.cache.has(k))return this.cache.get(k);
+    const cw=im.naturalWidth||im.width,ch=im.naturalHeight||im.height,tmp=document.createElement('canvas');tmp.width=cw;tmp.height=ch;const c=tmp.getContext('2d');c.drawImage(im,0,0);
+    const a=c.getImageData(0,0,cw,ch).data;let l=cw,t=ch,r=-1,b=-1;
+    for(let yy=0;yy<ch;yy++)for(let xx=0;xx<cw;xx++)if(a[(yy*cw+xx)*4+3]>=cut){l=Math.min(l,xx);r=Math.max(r,xx);t=Math.min(t,yy);b=Math.max(b,yy);}
+    const scale=Math.min(w/(r-l+1),h/(b-t+1)),dw=(r-l+1)*scale,dh=(b-t+1)*scale,out=document.createElement('canvas');out.width=w;out.height=h;
+    out.getContext('2d').drawImage(tmp,l,t,r-l+1,b-t+1,(w-dw)/2,(h-dh)/2,dw,dh);this.cache.set(k,out);return out;
+  }
+  uiLabel(txt,x,y,size=11,align='center'){
+    const c=this.ctx;c.save();c.font='bold '+size+'px sans-serif';c.textAlign=align;c.fillStyle='#fff4d8';c.strokeStyle='#3b281e';c.lineWidth=3;c.strokeText(txt,x,y);c.fillText(txt,x,y);c.restore();
+  }
+  portraitFrame(frame,portrait,x,y,size){
+    const c=this.ctx,sz=size,im=this.img(frame),pad=Math.ceil(sz*.22),src=this.fitImage(portrait+':portrait',this.img(portrait),0,0,pad*2,pad*2);
+    c.save();c.beginPath();c.arc(x+sz/2,y+sz/2,sz*.34,0,Math.PI*2);c.clip();if(src)c.drawImage(src,x+sz/2-pad,y+sz/2-pad,pad*2,pad*2);else{c.fillStyle='#453321';c.fillRect(x,y,sz,sz);}c.restore();
+    if(im)c.drawImage(im,x-sz*.09,y-sz*.09,sz*1.18,sz*1.22);
+  }
+  drawUI(m){
+    const c=this.ctx,g=this.layout,mf=this.manifest.ui,ui=V14UILayout(g,mf),top=ui.resources.y,rx=ui.resources.x,rw=ui.resources.width,rh=ui.resources.height,r=mf.resources;
+    const nav=mf.navigation,navY=ui.navigation.y,navX=ui.navigation.x,navW=ui.navigation.width,navH=ui.navigation.height;
+    const sk=mf.skills,sh=ui.skills.height,skillY=ui.skills.y,sx=ui.skills.x,sw=ui.skills.width;
+    c.save();
+    c.drawImage(this.img(r.panelKey),rx,top,rw,rh);
+    this.portraitFrame(r.avatarFrameKey,r.avatarKey,rx+8,top+2,46);
+    for(const slot of r.slots){const x=slot.x;c.drawImage(this.img(slot.key),x,top+9,24,24);const value=typeof S!=='undefined'&&S.res?S.res[slot.value]:0;this.uiLabel(fmt(value)+(slot.value==='bun'?' / '+CFG.stamina.cap:''),x+29,top+27,12,'left');}
+    c.drawImage(this.img(sk.panelKey),sx,skillY,sw,sh);
+    const cell=(sw-24)/4,size=Math.min(55,cell-10);
+    for(const a of sk.actions){const x=sx+12;this.portraitFrame(sk.buttonFrameKey,a.iconKey,x,skillY+3,size);this.uiLabel(a.label,x+size/2,skillY+sh-9,10);}
+    if(m.assist){const a=m.assist,x=sx+sw-cell+(cell-(cell-12))/2,alpha=a.active?1-V14_CLAMP(a.transition):1;c.save();c.globalAlpha=alpha;this.portraitFrame(sk.buttonFrameKey,'v14ui_avatar_'+a.id,x,skillY+3,size);c.restore();this.uiLabel(a.name+'・'+a.skill,x+size/2,skillY+sh-9,10);this.lastUISkill={placeholder:mf.placeholder,phase:a.active?'trigger':'ready',transition:a.transition};}
+    c.drawImage(this.img(nav.panelKey),navX,navY,navW,navH);
+    this.uiButtons=[];nav.actions.forEach((a,i)=>{const x=navX+i*navW/nav.actions.length,width=navW/nav.actions.length;if(a.active){c.save();c.globalAlpha=.5;c.fillStyle='#d7a63d';c.fillRect(x+2,navY+2,width-4,navH-4);c.restore();}const im=this.fitImage(a.iconKey,this.img(a.iconKey),0,0,34,34);c.drawImage(im,x+(width-im.width)/2,navY+2);this.uiLabel(a.label,x+width/2,navY+navH-8,11);this.uiButtons.push({label:a.label,route:a.route,action:a.action,active:!!a.active,rect:[x,navY,width,navH]});});
+    this.lastMedal={id:m.assist&&m.assist.id,name:m.assist&&m.assist.name,skill:m.assist&&m.assist.skill,x:sx+sw-cell+(cell-(cell-12))/2,y:skillY,width:cell,height:sh,pointerEvents:'none',interactive:false,transition:m.assist&&m.assist.transition};
+    this.lastUI=ui;
+    c.restore();
+  }
+
+  rosterMedal(a,key){
+    const im=this.img(key),ck='roster:'+a.id+':'+key;if(this.cache.has(ck))return this.cache.get(ck);
+    if(!im)return null;
+    if(!a.avatar||!a.name)return im;
+    const source=this.img(a.avatar);if(!source)return im;
+    const cv=document.createElement('canvas');cv.width=166;cv.height=96;const c=cv.getContext('2d');
+    const src=source.width/source.height>1.5?{x:source.width*.18,y:0,w:source.width*.42,h:source.height*.43}:{x:source.width*.2,y:0,w:source.width*.6,h:source.height*.44};
+    c.drawImage(im,0,0);
+    c.save();c.beginPath();c.arc(82,30,18.8,0,Math.PI*2);c.clip();c.drawImage(source,src.x,src.y,src.w,src.h,63,10,38,40);c.restore();
+    /* 素材底牌只含柳兒；清下段標籤後，畫本次HS真正選中的姓名／技能。 */
+    c.clearRect(0,68,166,28);c.textAlign='center';c.font='bold 11px sans-serif';c.lineWidth=3;c.strokeStyle='#111';c.fillStyle='#fff4db';
+    c.strokeText(a.name+(a.skill?'・'+a.skill:''),83,84);c.fillText(a.name+(a.skill?'・'+a.skill:''),83,84);
+    this.cache.set(ck,cv);return cv;
+  }
+  medal(a){
+    if(!a)return;
+    const active=a.active&&a.age<.72;
+    if(active){
+      const trigger=this.rosterMedal(a,'v14_medal_trigger');if(trigger)this.ctx.drawImage(trigger,213,this.layout.medalY);
+      this.ctx.save();this.ctx.globalAlpha=V14_CLAMP(a.transition);this.ctx.drawImage(this.rosterMedal(a,'v14_medal_ready'),213,this.layout.medalY);this.ctx.restore();
+    }else{
+      const im=this.rosterMedal(a,'v14_medal_'+a.phase);if(im)this.ctx.drawImage(im,213,this.layout.medalY);
+    }
+    this.lastMedal={id:a.id,name:a.name,skill:a.skill,x:213,y:this.layout.medalY,width:166,height:96,pointerEvents:getComputedStyle(this.canvas).pointerEvents,interactive:false,transition:a.transition};
+  }
+  fitBoss(){
+    if(this.layout.bossLayout)return this.layout.bossLayout;
+    const b=this.manifest.boss,footScreen=b.foot[1]*this.layout.s,hpBottom=(V14_SPEC.hp.y+this.layout.hpTop+60)*this.layout.s;
+    const heights=['idle','wind'].map(role=>{const alpha=this.alphaBounds(b.poses[role].key),sy=role==='idle'?1.012:.88;return{role,height:(alpha.bottom-alpha.top)*sy};});
+    const scale=Math.min(...heights.map(m=>(footScreen-hpBottom-b.safeGap)/m.height));
+    const bounds=heights.map(m=>({role:m.role,top:footScreen-m.height*scale,bottom:footScreen}));
+    const layout={v6:true,scale,shift:0,shiftX:0,hpBottom,bounds};this.layout.bossLayout=layout;return layout;
+  }
+  alphaBounds(key){
+    const ck='alpha15:'+key;if(this.cache.has(ck))return this.cache.get(ck);
+    const im=this.img(key);if(!im)return{left:0,top:0,right:0,bottom:0};const cv=document.createElement('canvas');cv.width=im.width;cv.height=im.height;const c=cv.getContext('2d');c.drawImage(im,0,0);const a=c.getImageData(0,0,cv.width,cv.height).data;
+    let left=im.width,top=im.height,right=-1,bottom=-1;for(let y=0;y<im.height;y++)for(let x=0;x<im.width;x++)if(a[(y*im.width+x)*4+3]>=15){left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}
+    const bounds={left,top,right:right+1,bottom:bottom+1};this.cache.set(ck,bounds);return bounds;
+  }
+  contactShadow(x,y){
+    const sh=this.manifest.hero.shadow,c=this.ctx;c.save();c.globalAlpha=sh.alpha;c.globalCompositeOperation=sh.composite;c.fillStyle=sh.color;c.beginPath();c.ellipse(x,y-sh.height*.22,sh.width/2,sh.height/2,0,0,Math.PI*2);c.fill();c.restore();this.lastHeroShadow={x,y:y-sh.height*.22,color:sh.color,alpha:sh.alpha,composite:sh.composite,blueDisc:false};
+  }
+  drawTele(m,hx,hy,im,ratio,ui){
+    const g=this.layout.hudGroundDY,tg=this.manifest.telegraph,w=tg.width,h=w*ratio,gap=tg.minClearance,rawFoot=hy,t=Math.min(rawFoot-h/2,ui.skills.y/this.layout.s-g-gap/this.layout.s-h);
+    /* v7：裂紋圈以腳底為中心、寬過角色剪影，兩次疊色補足素材 alpha≤200 的淡邊；仍在角色影子與角色之下。 */
+    for(let i=0;i<(tg.passes||1);i++)this.ctx.drawImage(im,hx-w/2,t,w,h);const screenBounds={left:(hx-w/2)*this.layout.s,top:(t+g)*this.layout.s,bottom:(t+h+g)*this.layout.s,right:(hx+w/2)*this.layout.s};
+    this.lastTele={x:hx-w/2,y:t,width:w,height:h,footX:hx,footY:rawFoot,requestedWidth:m.tele.width,rise:0,screenBounds,clearance:ui.skills.y-gap-(t+h+g)*this.layout.s,panelTop:ui.skills.y,panelGap:gap,progress:m.tele.progress,dur:m.tele.dur};
+  }
+  occluderGroup(isBoss,hero){
+    const mf=this.manifest.occluders,anchor=isBoss?this.lastBoss:hero;
+    for(const key of Object.keys(mf.offsets)){
+      if(key.includes('_boss_')!==isBoss)continue;const im=this.img(key),o=mf.offsets[key],x=anchor.footX??anchor.x,y=anchor.footY??anchor.groundY/this.layout.s-this.layout.hudGroundDY,xx=x+o[0],yy=y+o[1],w=im.width*mf.scale,h=im.height*mf.scale;this.ctx.drawImage(im,xx,yy,w,h);this.lastOccluders.push({key,band:isBoss?'mid':'fg',x:xx,y:yy,width:w,height:h,scale:mf.scale});
+    }
+  }
+  renderV6(m){
+    const c=this.ctx,g=this.layout,dy=g.hudGroundDY,ui=V14UILayout(g,this.manifest.ui);c.save();c.scale(g.s,g.s);c.translate(0,dy);c.drawImage(this.img(this.manifest.background.key),0,0);
+    const hero=this.manifest.hero,hx=hero.foot[0]+m.hero.dx,hy=g.width===390&&m.hero.dx===0&&m.hero.dy===0?hero.foot[1]/g.s-dy:Math.min(V14_SPEC.hero.footY+m.hero.dy,g.heroFootY/g.s-dy);
+    if(m.boss){
+      const fit=this.fitBoss(),b=this.manifest.boss,role=m.wind?'wind':'idle',pose=this.manifestPose(role),bs=fit.scale,sy=m.wind?1-.12*V14_SMOOTH(m.tele.progress||0):1+.012*Math.sin(m.t*Math.PI*2/1.5),sh=b.shadowSize,alpha=this.alphaBounds(pose.key),x=b.foot[0]-256*bs,footW=Math.max(b.minWorldFootY||0,b.foot[1]/this.layout.s-this.layout.hudGroundDY+fit.shift),y=footW-alpha.bottom*bs*sy;/* v8：390 不少於 space4 核准 world 540（小路實地），scale 仍用 foot[1]=449 故王大小不變；375 已在 ~598 不受影響。v7：王圖、王影、遮擋共用同一個world腳位。 */
+      const dx=m.white?5*Math.sin(m.white.age*170)*Math.exp(-m.white.age*15):0,ddY=m.white?2.5*Math.sin(m.white.age*170)*Math.exp(-m.white.age*15):0;
+      this.lastBossFit={...fit,bounds:fit.bounds.map(b=>({...b}))};this.lastBoss={x:x+dx,y:y+ddY,width:pose.size[0]*bs,height:pose.size[1]*bs*sy,footX:b.foot[0],footY:footW,poseFoot:pose.foot.slice(),scale:bs,sy,wind:m.wind,spriteAlpha:1,flash:m.white?m.white.alpha:0,top:y+ddY+alpha.top*sy*bs,groundShift:fit.shift,shake:{x:dx,y:ddY}};
+      c.drawImage(this.img(b.shadowKey),b.foot[0]-sh[0]*bs/2,footW-sh[1]*bs/2,sh[0]*bs,sh[1]*bs);
+      const shown=m.white?this.flash(pose.image,'boss:'+role,V14_CLAMP(m.white.alpha,0,1)):pose.image;c.drawImage(shown,x+dx,y+ddY,pose.size[0]*bs,pose.size[1]*bs*sy);this.occluderGroup(true);
+    }else this.lastBoss=null;
+    if(m.tele.active)this.drawTele(m,hx,hy,this.img('v14_tele'),this.img('v14_tele').height/this.img('v14_tele').width,ui);
+    this.contactShadow(hx,hy);this.drawHero(m,hx,hy);this.occluderGroup(false,this.lastHero);
+    if(m.slashAge>=0&&m.slashAge<.16&&m.showSlash){
+      const slash=this.img('v14_slash');for(const [lag,a] of [[0,1],[.035,.45],[.07,.22]]){const t=m.slashAge-lag;if(t<0||t>.16)continue;const u=V14_SMOOTH(t/.13),fade=V14_CLAMP((.16-t)/.045),origin={...this.lastAxe},target={x:this.manifest.boss.foot[0],y:this.manifest.boss.foot[1]-145},x=origin.x+(target.x-origin.x)*u,y=origin.y+(target.y-origin.y)*u;c.save();c.globalAlpha=a*fade;c.translate(x,y);c.rotate(Math.atan2(target.y-origin.y,target.x-origin.x));c.drawImage(slash,-slash.width/2,-slash.height/2);c.restore();if(!lag)this.lastSlash={origin,center:{x,y},atOrigin:{...origin},target,progress:u,blade:{...this.lastAxe}};}}
+
+    if(m.assist&&m.assist.active&&m.assist.id==='liu'){const a=m.assist,art=this.img('v14_assist_liu'),foot=(Math.min(this.layout.medalY,this.layout.heroFootY)-16)/g.s-dy,x=-art.width-6+(95+52+art.width+6)*a.slide;c.save();c.globalAlpha=V14_CLAMP(a.fade);c.drawImage(art,x,foot-art.height);c.restore();this.lastAssist={x,y:foot-art.height,slide:a.slide};}
+    c.save();c.translate(0,-dy);this.health(m);c.restore();c.restore();this.ready=this.assets()===V14_SPEC.assetKeys.length;
+    c.setTransform(this.dpr,0,0,this.dpr,0,0);this.drawUI(m);return{ready:this.ready,width:g.width,height:g.height,white:m.white,hp:m.hp};
+  }
+  render(m){
+    this.lastSlash=null;this.lastAssist=null;this.lastMedal=null;this.lastUISkill=null;this.lastOccluders=[];this.lastHeroShadow=null;
+    if(!this.layout||!V14_SPEC.assetKeys.every(k=>this.img(k)))return{ready:false};
+    const c=this.ctx;c.setTransform(1,0,0,1,0,0);c.globalAlpha=1;c.globalCompositeOperation='source-over';c.clearRect(0,0,this.canvas.width,this.canvas.height);c.setTransform(this.dpr,0,0,this.dpr,0,0);c.fillStyle='#091b16';c.fillRect(0,0,this.layout.width,this.layout.height);
+    return this.renderV6(m);
+  }
+}
+
+/* BATTLE-V14：原HS只讀事件、資產adapter；不改正式算式或節奏。 */
+class BattleV14Runtime {
+  constructor(env){
+    this.HS=env.HS;this.S=env.S;this.CFG=env.CFG;this.ART=env.ART;this.assists=env.assists;
+    /* 空stub；美術／AI接mobs時另起session，不在本輪畫舊sprite。 */
+    this.mobSource={at(e,h){return null;}};
+    this.model=new BattleV14Model({assistEvery:env.CFG.assist.every,assistStay:env.CFG.assist.stay,bossTele:env.CFG.bossPattern.tele});
+    this.history=[];this.pending=[];this.boss=null;this.state='';
+  }
+  hitEvent(before,after){
+    if(before.state==='boss'&&Number.isFinite(before.hp)&&Number.isFinite(after.hp)&&after.hp<before.hp)
+      this.pending.push({at:this.HS.T,hp:Math.max(0,after.hp),prevHp:Math.max(0,before.hp)});
+  }
+  observe(){
+    const h=this.HS;
+    if(this.state!==h.state){this.state=h.state;}
+    if(this.boss!==h.boss){this.history=[];this.boss=h.boss;}
+    for(const e of this.pending)this.history.push(e);
+    this.pending.length=0;
+    if(this.history.length>200)this.history.splice(0,this.history.length-200);
+  }
+  snapshot(){
+    const h=this.HS,jump=(h.jumps||[])[0],tele=h.boss&&h.boss.tele;
+    return {
+      t:h.T,hpRatio:h.boss?Math.max(0,h.boss.hp):1,
+      hitHistory:this.history.slice(),boss:h.state==='boss'&&!!h.boss,
+      mobs:(h.mobs||[]).map(e=>this.mobSource.at(e,h)).filter(Boolean),heroFlash:false,
+      tele:{active:!!tele,t:tele?tele.t:0,dur:Number(tele?tele.dur:0)||this.CFG.bossPattern.tele,progress:tele?V14_CLAMP(tele.t/tele.dur):0,alpha:.6,width:170+80*V14_SMOOTH(tele?tele.t/tele.dur:0)},
+      assist:this.assistSnapshot(jump)
+    };
+  }
+  assistSnapshot(jump){
+    const ids=this.assists(),next=ids.length?ids[this.HS.assistI%ids.length]:null;
+    const meta=id=>({id,avatar:'side_'+id,name:(this.CFG.heroes.find(h=>h.id===id)||{}).name||id,skill:(this.CFG.heroes.find(h=>h.id===id)||{}).skill||''});
+    if(!jump)return next?{...meta(next),active:false,age:1,every:this.CFG.assist.every,remaining:this.HS.assistT}:null;
+    const id=jump.id,d=meta(id);
+    /* 非柳兒不做跳躍立繪；仍保留本輪圓牌，不能立刻被next覆蓋。 */
+    return {id,avatar:'side_'+id,name:d.name,skill:d.skill,active:id==='liu',age:jump.t,
+      every:this.CFG.assist.every,remaining:this.HS.assistT};
+  }
+  render(){return this.model.live(this.snapshot());}
+}
+
 // v3.8 觸控熱區：手機上所有可點元素的有效點擊範圍至少 44×44（不改外觀，用透明偽元素向外擴張）
 const TOUCH = {
   MIN: 44, n: 0,
@@ -12500,6 +13145,112 @@ label.chk{min-height:44px;align-items:center;cursor:pointer}label.chk input[type
   },
 };
 if (document.body) TOUCH.init(); else addEventListener('DOMContentLoaded', () => TOUCH.init());
+
+/* BATTLE-V14：flag opt-in。無新URL旗標 => 不DOM、不掛hook、不啟loop。 */
+const BattleV14Entry=(()=>{
+  let mode='off',root=null,canvas=null,style=null,probe=null,model=null,rt=null,renderer=null,raf=0,clock=0,pinned=false,renderPaused=false,last=0;
+  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function enabled(){return mode!=='off';}
+  function flags(){
+    const q=new URL(location.href).searchParams,re=q.get('v14replay')==='1';
+    return {mode:re?'replay':q.get('v14')==='1'?'live':'off',pinned:q.has('t')};
+  }
+  function visible(){return mode==='replay'||(UI.view||'home')==='home';}
+  function safeArea(){
+    if(!root||!renderer||!renderer.layout)return;
+    const cs=getComputedStyle(root),top=parseFloat(cs.getPropertyValue('--v14-safe-top'))||0,bottom=parseFloat(cs.getPropertyValue('--v14-safe-bottom'))||0,r=root.getBoundingClientRect(),g=renderer.layout;
+    g.safeTop=top;g.safeBottom=bottom;
+    const ui=globalThis.V14_MANIFEST.ui,uiRects=V14UILayout({...g,width:r.width,height:r.height},ui);
+    /* 與drawUI共用CSS計算；不再各自把s重乘一遍。 */
+    g.uiLayout=uiRects;
+    g.hudGroundDY=Math.min(0,r.height/g.s-V14_SPEC.hero.footY-80);
+    g.heroFootY=Math.min(uiRects.skills.y-ui.heroClearance,(V14_SPEC.hero.footY+g.hudGroundDY)*g.s);
+    g.hpTop=(top+globalThis.V14_MANIFEST.hp.relativeTop)/g.s-V14_SPEC.hp.y;
+  }
+  function syncNavigation(){if(!renderer||!renderer.uiButtons)return;for(const b of renderer.uiButtons){let el=root.querySelector('[data-route="'+CSS.escape(b.route)+'"][data-label="'+CSS.escape(b.label)+'"]');if(!el){el=document.createElement('button');el.type='button';el.className='v14-nav';el.dataset.route=b.route;el.dataset.label=b.label;el.setAttribute('aria-label',b.label);el.addEventListener('click',()=>{if(mode==='replay')return;UI.closeModal();if(b.action==='formation')document.querySelector('[data-act="fopen"]')?.click();else UI.go(b.route);});root.appendChild(el);}Object.assign(el.style,{left:b.rect[0]+'px',top:b.rect[1]+'px',width:b.rect[2]+'px',height:b.rect[3]+'px'});}}
+  function draw(){
+    if(!renderer)return;
+    canvas.style.visibility=visible()?'visible':'hidden';for(const el of root.querySelectorAll('.v14-nav'))el.style.display=visible()?'':'none';
+    renderer.render(mode==='replay'?model.replay(clock):rt.render());
+  }
+  function fit(){
+    if(!root||!renderer)return;
+    const r=root.getBoundingClientRect();renderer.resize({width:r.width,height:r.height});safeArea();draw();syncNavigation();
+  }
+  function before(h){return {state:h.state,hp:h.boss&&Number.isFinite(h.boss.hp)?h.boss.hp:null,bossRef:h.boss};}
+  function frame(t){
+    if(!enabled())return;
+    raf=requestAnimationFrame(frame);
+    if(renderPaused||document.hidden){last=t;return;}
+    const dt=last?Math.min(.08,Math.max(0,(t-last)/1000)):0;last=t;
+    if(mode==='replay'&&!pinned){clock=(clock+dt)%6;draw();}
+  }
+  function mount(){
+    if(enabled())return;
+    const q=flags();mode=q.mode;if(!enabled())return;
+    /* boot尾段入口：HS.init已完成，未改其loop。正式HS.update仍原條執行一次。 */
+    clock=q.pinned?V14_CLAMP(Number(new URL(location.href).searchParams.get('t'))||0,0,6):0;
+    pinned=q.pinned;
+    root=document.createElement('div');root.id='v14stage';root.dataset.mode=mode;
+    canvas=document.createElement('canvas');canvas.id='v14cv';canvas.setAttribute('role','img');
+    canvas.setAttribute('aria-label',mode==='replay'?'千節竹君戰鬥Replay，不計算正式傷害':'戰鬥畫面');
+    probe=document.createElement('i');probe.className='v14-safe-probe';probe.setAttribute('aria-hidden','true');
+    style=document.createElement('style');style.id='css-v14';
+    style.textContent=`#v14stage{position:fixed;inset:0;z-index:100;max-width:480px;margin:auto;width:100%;height:100dvh;pointer-events:none;overflow:hidden;--v14-safe-top:max(env(safe-area-inset-top,0px),var(--safe-top,var(--sat,0px)));--v14-safe-bottom:max(env(safe-area-inset-bottom,0px),var(--safe-bottom,var(--sab,0px)))}#v14cv{display:block;width:100%;height:100%;pointer-events:none}@property --v14-safe-top{syntax:'<length>';initial-value:0px;inherits:true}@property --v14-safe-bottom{syntax:'<length>';initial-value:0px;inherits:true}.v14-safe-probe{--v14-safe-top:env(safe-area-inset-top,0px);--v14-safe-bottom:env(safe-area-inset-bottom,0px);display:block;position:absolute;top:0;left:0;width:1px;height:1px;visibility:hidden}#v14stage .v14note{position:absolute;right:18px;top:calc(env(safe-area-inset-top,0px) + 76px);color:#efe6c8;font:11px/1.4 sans-serif;text-shadow:0 1px 3px #000;display:${mode==='replay'?'block':'none'}}`;
+    root.append(canvas,probe);
+    style.textContent+='#v14stage .v14-nav{position:absolute;border:0;background:transparent;opacity:0;pointer-events:auto;border-radius:10px;z-index:3}';
+    if(mode==='replay'){const note=document.createElement('div');note.className='v14note';note.textContent='REPLAY · 固定 6 秒對照；不影響正式戰場';root.append(note);}
+    document.body.append(root);document.head.append(style);
+    model=new BattleV14Model({assistEvery:CFG.assist.every,assistStay:CFG.assist.stay,bossTele:CFG.bossPattern.tele});
+    rt=new BattleV14Runtime({HS,S,CFG,ART,assists:()=>HeroManager.assists()});
+    renderer=new BattleV14Renderer(canvas,key=>{const v=ASSETS[key];return v?(typeof v==='string'&&/^v14_/.test(v)?ART.get(v):ART.get(key)):null;});
+    syncNavigation();
+    /* 每次render後共用geometry；DOM按鈕沿用原UI.go，不是戰鬥clock。 */
+    if(mode==='replay'){
+      /* Replay不可失去體力／kill幫原本劇情：hold住原HS，reset返還function。 */
+      const update0=HS.update;
+      HS.update=function(){ return undefined; };
+      root._originalUpdate=update0;
+      root._originalBossHit=null;
+    }
+    if(mode==='live'){
+      const hit0=HS.bossHit;
+      HS.bossHit=function(crit,mul){
+        const b=before(this),result=hit0.apply(this,arguments);
+        if(rt)rt.hitEvent(b,before(this));return result;
+      };
+      root._originalBossHit=hit0;
+      const update0=HS.update;
+      HS.update=function(dt){const b=before(this),result=update0.apply(this,arguments);if(rt)rt.observe(b);if(!renderPaused){draw();syncNavigation();}return result};
+      /* store only original identity, reset restores同一function reference。 */
+      root._originalUpdate=update0;
+      const resize0=HS.resize;
+      HS.resize=function(){const r=resize0.apply(this,arguments);fit();return r;};
+      root._originalResize=resize0;
+      /* 新host替代繪製，不重演原draw的回填改寫；正式update照常一支。 */
+      const draw0=HS.draw;
+      HS.draw=function(){draw();syncNavigation();};
+      root._originalDraw=draw0;
+    }
+    window.addEventListener('resize',fit,{passive:true});
+    document.addEventListener('visibilitychange',()=>{last=0;});
+    fit();
+    if(!reduced())raf=requestAnimationFrame(frame);
+    root._v14ControlsObserver=new MutationObserver(()=>{if(!enabled())return;for(const el of [...root.querySelectorAll('.v14-nav')])el.style.display=visible()?'':'none';});root._v14ControlsObserver.observe(document.getElementById('app'),{attributes:true,attributeFilter:['class']});
+    return mode;
+  }
+  return {
+    boot:mount,
+    pause(value){renderPaused=!!value;last=0;return renderPaused;},
+    seek(t){if(mode!=='replay')return false;clock=V14_CLAMP(Number(t)||0,0,6);pinned=true;draw();return true;},
+    status(){return {enabled:enabled(),mode,replay:mode==='replay',clock,assets:renderer?renderer.assets():0,hp:mode==='replay'?model.replay(clock).hp:HS.boss?HS.boss.hp:null,stopped:renderPaused,layout:renderer?renderer.layout:null}},
+    _model:()=>model,_view:()=>renderer,_rt:()=>rt,
+    reset(){if(!enabled())return;if(root._originalBossHit)HS.bossHit=root._originalBossHit;if(root._originalUpdate)HS.update=root._originalUpdate;if(root._originalResize)HS.resize=root._originalResize;if(root._originalDraw)HS.draw=root._originalDraw;cancelAnimationFrame(raf);window.removeEventListener('resize',fit);if(root._v14ControlsObserver)root._v14ControlsObserver.disconnect();root.remove();style.remove();canvas.remove();mode='off';root=canvas=style=probe=model=rt=renderer=null;clock=0;}
+  };
+})();
+if(typeof document!=='undefined'){
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>BattleV14Entry.boot(),{once:true});else BattleV14Entry.boot();
+}
 
 boot();
 </script>
