@@ -619,6 +619,9 @@ canvas.sdemo{width:100%;border-radius:10px;border:2px solid #d6c39b;background:#
  box-shadow:inset 0 0 0 1.5px #fff8e0aa,inset 0 -3px 0 #0d6457,0 3px 0 #7a5208,0 0 0 2px #ffdc7a66,0 0 14px 3px #ffdc7acc}
 #nav button.on .nl{color:#ffe27a;background:linear-gradient(#22a088,#0d6457);box-shadow:0 0 0 1.5px #ffdc7a,0 2px 0 #04261f}
 #nav button:active .nt{transform:translateY(2px) scale(.93);box-shadow:inset 0 0 0 1.5px #fff8e0,inset 0 2px 4px #0004,0 1px 0 #05332c}
+/* iOS：點到底欄 <img> 時 Safari 常不合成 click（真機 2026-11-10 確認）。子節點不接指標，點擊落在 button 上。 */
+#nav button{touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+#nav button .nt,#nav button .nl,#nav button i,#nav button img{-webkit-user-drag:none;pointer-events:none}
 #nav .nt .dot{top:-5px;right:-5px;z-index:2}
 @media (max-width:380px){#nav .nt{width:42px;height:40px}#nav .nt i .ic{width:34px;height:34px}#nav button.mid .nt{width:48px;height:44px}#nav button.mid .nt i .ic{width:40px;height:40px}#nav .nl{font-size:12px;letter-spacing:.5px;padding:0 5px}}
 /* 快捷列：同語言（玉綠漆鈕＋金邊＋立體底＋描邊字） */
@@ -997,7 +1000,7 @@ html,body{background:#F3E2B8!important}
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.12.7',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.12.8',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
