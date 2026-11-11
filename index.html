@@ -241,10 +241,13 @@ table.t tr.cur{background:#e7b44344}
 .fcard35 .ffree35{display:inline-flex;flex-direction:column;align-items:center;gap:2px;min-width:56px;padding:4px 6px;border:0;background:transparent;color:#f5f0e6;font-size:11px;font-weight:800;cursor:pointer;line-height:1.2}
 .fcard35 .ffree35 .fic35.sm,.fcard35 .ffree35 .fic35{width:28px;height:28px}
 .fcard35 .ffree35:active{opacity:.85;transform:scale(.96)}
+.fcard35 .fmain35 img,.fcard35 .fmain35 span,.fcard35 .ffree35 img,.fcard35 .ffree35 span{pointer-events:none;-webkit-user-drag:none}
 
 
 
-.fcard35 .flink35{color:#ffe9a8;font-size:13px;text-decoration:underline;cursor:pointer}
+.fcard35 .flink35{color:#ffe9a8;font-size:13px;text-decoration:underline;cursor:pointer;background:none;border:0;min-height:44px;min-width:96px;padding:0 12px;font-family:inherit;font-weight:700}
+.fcard35 .rw{color:#4a2a0a}
+.fcard35 .fstep35{margin-top:2px;font-weight:800;color:#8a3a00}
 #modal[data-fail-top="1"]{z-index:90}
 .bgm-mute-tip img{width:18px;height:18px;vertical-align:-3px;margin-right:4px}
 
@@ -736,6 +739,7 @@ canvas.sdemo{width:100%;border-radius:10px;border:2px solid #d6c39b;background:#
 .fcard35 .ffree35{display:inline-flex;flex-direction:column;align-items:center;gap:2px;min-width:56px;padding:4px 6px;border:0;background:transparent;color:#f5f0e6;font-size:11px;font-weight:800;cursor:pointer;line-height:1.2}
 .fcard35 .ffree35 .fic35.sm,.fcard35 .ffree35 .fic35{width:28px;height:28px}
 .fcard35 .ffree35:active{opacity:.85;transform:scale(.96)}
+.fcard35 .fmain35 img,.fcard35 .fmain35 span,.fcard35 .ffree35 img,.fcard35 .ffree35 span{pointer-events:none;-webkit-user-drag:none}
 
 
 
@@ -1000,7 +1004,7 @@ html,body{background:#F3E2B8!important}
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.12.8',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.12.9',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -8866,15 +8870,6 @@ HS.need = CFG.c35.need;
     else if (!early && paid.length) main = paid[0];
     else main = null;
 
-    let why = '';
-    if (pct === 0) why = `<div class="gap35"><b class="ftitle">戰力已足夠</b><small class="fbody">再挑戰一次即可</small></div>`;
-    else if (pct > 30) why = `<div class="gap35"><b class="ftitle">先去歷練一陣子，回來會更強</b><small class="fbody">現在硬打不太划算，先累積資源</small></div>`;
-    else {
-      const top3 = free.slice(0, 3).reduce((a, r) => a + (r.gain || 0), 0);
-      const canPass = pct >= 11 && pct <= 30 && top3 >= absGap;
-      why = `<div class="gap35"><b class="ftitle">還差 <span class="redt fnum">${pct}%</span> 戰力</b><small class="fbody">戰力 <span class="fnum">${fmt(pwN)}</span> / 需要 <span class="fnum">${fmt(reqN)}</span>${canPass ? ' · 做完就能過' : ''}</small></div>`;
-    }
-
     /* 主按鈕文案：鑲嵌／強化／穿戴用美術指定「去X」；其餘用路線名 */
     const _mainLabel = r => {
       if (!r) return '再挑戰';
@@ -8883,6 +8878,17 @@ HS.need = CFG.c35.need;
       if (r.id === 'enh' || r.id === 'ref' || r.src === 'enh') return '去強化';
       return r.n;
     };
+    let why = '';
+    if (pct === 0) why = `<div class="gap35"><b class="ftitle">戰力已足夠</b><small class="fbody">再挑戰一次即可</small></div>`;
+    else if (pct > 30) why = `<div class="gap35"><b class="ftitle">先去歷練一陣子，回來會更強</b><small class="fbody">現在硬打不太划算，先累積資源</small></div>`;
+    else {
+      const top3 = free.slice(0, 3).reduce((a, r) => a + (r.gain || 0), 0);
+      const canPass = pct >= 11 && pct <= 30 && top3 >= absGap;
+      /* P7＋P11：下一步寫在卡上——有主路線就寫「先做…約 +N%」（不寫時間）；沒路線就說先掛機累積資源 */
+      const stepTxt = main ? `先做「${_mainLabel(main)}」約 +${Math.max(1, Math.round((main.gain || 0) / reqN * 100))}%` : '先掛機累積資源，變強後再回來';
+      why = `<div class="gap35"><b class="ftitle">還差 <span class="redt fnum">${pct}%</span> 戰力</b><small class="fbody">戰力 <span class="fnum">${fmt(pwN)}</span> / 需要 <span class="fnum">${fmt(reqN)}</span>${canPass ? ' · 做完就能過' : ''}</small><small class="fbody fstep35">${stepTxt}</small></div>`;
+    }
+
     const label = _mainLabel(main);
     const ic = _routeIcon(main);
     let mainHtml;
@@ -8902,7 +8908,10 @@ HS.need = CFG.c35.need;
     let subHtml = '';
     if (pct > 30) {
       /* 掛機僅次要文字連結；前10層也一樣不當主鈕 */
-      subHtml = `<div class="center" style="margin-top:6px"><a class="flink35" data-act="f2idle" data-qa="fail-idle" aria-label="開始掛機" role="button">開始掛機</a></div>`;
+      subHtml = `<div class="center" style="margin-top:6px"><button type="button" class="flink35" data-act="f2idle" data-qa="fail-idle" aria-label="開始掛機">開始掛機</button></div>`;
+    } else if (!main && pct > 0) {
+      /* 沒有可做路線：下一步＝先掛機累積資源（次要按鈕，前10層主鈕仍不做掛機） */
+      subHtml = `<div class="center" style="margin-top:6px"><button type="button" class="flink35" data-act="f2idle" data-qa="fail-idle" aria-label="開始掛機">開始掛機</button></div>`;
     } else if (main) {
       subHtml = `<div class="center" style="margin-top:6px"><button class="btn gray sm" data-act="go" data-v="grow">變強面板</button></div>`;
     }
@@ -11766,6 +11775,7 @@ Object.assign(ASSET_INFO, {"mob_c7_a": {"facing": "left"}, "mob_c7_b": {"facing"
 /* =====================================================================
  * v3.8 第七、八章：黃沙驛路／蜃海潮宮（原創）＋ 61 層後難度曲線、等級上限 100
  * 美術：青鋒美術 2026-10-24 交件（assets_ch78.js）；數值：青鋒數值 2026-10-24 報告 B1／C1
+ * 2026-11-11 #27 第 1 輪：把 chapters_v3114.js（第九／十章 c9／c10）原樣折入本檔，行為不變。
  * ===================================================================== */
 (() => {
   CFG.chapters.push(
