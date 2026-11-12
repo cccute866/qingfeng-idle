@@ -1004,7 +1004,7 @@ html,body{background:#F3E2B8!important}
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.12.9',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.12.10',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -9211,18 +9211,19 @@ const EV35 = {
     S.res.silver = (S.res.silver || 0) + refund;
     return { est, refund, ded: Math.round(est - refund), took };
   };
+  // #39：改在 S 就緒當下（存檔剛載入、掛機尚未掉落）取 S.res 換算並存檔，避免延遲期間的掉落被一併換算；彈窗仍延到約開機後 4 秒
   setTimeout(function chk() {
-    if (typeof S === 'undefined' || !S || !S.res) return setTimeout(chk, 500);
+    if (typeof S === 'undefined' || !S || !S.res) return setTimeout(chk, 16);
     const fx = EQ33.restoreSilver();
     if (fx) { try { SaveManager.save(); } catch (e) { }
       const note = fx.ded > 0 ? `其中已用掉的材料折抵 ${fmt(fx.ded)} 銀錠。` : '';
-      setTimeout(() => UiPort.rewardPopup ? UiPort.rewardPopup('銀錠補回', { silver: fx.refund }, [], `<div class="sub center">先前誤把你超過 ${fmt(CFG.silverConv.keep)} 的銀錠轉成了養成材料，現在補回銀錠，並收回當時換給你的材料。${note}</div>`) : 0, 2500);
+      setTimeout(() => UiPort.rewardPopup ? UiPort.rewardPopup('銀錠補回', { silver: fx.refund }, [], `<div class="sub center">先前誤把你超過 ${fmt(CFG.silverConv.keep)} 的銀錠轉成了養成材料，現在補回銀錠，並收回當時換給你的材料。${note}</div>`) : 0, 4000);
       return; }
     if (S.silvConv35 !== 0) return;
     const x = EQ33.convertSilver(); try { SaveManager.save(); } catch (e) { } if (!x) return;
     const show = () => UiPort.rewardPopup ? UiPort.rewardPopup('經濟調整補償', x.r, [], `<div class="sub center">銀錠經濟調整：超過 ${fmt(CFG.silverConv.keep)} 的 ${fmt(x.ex)} 銀錠已轉為養成材料（內力／銅幣／魂精／寶石）。裝備與俠客皆保留。</div>`) : 0;
-    setTimeout(show, 2500);
-  }, 1500);
+    setTimeout(show, 4000);
+  }, 0);
 
   // ---- 名器坊 UI ----
   const vs = UiPort.views.shop;
@@ -9609,10 +9610,13 @@ const EV35 = {
 
   // 自動化測試（navigator.webdriver）預設不彈出，以免遮擋舊測試；t18 以 localStorage.qf_nametest=1 強制開啟
   const testSkip = () => { try { return navigator.webdriver && !localStorage.getItem('qf_nametest'); } catch (e) { return false; } };
+  // #38：載入後第一個時機（存檔已載、掛機未斬殺）先快照 first／old，免得 600ms 內掛機斬殺使新檔誤判為 old
+  let oldSnap = null;
+  setTimeout(function snap() { if (typeof S === 'undefined' || !S || !S.res) return setTimeout(snap, 16); oldSnap = NM.old(); }, 0);
   setTimeout(function chk() {
     if (typeof S === 'undefined' || !S || !S.res) return setTimeout(chk, 300);
     if (testSkip() || !NM.needPrompt()) return;
-    UiPort.nameScreen(NM.old() ? 'old' : 'first');
+    UiPort.nameScreen((oldSnap !== null ? oldSnap : NM.old()) ? 'old' : 'first');
   }, 600);
 
   const css = document.createElement('style'); css.textContent = `
