@@ -1004,7 +1004,7 @@ html,body{background:#F3E2B8!important}
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.12.10',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.12.11',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -1596,8 +1596,10 @@ const UiPort = (() => { let T = null; return new Proxy({}, { get: (_, k) => k ==
 
 function fmt(n) {
   n = Math.floor(n);
-  if (n >= 1e8) return (n / 1e8).toFixed(n >= 1e9 ? 1 : 2).replace(/\.?0+$/, '') + '億';
-  if (n >= 1e5) return (n / 1e4).toFixed(n >= 1e6 ? 0 : 1).replace(/\.0$/, '') + '萬';
+  // #111 先四捨五入再選單位：99995000 進位後是 10000萬 → 改顯示 1億
+  const w = n >= 1e5 && n < 1e8 ? (n / 1e4).toFixed(n >= 1e6 ? 0 : 1) : null;
+  if (n >= 1e8 || +w >= 1e4) return (n / 1e8).toFixed(n >= 1e9 ? 1 : 2).replace(/\.?0+$/, '') + '億';
+  if (w !== null) return w.replace(/\.0$/, '') + '萬';
   return n.toLocaleString('en-US');
 }
 function fmtTime(sec) {
@@ -1657,7 +1659,23 @@ const SaveManager = {
     CFG.slots.forEach(sl => s.bag.push(EquipManager.make(sl.id, 0, 1, s)));
     return s;
   },
+  SCHEMA: 3,   // 目前程式認得的最新存檔 schema（migrate 最後寫入的值）
+  /** #111 存檔比目前程式新（v > CFG.saveV 或 schema > SCHEMA）→ 拒讀、原字串留 _bad、提示，這次遊玩不寫回（不覆蓋） */
+  newerOf(key) {
+    let raw = null, d = null; try { raw = localStorage.getItem(key); d = raw && JSON.parse(raw); } catch (e) { return null; }
+    if (!d || typeof d !== 'object') return null;
+    return (typeof d.v === 'number' && d.v > CFG.saveV) || (typeof d.schema === 'number' && d.schema > this.SCHEMA) ? { raw, v: d.v, schema: d.schema } : null;
+  },
+  note(msg) { console.warn(msg); try { UiPort.toast(msg); } catch (e) { } },
   load() {
+    const nw = this.newerOf(CFG.saveKey) || (localStorage.getItem(CFG.saveKey) == null ? this.newerOf(CFG.saveKey + '_bak') : null);
+    if (nw) {
+      this.newer = nw;
+      try { localStorage.setItem(CFG.saveKey + '_bad', nw.raw); } catch (e) { }
+      this.note('存檔版本比目前遊戲新，請更新遊戲後再讀取；這次不會覆蓋原存檔');
+      S = this.fresh();
+      return false;
+    }
     try {
       const d = this.readSigned(CFG.saveKey) || this.readSigned(CFG.saveKey + '_bak', true);
       if (d && d.v === CFG.saveV) { const sch = d.schema || 2; S = this.migrate(Object.assign(this.fresh(), d), sch); this.silv393(d); return true; }
@@ -1694,7 +1712,7 @@ const SaveManager = {
     { const seen = new Set(); s.team = s.team.filter(id => id && s.heroes[id] && s.heroes[id].star > 0 && !seen.has(id) && seen.add(id)); if (!s.team.length) s.team = ['zhu']; }   // v3.2 布陣：去重、移除未擁有
     if (!s.leader || !s.team.includes(s.leader)) s.leader = s.team[0] || 'zhu';   // v3.1 隊長
     if (typeof s.stats.donate !== 'number') s.stats.donate = 0;
-    s.schema = 3;
+    s.schema = this.SCHEMA;
     return s;
   },
   /* ---- v3.8 存檔校驗＋備份（單機防改檔，正式上線改伺服器驗證）----
@@ -1713,10 +1731,16 @@ const SaveManager = {
     return null;
   },
   save() {
-    if (!S) return; S.lastSeen = now(); S.tMax = Math.max(S.tMax || 0, now());
-    try { const prev = localStorage.getItem(CFG.saveKey); const str = this.pack(S); if (prev && prev !== str && /"_sig":"[0-9a-f]{16}"\}$/.test(prev)) localStorage.setItem(CFG.saveKey + '_bak', prev); localStorage.setItem(CFG.saveKey, str); } catch (e) { }
+    if (!S || this.newer) return;   // #111 讀到更新版存檔：不寫回，避免覆蓋
+    S.lastSeen = now(); S.tMax = Math.max(S.tMax || 0, now());
+    try { const prev = localStorage.getItem(CFG.saveKey); const str = this.pack(S); if (prev && prev !== str && /"_sig":"[0-9a-f]{16}"\}$/.test(prev)) localStorage.setItem(CFG.saveKey + '_bak', prev); localStorage.setItem(CFG.saveKey, str); this.failing = false; }
+    catch (e) {   // #111 不再靜默；同一段連續失敗只提示一次。彈窗開著時提示會被遮住 → 等彈窗關掉後的下一次存檔再提示
+      this.fails = (this.fails || 0) + 1;
+      const covered = typeof document !== 'undefined' && !!document.querySelector('#modal.on');
+      if (!this.failing && !covered) { this.failing = true; this.note('存檔失敗：瀏覽器空間不足或為私密瀏覽，進度可能無法保留'); }
+    }
   },
-  reset() { localStorage.removeItem(CFG.saveKey); localStorage.removeItem(CFG.saveKey + '_bak'); S = this.fresh(); this.save(); },
+  reset() { localStorage.removeItem(CFG.saveKey); localStorage.removeItem(CFG.saveKey + '_bak'); this.newer = null; S = this.fresh(); this.save(); },
 };
 
 /* ------------------------- VipManager / 月卡 ------------------------- */
@@ -5415,7 +5439,8 @@ function boot() {
   UI.render(); HS.init();
   // 離線歸來
   const away = (now() - S.lastSeen) / 1000;
-  if (existed && away > 120) {
+  if (SaveManager.newer) UI.modal(`<h3>存檔版本較新</h3><p class="center">這份存檔來自較新版本的遊戲，目前版本讀不了。<br>原存檔已保留、不會被覆蓋；請更新遊戲後重新開啟。<br>（這次遊玩的進度不會存檔）</p><div class="center"><button class="btn" data-act="mclose">知道了</button></div>`);   // #111
+  else if (existed && away > 120) {
     const p = IdleManager.preview(); const mines = {}; CFG.mines.forEach(m => { const a = Math.floor(IdleManager.mineAmount(m.id)); if (a) mines[m.res] = (mines[m.res] || 0) + a; });
     UI.modal(`<h3>🍵 閉關歸來</h3><p style="text-align:center">你離開了 <b class="goldt">${fmtTime(away)}</b>，俠客們替你闖蕩江湖${away / 3600 > IdleManager.capH() ? `（掛機上限 ${IdleManager.capH()} 小時）` : ''}：</p>
       <div class="rewards">${UI.rewardChips({ copper: p.copper, exp: p.exp, iron: p.iron, page: p.page })}<span class="rw">🎁裝備×${p.equips}</span></div>
@@ -7700,9 +7725,11 @@ CFG.stamina.killsPerBun = CFG.c35.killsPerBun;
 /** K/M/B 縮寫（傷害數字專用） */
 function fmtK(v) {
   v = Math.max(0, Math.round(v || 0));
-  const t = (n, u) => (n >= 100 ? Math.round(n) : n >= 10 ? Math.round(n * 10) / 10 : Math.round(n * 100) / 100) + u;
+  const r = n => n >= 100 ? Math.round(n) : n >= 10 ? Math.round(n * 10) / 10 : Math.round(n * 100) / 100;
   if (v < 1000) return String(v);
-  if (v < 1e6) return t(v / 1e3, 'K'); if (v < 1e9) return t(v / 1e6, 'M'); return t(v / 1e9, 'B');
+  // #111 先四捨五入再選單位：999950 進位後是 1000K → 往上一級顯示 1M
+  const U = [[1e3, 'K'], [1e6, 'M'], [1e9, 'B']];
+  for (let i = v < 1e6 ? 0 : v < 1e9 ? 1 : 2; ; i++) { const x = r(v / U[i][0]); if (x < 1000 || i === U.length - 1) return x + U[i][1]; }
 }
 
 const C35 = {
@@ -8272,7 +8299,7 @@ HS.need = CFG.c35.need;
 
   /* ---------- 武林客棧（新版面） ---------- */
   const ic = k => (ASSETS['icon_' + k] ? `<img src="${ASSETS['icon_' + k]}" alt="">` : (ICO.get(k) || (CFG.currencies[k] && CFG.currencies[k].icon) || ''));
-  const big = n => n >= 1e8 ? (n / 1e8).toFixed(1).replace(/\.0$/, '') + '億' : n >= 1e4 ? (n / 1e4).toFixed(1).replace(/\.0$/, '') + '萬' : fmt(n);
+  const big = n => n >= 1e8 || (n >= 1e4 && +(n / 1e4).toFixed(1) >= 1e4) ? (n / 1e8).toFixed(1).replace(/\.0$/, '') + '億' : n >= 1e4 ? (n / 1e4).toFixed(1).replace(/\.0$/, '') + '萬' : fmt(n);   // #111 先四捨五入再選單位
   UiPort.views.inn = function () {
     const free = IM.sweepFree(), fl = IM.freeLeft(), pl = IM.paidLeft(), cost = IM.sweepCost(), paid = fl <= 0;
     const p = IM.sweepPreview(paid && pl > 0);
@@ -11671,7 +11698,7 @@ UiPort.dropLvModal = function () {
   const d = DL37.tick(), lv = d.lv, mx = lv >= CFG.d37.max, nx = Math.min(lv + 1, CFG.d37.max), need = DL37.need(), Q = CFG.equipQualities, R = CFG.eqRank, B = CFG.d37.boost;
   const cur = DL37.table(lv), nxt = DL37.table(nx);
   const rows = cur.map((c, i) => ({ ...c, n: nxt[i].p })).filter(x => x.p > 0.0005 || x.n > 0.0005).sort((a, b) => (b.q - a.q) || (b.r - a.r));
-  const pf = v => v >= 10 ? v.toFixed(1) : v >= 1 ? v.toFixed(2) : v >= 0.01 ? v.toFixed(2) : v > 0 ? '<0.01' : '0';
+  const pf = v => { if (!(v > 0)) return '0'; if (v < 0.01) return '<0.01'; const s = v.toFixed(2); return +s >= 10 ? v.toFixed(1) : s; };   // #142 先四捨五入再選位數：9.996→10.0（原 10.00）
   const row = x => { const dl = x.n - x.p, c = Q[x.q].color;
     return `<div class="dlr37 q${c}"><span class="dn"><b class="qb${c} dq37">${Q[x.q].name}</b><small class="rpips">${[1, 2, 3, 4, 5].map(i => `<b class="${i <= x.r ? 'on' : ''}"></b>`).join('')}</small><i>${R.names[x.r - 1]}</i></span><b class="cu">${pf(x.p)}%</b><b class="nx">${mx ? '—' : pf(x.n) + '%'}</b><small class="${dl > 0.0005 ? 'green' : dl < -0.0005 ? 'red' : 'sub'}">${mx || Math.abs(dl) < 0.0005 ? '' : (dl > 0 ? '+' : '−') + pf(Math.abs(dl))}</small></div>`; };
   const pct = mx ? 100 : Math.min(100, d.acc / need * 100), full = !mx && d.acc >= need - 1e-9;
