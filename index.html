@@ -1004,7 +1004,7 @@ html,body{background:#F3E2B8!important}
  *       【建議調整】= 為了首次遊玩節奏而偏離文件方向的值（附理由）
  * ===================================================================== */
 const CFG = {
-  version: 'v3.12.11',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
+  version: 'v3.12.12',   // 玩家看到的版號（單一來源；ui／drop 都讀這裡）
   saveV: 1,             // 存檔格式版號（原 CFG.version 數字；改字串會讓舊存檔讀不進來）
   saveKey: 'wuxia_idle_save_v1',
   v35At: Date.parse('2026-10-23T22:18:27+08:00'),   // v3.5（銀錠轉換）上線時間：只有早於此建立的存檔才算舊存檔
@@ -9194,9 +9194,9 @@ const EV35 = {
   const lim = { s_tie10: 3, s_speed10: 3 }; CFG.shop.forEach(it => { if (lim[it.id]) it.daily = lim[it.id]; });
   CFG.shop.push(
     { id: 's_qi', give: { qi: 300 }, cost: { silver: 80 }, daily: 5, hide: () => S.g35 && (S.g35.mer || 0) >= CFG.g35.mer.names.length * CFG.g35.mer.per },   // v3.8：經脈全開後內力無處可用 → 隱藏
-    { id: 's_cu', give: { copper: 30000 }, cost: { silver: 100 }, daily: 5 },
-    { id: 's_gema', give: { gem_atk2: 1 }, cost: { silver: 150 }, daily: 3 },
-    { id: 's_gemh', give: { gem_hp2: 1 }, cost: { silver: 150 }, daily: 3 },
+    { id: 's_cu', give: { copper: 30000 }, cost: { silver: 100 }, daily: 3 },   // #47 D14：5→3（V10 D14 ≤×1.71）
+    { id: 's_gema', give: { gem_atk2: 1 }, cost: { silver: 150 }, daily: 2 },   // #47 D14：3→2
+    { id: 's_gemh', give: { gem_hp2: 1 }, cost: { silver: 150 }, daily: 2 },   // #47 D14：3→2
     { id: 's_ess35', give: { essence: 30 }, cost: { silver: 120 }, daily: 3 },
     { id: 's_mql', give: { mql: 1 }, cost: { silver: 300 }, daily: 2 },
   );
